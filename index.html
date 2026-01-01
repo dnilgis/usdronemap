@@ -1,0 +1,40 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Direct Drone Recovery - The Free Drone Directory</title>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+        <style>
+            body { margin: 0; font-family: sans-serif; }
+            #map { height: 100vh; width: 100%; }
+            .info-box { background: white; padding: 10px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.2); position: absolute; top: 10px; right: 10px; z-index: 1000; max-width: 300px; }
+            h1 { margin: 0 0 10px; font-size: 1.2rem; }
+            .btn { display: block; background: #e74c3c; color: white; text-align: center; padding: 10px; text-decoration: none; border-radius: 4px; margin-top: 5px; }
+        </style>
+    </head>
+    <body>
+        <div class="info-box">
+            <h1>🦌 Direct Drone Recovery</h1>
+            <p>Find a thermal drone pilot. No SMS walls. Direct phone numbers.</p>
+            <p><strong>389 Pilots Available</strong></p>
+        </div>
+        <div id="map"></div>
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        <script>
+            var map = L.map('map').setView([39.8283, -98.5795], 5); // Center USA
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            var pilots = [];
+
+            pilots.forEach(p => {
+                L.marker([p.lat, p.lng]).addTo(map)
+                    .bindPopup(`<b>${p.name}</b><br><a href="${p.url}">View Profile & Phone</a>`);
+            });
+        </script>
+    </body>
+    </html>
+    
