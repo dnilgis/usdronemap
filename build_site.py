@@ -49,7 +49,6 @@ def build_website():
                 map_data.append(pilot_info)
         except: continue
 
-    # SAFE JSON CONVERSION (This fixes the apostrophe crash)
     js_array = json.dumps(map_data)
 
     index_html = f"""
@@ -64,14 +63,36 @@ def build_website():
             body {{ margin: 0; font-family: sans-serif; }}
             #map {{ height: 100vh; width: 100%; }}
             .info-box {{ background: white; padding: 10px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.2); position: absolute; top: 10px; right: 10px; z-index: 1000; max-width: 300px; }}
+            
+            /* LOCATE ME BUTTON STYLE */
+            .locate-btn {{
+                position: absolute;
+                bottom: 20px;
+                right: 20px;
+                z-index: 1000;
+                background: #007bff;
+                color: white;
+                padding: 15px 20px;
+                border: none;
+                border-radius: 50px;
+                font-size: 16px;
+                font-weight: bold;
+                cursor: pointer;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            }}
+            .locate-btn:hover {{ background: #0056b3; }}
         </style>
     </head>
     <body>
         <div class="info-box">
             <h1>🦌 {SITE_NAME}</h1>
-            <p><strong>{len(map_data)} Pilots Found</strong></p>
+            <p><strong>{len(map_data)} Pilots Available</strong></p>
         </div>
+        
+        <button class="locate-btn" onclick="locateUser()">📍 Find Near Me</button>
+
         <div id="map"></div>
+        
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
         <script>
             var map = L.map('map').setView([39.8283, -98.5795], 5);
@@ -85,6 +106,35 @@ def build_website():
                 L.marker([p.lat, p.lng]).addTo(map)
                     .bindPopup(`<b>${{p.name}}</b><br><a href="${{p.url}}">View Profile</a>`);
             }});
+
+            // LOCATE ME FUNCTION
+            function locateUser() {{
+                if (!navigator.geolocation) {{
+                    alert("Geolocation is not supported by your browser");
+                }} else {{
+                    navigator.geolocation.getCurrentPosition(success, error);
+                }}
+            }}
+
+            function success(position) {{
+                var lat = position.coords.latitude;
+                var lng = position.coords.longitude;
+                
+                // Fly to user location
+                map.flyTo([lat, lng], 10);
+
+                // Add a blue dot for the user
+                L.circleMarker([lat, lng], {{
+                    color: 'blue',
+                    fillColor: '#30f',
+                    fillOpacity: 0.5,
+                    radius: 20
+                }}).addTo(map).bindPopup("You are here").openPopup();
+            }}
+
+            function error() {{
+                alert("Unable to retrieve your location");
+            }}
         </script>
     </body>
     </html>
