@@ -4,66 +4,46 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>List Your Drone Business</title>
+        <title>Join the Directory</title>
         <style>
-            body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f4f4f9; padding: 20px; }
-            .container { max-width: 500px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-            h1 { text-align: center; color: #111; margin-bottom: 10px; }
-            p { text-align: center; color: #666; font-size: 0.95rem; margin-bottom: 30px; }
-            label { font-weight: bold; display: block; margin-bottom: 5px; color: #333; }
-            input, select, textarea { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 6px; font-size: 16px; box-sizing: border-box; }
-            .btn-submit { width: 100%; padding: 15px; background: #34c759; color: white; border: none; border-radius: 6px; font-size: 18px; font-weight: bold; cursor: pointer; }
-            .btn-submit:hover { background: #28a745; }
-            .note { font-size: 0.8rem; color: #888; text-align: center; margin-top: 15px; }
+            body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f8f9fa; padding: 40px; color: #333; }
+            .card { max-width: 600px; margin: 0 auto; background: white; padding: 40px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); text-align: center; }
+            h1 { color: #111; margin-bottom: 10px; }
+            p { color: #666; line-height: 1.6; }
+            .email-box { background: #e8f5e9; color: #2e7d32; padding: 15px; border-radius: 8px; font-weight: bold; font-family: monospace; font-size: 1.2rem; margin: 20px 0; border: 1px solid #c8e6c9; }
+            .btn { display: inline-block; background: #34c759; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.1rem; margin-top: 10px; transition: 0.2s; }
+            .btn:hover { background: #28a745; transform: translateY(-2px); }
         </style>
-        <script>
-            function prepareEmail() {
-                var name = document.getElementById('name').value;
-                var city = document.getElementById('city').value;
-                var phone = document.getElementById('phone').value;
-                var category = document.getElementById('category').value;
-                
-                if(!name || !city || !phone) { alert("Please fill in all fields"); return; }
-                
-                var subject = "New Pilot Listing: " + name;
-                var body = "Please add my business to the National Drone Directory.%0D%0A%0D%0A" +
-                           "Business Name: " + name + "%0D%0A" +
-                           "Location: " + city + "%0D%0A" +
-                           "Phone: " + phone + "%0D%0A" +
-                           "Service Category: " + category + "%0D%0A%0D%0A" +
-                           "I certify that I am a licensed drone pilot.";
-                
-                window.location.href = "mailto:your-email@example.com?subject=" + subject + "&body=" + body;
-            }
-        </script>
     </head>
     <body>
-        <div class="container">
-            <h1>📝 Join the Directory</h1>
-            <p>Fill out the form below to get your free listing on the map.</p>
+        <div class="card">
+            <h1>🚀 Get Listed</h1>
+            <p>Join the fastest-growing network of independent drone pilots. Listings are currently <strong>free</strong> for early adopters.</p>
             
-            <label>Business Name</label>
-            <input type="text" id="name" placeholder="e.g. Eagle Eye Drones">
-            
-            <label>City & State</label>
-            <input type="text" id="city" placeholder="e.g. Austin, TX">
-            
-            <label>Phone Number</label>
-            <input type="tel" id="phone" placeholder="e.g. 555-123-4567">
-            
-            <label>Primary Service</label>
-            <select id="category">
-                <option>Deer Recovery</option>
-                <option>Agriculture</option>
-                <option>Photography</option>
-                <option>Thermal Imaging</option>
-            </select>
-            
-            <button class="btn-submit" onclick="prepareEmail()">Send Application 🚀</button>
-            <p class="note">This will open your email app with your details pre-filled.</p>
+            <p>To apply, simply email us your:</p>
+            <ul style="text-align:left; display:inline-block; color:#555;">
+                <li>Business Name</li>
+                <li>City & State</li>
+                <li>Phone Number</li>
+                <li>Primary Services (Deer, Ag, Photo)</li>
+            </ul>
+
             <br>
-            <center><a href="index.html" style="color:#666; text-decoration:none;">← Cancel</a></center>
+            <a href="mailto:dnilgis@gmail.com?subject=New Pilot Listing&body=Hi, please list my business:%0D%0A%0D%0AName:%0D%0ACity/State:%0D%0APhone:%0D%0AServices:" class="btn">Click to Email Application</a>
+
+            <p style="margin-top: 30px; font-size: 0.9rem;">Button not working? Send your info manually to:</p>
+            <div class="email-box">dnilgis@gmail.com</div>
+            
+            <br>
+            <a href="index.html" style="color:#888; text-decoration:none;">← Return to Map</a>
         </div>
+        
+    <div style="margin-top: 50px; padding: 20px; border-top: 1px solid #ddd; text-align: center; color: #777; font-size: 0.8rem; background: #f9f9f9;">
+        <p>&copy; 2024 National Drone Directory. All rights reserved.</p>
+        <p><strong>Disclaimer:</strong> This directory is a connector service. We do not employ these pilots and are not liable for their services. <br>Always verify licensing and insurance before hiring.</p>
+        <p><a href="mailto:dnilgis@gmail.com" style="color:#555;">Contact Support</a></p>
+    </div>
+    
     </body>
     </html>
     
