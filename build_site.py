@@ -304,7 +304,7 @@ def run_build():
         with open(f"{OUTPUT_DIR}/pilot/{slug}.html", "w", encoding="utf-8") as f:
             f.write(html)
 
-    print("✅ SITE BUILD COMPLETE.")
+    print("SITE BUILD COMPLETE.")
 
 if __name__ == "__main__":
     run_build()
