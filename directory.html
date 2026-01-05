@@ -239,6 +239,13 @@
             border-color: #f97316;
             box-shadow: 0 4px 12px rgba(249,115,22,0.1);
         }
+        .card-verified {
+            border: 2px solid #f97316;
+            background: #fffbf7;
+        }
+        .card-verified:hover {
+            box-shadow: 0 4px 16px rgba(249,115,22,0.2);
+        }
         .card-header {
             display: flex;
             justify-content: space-between;
@@ -529,9 +536,9 @@
                     : `<div class="card-contact-locked">🔒 Claim to show contact</div>`;
                 
                 return `
-                    <a href="pilot.html?id=${slug}" class="card">
+                    <a href="pilot.html?id=${slug}" class="card${p.verified ? ' card-verified' : ''}">
                         <div class="card-header">
-                            <div class="card-name">${p.company}</div>
+                            <div class="card-name">${p.company || 'Unknown'}</div>
                             ${p.verified ? '<span class="verified-badge">VERIFIED</span>' : ''}
                         </div>
                         <div class="card-location">${p.city}${p.city && p.state ? ', ' : ''}${p.state}</div>
