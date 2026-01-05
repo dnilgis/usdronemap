@@ -51,9 +51,10 @@
         .logo {
             font-weight: 700;
             font-size: 1.25rem;
-            color: #f97316;
+            color: #1a1a1a;
             text-decoration: none;
         }
+        .logo span { color: #f97316; }
         
         nav a {
             color: #64748b;
@@ -66,6 +67,15 @@
         nav a:hover {
             color: #f97316;
         }
+        
+        .nav-cta {
+            background: #f97316 !important;
+            color: white !important;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+        .nav-cta:hover { background: #ea580c !important; }
         
         main {
             max-width: 900px;
@@ -163,10 +173,11 @@
 <body>
     <header>
         <div class="header-content">
-            <a href="/" class="logo">🗺️ US Drone Map</a>
+            <a href="/" class="logo">US <span>Drone Map</span></a>
             <nav>
                 <a href="/">Map</a>
-                <a href="/directory.html">Directory</a>
+                <a href="directory.html">Directory</a>
+                <a href="verify.html" class="nav-cta">Get Verified</a>
             </nav>
         </div>
     </header>
@@ -258,13 +269,20 @@
             <h2>14. Contact Information</h2>
             <p>For questions about these Terms, please contact us:</p>
             <ul>
-                <li>Email: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="2e424b494f426e5b5d4a5c41404b434f5e004d4143">[email&#160;protected]</a></li>
+                <li>Email: legal@usdronemap.com</li>
                 <li>Website: <a href="https://usdronemap.com">usdronemap.com</a></li>
             </ul>
         </div>
     </main>
     
     <footer>
-        <p>&copy; 2026 US Drone Map. All rights reserved.</p>
+        <p>© 2025 US Drone Map</p>
         <p style="margin-top: 0.5rem;">
-            <a href="/privacy.html
+            <a href="/">Map</a> · 
+            <a href="directory.html">Directory</a> · 
+            <a href="privacy.html">Privacy</a> · 
+            <a href="terms.html">Terms</a>
+        </p>
+    </footer>
+</body>
+</html>
