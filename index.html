@@ -1,66 +1,1157 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Direct Drone Recovery | Find Local Pilots</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css"/>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css"/>
+    
+    <title>US Drone Map - Find Professional Drone Services Near You</title>
+    <meta name="description" content="America's largest drone services directory. Find 4,500+ drone pilots for agriculture spraying, deer recovery, aerial surveys, inspections & photography.">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://usdronemap.com/">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://usdronemap.com/">
+    <meta property="og:title" content="US Drone Map - Find Professional Drone Services Near You">
+    <meta property="og:description" content="America's largest drone services directory. Find 4,500+ drone pilots for agriculture, deer recovery, surveys & more.">
+    <meta property="og:image" content="https://usdronemap.com/og-image.png">
+    <meta property="og:site_name" content="US Drone Map">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="US Drone Map - Find Professional Drone Services Near You">
+    <meta name="twitter:description" content="America's largest drone services directory. Find 4,500+ drone pilots for agriculture, deer recovery, surveys & more.">
+    <meta name="twitter:image" content="https://usdronemap.com/og-image.png">
+    
+    <!-- JSON-LD Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "US Drone Map",
+        "url": "https://usdronemap.com",
+        "description": "America's largest drone services directory",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://usdronemap.com/directory.html?search={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23f97316'/></svg>">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Fuse.js for fuzzy search -->
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script>
+    
     <style>
-        body, html { margin: 0; padding: 0; height: 100%; font-family: sans-serif; overflow: hidden; }
-        #map { height: 100vh; width: 100vw; z-index: 1; }
-        .info-box {
-            position: absolute; top: 20px; right: 20px; width: 300px;
-            background: rgba(255, 255, 255, 0.95); padding: 20px;
-            border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-            z-index: 1000; border: 1px solid #e0e0e0;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html, body {
+            height: 100%;
+            overflow: hidden;
         }
-        .btn {
-            display: block; width: 100%; padding: 12px 0; margin-bottom: 10px;
-            border-radius: 4px; font-weight: bold; text-align: center;
-            text-decoration: none; font-size: 0.9rem;
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f5f5f5;
+            color: #1a1a1a;
+            display: flex;
+            flex-direction: column;
         }
-        .btn-blue { background: #3b82f6; color: white; }
-        .btn-green { background: #10b981; color: white; }
+        
+        header {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e5e5;
+            padding: 14px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            flex-shrink: 0;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1a1a1a;
+            text-decoration: none;
+        }
+        .logo span { color: #f97316; }
+        
+        nav {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        nav a {
+            color: #666;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        nav a:hover { color: #1a1a1a; background: #f5f5f5; }
+        .nav-cta {
+            background: #f97316 !important;
+            color: white !important;
+            font-weight: 600;
+        }
+        .nav-cta:hover { background: #ea580c !important; }
+        
+        .main-content {
+            flex: 1;
+            display: flex;
+            position: relative;
+            overflow: hidden;
+            min-height: 0;
+        }
+        
+        #map { 
+            flex: 1; 
+            min-height: 0;
+            min-width: 0;
+        }
+        
+        /* Map overlay for mobile scroll trap fix */
+        .map-overlay {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 340px;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 400;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: 600;
+            text-align: center;
+            padding: 20px;
+            backdrop-filter: blur(2px);
+        }
+        .map-overlay.show { display: flex; }
+        .map-overlay-text {
+            background: rgba(0,0,0,0.7);
+            padding: 16px 24px;
+            border-radius: 10px;
+        }
+        .map-overlay-text small { 
+            display: block; 
+            margin-top: 4px; 
+            opacity: 0.8;
+            font-weight: 400;
+        }
+        
+        .control-panel {
+            width: 340px;
+            background: #ffffff;
+            border-right: 1px solid #e5e5e5;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            min-height: 0;
+            overflow: hidden;
+        }
+        
+        .locate-btn {
+            margin: 16px;
+            padding: 14px 20px;
+            background: #f97316;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        .locate-btn:hover { background: #ea580c; }
+        .locate-btn.loading { opacity: 0.7; pointer-events: none; }
+        .locate-btn svg { width: 20px; height: 20px; }
+        
+        .panel-section { 
+            padding: 0 16px 16px;
+            flex-shrink: 0;
+        }
+        
+        .search-wrapper {
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            background: #fafafa;
+            color: #1a1a1a;
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+        .search-input::placeholder { color: #999; }
+        .search-input:focus {
+            outline: none;
+            border-color: #f97316;
+            background: #fff;
+        }
+        
+        .search-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #e5e5e5;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 100;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .search-suggestions.show { display: block; }
+        .search-suggestion {
+            padding: 10px 16px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .search-suggestion:hover { background: #fff7ed; }
+        .search-suggestion:last-child { border-bottom: none; }
+        .search-suggestion strong { color: #f97316; }
+        
+        .toggle-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            margin-top: 12px;
+            border-top: 1px solid #e5e5e5;
+        }
+        .toggle-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .toggle-label .icon {
+            width: 28px;
+            height: 28px;
+            background: #fff7ed;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #f97316;
+        }
+        .toggle-label .icon svg { width: 16px; height: 16px; }
+        .toggle-label .text { font-size: 0.9rem; font-weight: 500; color: #1a1a1a; }
+        .toggle-label .subtext { font-size: 0.75rem; color: #666; margin-top: 2px; }
+        
+        .toggle-switch {
+            position: relative;
+            width: 48px;
+            height: 26px;
+        }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background: #d4d4d4;
+            border-radius: 26px;
+            transition: 0.3s;
+        }
+        .toggle-slider:before {
+            content: '';
+            position: absolute;
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.3s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .toggle-switch input:checked + .toggle-slider { background: #f97316; }
+        .toggle-switch input:checked + .toggle-slider:before { transform: translateX(22px); }
+        
+        .filter-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .chip {
+            padding: 6px 12px;
+            border: 1px solid #e5e5e5;
+            border-radius: 6px;
+            background: #fff;
+            color: #666;
+            font-family: inherit;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .chip:hover { border-color: #f97316; color: #f97316; }
+        .chip.active {
+            background: #f97316;
+            border-color: #f97316;
+            color: white;
+        }
+        
+        .results-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            border-top: 1px solid #e5e5e5;
+            min-height: 0;
+            overflow: hidden;
+        }
+        
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: #fafafa;
+            flex-shrink: 0;
+        }
+        .results-header h2 { font-size: 0.9rem; font-weight: 600; color: #1a1a1a; }
+        .results-count { font-size: 0.8rem; color: #f97316; font-weight: 600; }
+        
+        .results-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px;
+        }
+        
+        .result-item {
+            display: block;
+            padding: 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: inherit;
+            transition: background 0.2s;
+            margin-bottom: 4px;
+            border: 1px solid transparent;
+        }
+        .result-item:hover { background: #fafafa; border-color: #e5e5e5; }
+        
+        .result-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .verified-badge {
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            background: #fff7ed;
+            color: #ea580c;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .result-location { font-size: 0.8rem; color: #666; margin-top: 4px; }
+        .result-services {
+            display: flex;
+            gap: 6px;
+            margin-top: 6px;
+            flex-wrap: wrap;
+        }
+        .result-services span {
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            background: #f5f5f5;
+            color: #555;
+            border-radius: 4px;
+        }
+        
+        .stats-bar {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border: 1px solid #e5e5e5;
+            border-radius: 10px;
+            padding: 12px 24px;
+            display: flex;
+            gap: 32px;
+            z-index: 500;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .stat-item { text-align: center; }
+        .stat-num { font-size: 1.25rem; font-weight: 700; color: #1a1a1a; }
+        .stat-label {
+            font-size: 0.7rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+        
+        footer {
+            background: #ffffff;
+            border-top: 1px solid #e5e5e5;
+            padding: 10px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #666;
+            flex-shrink: 0;
+        }
+        footer a { color: #666; text-decoration: none; }
+        footer a:hover { color: #f97316; }
+        .footer-links { display: flex; gap: 16px; }
+        
+        /* Leaflet Popup */
+        .leaflet-popup-content-wrapper {
+            background: white;
+            color: #1a1a1a;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            padding: 0;
+        }
+        .leaflet-popup-tip { background: white; }
+        .leaflet-popup-content { margin: 0; min-width: 240px; }
+        .popup-content { padding: 16px; }
+        .popup-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        .popup-name { font-weight: 700; font-size: 1rem; color: #1a1a1a; line-height: 1.3; }
+        .popup-verified-badge {
+            font-size: 0.65rem;
+            padding: 3px 8px;
+            background: #f97316;
+            color: white;
+            border-radius: 4px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .popup-location { 
+            font-size: 0.85rem; 
+            color: #666; 
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .popup-industry {
+            display: inline-block;
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            background: #f5f5f5;
+            color: #555;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+        .popup-info {
+            border-top: 1px solid #e5e5e5;
+            padding-top: 12px;
+            margin-bottom: 12px;
+        }
+        .popup-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            color: #555;
+            margin-bottom: 6px;
+        }
+        .popup-row:last-child { margin-bottom: 0; }
+        .popup-row svg { width: 14px; height: 14px; color: #999; flex-shrink: 0; }
+        .popup-row a { color: #f97316; text-decoration: none; }
+        .popup-row a:hover { text-decoration: underline; }
+        
+        .reveal-contact {
+            background: #fff7ed;
+            border: 1px dashed #f97316;
+            border-radius: 6px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            color: #f97316;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 12px;
+            transition: all 0.2s;
+        }
+        .reveal-contact:hover {
+            background: #f97316;
+            color: white;
+            border-style: solid;
+        }
+        
+        .popup-btn {
+            display: block;
+            padding: 10px 16px;
+            background: #f97316;
+            color: white;
+            border-radius: 6px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .popup-btn:hover { background: #ea580c; }
+        
+        @media (max-width: 768px) {
+            .main-content { 
+                flex-direction: column;
+            }
+            .control-panel {
+                width: 100%;
+                max-height: 40vh;
+                border-right: none;
+                border-bottom: 1px solid #e5e5e5;
+            }
+            #map {
+                flex: 1;
+                min-height: 250px;
+            }
+            .map-overlay {
+                left: 0;
+            }
+            .stats-bar { 
+                bottom: 10px; 
+                padding: 8px 16px; 
+                gap: 16px;
+                font-size: 0.85rem;
+            }
+            .stat-num { font-size: 1rem; }
+            .stat-label { font-size: 0.6rem; }
+            nav a:not(.nav-cta) { display: none; }
+            footer { 
+                flex-direction: column; 
+                gap: 8px; 
+                text-align: center;
+                padding: 8px 16px;
+            }
+            header {
+                padding: 10px 16px;
+            }
+            .logo { font-size: 1.25rem; }
+            .locate-btn {
+                margin: 12px;
+                padding: 12px 16px;
+                font-size: 0.9rem;
+            }
+            .panel-section {
+                padding: 0 12px 12px;
+            }
+            .filter-chips {
+                gap: 6px;
+            }
+            .chip {
+                padding: 5px 10px;
+                font-size: 0.75rem;
+            }
+        }
     </style>
 </head>
 <body>
-<div class="info-box">
-    <h1>🦌 Direct Drone Recovery</h1>
-    <span style="font-weight:bold;">231 Pilots Available</span>
-    <p style="font-size:0.8rem; color:#666;">Find thermal, ag, and photo drone pilots directly. No fees. No Middleman.</p>
-    <label style="font-size:0.75rem; font-weight:bold; color:#555;">Filter by Service:</label>
-    <select style="width:100%; padding:10px; margin-bottom:15px; border-radius:4px; border:1px solid #ccc;">
-        <option>Show All Services</option>
-        <option>Thermal Recovery</option>
-        <option>Agriculture</option>
-    </select>
-    <a href="#" class="btn btn-blue" onclick="alert('Locating...');">📍 Find Near Me</a>
-    <a href="join.html" class="btn btn-green">➕ Add Me To Map</a>
-</div>
-<div id="map"></div>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
-<script>
-    var map = L.map('map', { zoomControl: false }).setView([39.8283, -98.5795], 5);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-
-    var quadIcon = L.divIcon({
-        className: 'drone-icon',
-        html: `<svg viewBox="0 0 24 24" width="24" height="24" fill="#3b82f6"><path d="M21 16.5c0 .38-.21.71-.53.88l-7.97 4.43c-.16.09-.33.14-.5.14s-.34-.05-.5-.14l-7.97-4.43c-.32-.17-.53-.5-.53-.88V7.5c0-.38.21-.71.53-.88l7.97-4.43c.16-.09.33-.14.5-.14s.34.05.5.14l7.97 4.43c.32.17.53.5.53.88v9z"/></svg>`,
-        iconSize: [24, 24], iconAnchor: [12, 12]
-    });
-
-    var markers = L.markerClusterGroup();
-    var pilots = [{"name": "Grant Hagan", "lat": 33.65194570805748, "lng": -81.65561456222946, "city": "", "state": "", "url": "pilot/grant-hagan.html"}, {"name": "Josh Cooper", "lat": 29.794151075713405, "lng": -95.50146471648743, "city": "", "state": "", "url": "pilot/josh-cooper.html"}, {"name": "Chris Johnson", "lat": 43.50054900958894, "lng": -96.76397370081071, "city": "", "state": "", "url": "pilot/chris-johnson.html"}, {"name": "Hoyt Munro", "lat": 43.467998274871796, "lng": -96.73476010885793, "city": "", "state": "", "url": "pilot/hoyt-munro.html"}, {"name": "Preston Arnett", "lat": 44.11212620630014, "lng": -103.29882775591186, "city": "", "state": "", "url": "pilot/preston-arnett.html"}, {"name": "Preston Gaskin", "lat": 33.62624794526395, "lng": -81.66557514075404, "city": "", "state": "", "url": "pilot/preston-gaskin.html"}, {"name": "Dakota Dutlinger", "lat": 43.461292666365985, "lng": -96.78096552170433, "city": "", "state": "", "url": "pilot/dakota-dutlinger.html"}, {"name": "Carlos Pino", "lat": 29.794519116965144, "lng": -95.51380671697468, "city": "", "state": "", "url": "pilot/carlos-pino.html"}, {"name": "Ross Overby", "lat": 29.806772410720885, "lng": -95.48224873466894, "city": "", "state": "", "url": "pilot/ross-overby.html"}, {"name": "Ryan Long", "lat": 29.83269789361728, "lng": -95.4581040911278, "city": "", "state": "", "url": "pilot/ryan-long.html"}, {"name": "Blake Pyles", "lat": 43.46768532786777, "lng": -96.77545718288113, "city": "", "state": "", "url": "pilot/blake-pyles.html"}, {"name": "Gary Walton", "lat": 29.816942597587357, "lng": -95.4614608794039, "city": "", "state": "", "url": "pilot/gary-walton.html"}, {"name": "Joseph Nicholson", "lat": 33.58215087557389, "lng": -81.6983915086874, "city": "", "state": "", "url": "pilot/joseph-nicholson.html"}, {"name": "Connor Haworth", "lat": 29.86459329795253, "lng": -95.49576758449425, "city": "", "state": "", "url": "pilot/connor-haworth.html"}, {"name": "KC Arwine", "lat": 29.798724704228576, "lng": -95.47180651473637, "city": "", "state": "", "url": "pilot/kc-arwine.html"}, {"name": "Justin Ballard", "lat": 29.79049407511243, "lng": -95.45803459390817, "city": "", "state": "", "url": "pilot/justin-ballard.html"}, {"name": "Bob Reynolds", "lat": 29.852620565518325, "lng": -95.45671229494064, "city": "", "state": "", "url": "pilot/bob-reynolds.html"}, {"name": "Eric Cavender", "lat": 29.820398191151924, "lng": -95.50235607392553, "city": "", "state": "", "url": "pilot/eric-cavender.html"}, {"name": "Chuck Edwards", "lat": 33.955932057325, "lng": -80.96672289628843, "city": "", "state": "", "url": "pilot/chuck-edwards.html"}, {"name": "Larry Ezell", "lat": 29.84332519705759, "lng": -95.46795459526976, "city": "", "state": "", "url": "pilot/larry-ezell.html"}, {"name": "InFlight AG LLC", "lat": 29.839035390566192, "lng": -95.46739413894048, "city": "", "state": "", "url": "pilot/inflight-ag-llc.html"}, {"name": "Garrett Lutz", "lat": 43.52211199225808, "lng": -96.78792475586405, "city": "", "state": "", "url": "pilot/garrett-lutz.html"}, {"name": "Parker Reeves", "lat": 32.811210654537454, "lng": -79.93375936993843, "city": "", "state": "", "url": "pilot/parker-reeves.html"}, {"name": "Billy Bixler", "lat": 43.535768106059244, "lng": -96.73271791951007, "city": "", "state": "", "url": "pilot/billy-bixler.html"}, {"name": "Hunter Burdine", "lat": 43.46833291142537, "lng": -96.737689497699, "city": "", "state": "", "url": "pilot/hunter-burdine.html"}, {"name": "Taylor Thompson", "lat": 29.827840278989186, "lng": -95.45851058451879, "city": "", "state": "", "url": "pilot/taylor-thompson.html"}, {"name": "Andrew Roten", "lat": 29.852858486325346, "lng": -95.51783323092398, "city": "", "state": "", "url": "pilot/andrew-roten.html"}, {"name": "Mark Wooldridge", "lat": 33.95404972192707, "lng": -80.96433954441855, "city": "", "state": "", "url": "pilot/mark-wooldridge.html"}, {"name": "James Coleman", "lat": 33.970482919804155, "lng": -81.0471058873367, "city": "", "state": "", "url": "pilot/james-coleman.html"}, {"name": "Lee Schurlknight", "lat": 34.90100534214935, "lng": -81.87207117983172, "city": "", "state": "", "url": "pilot/lee-schurlknight.html"}, {"name": "Anthony Coupland", "lat": 29.85490655390712, "lng": -95.45397945468946, "city": "", "state": "", "url": "pilot/anthony-coupland.html"}, {"name": "Jason Cottrell", "lat": 43.51447254847711, "lng": -96.76429819523024, "city": "", "state": "", "url": "pilot/jason-cottrell.html"}, {"name": "Derek Steinnerd", "lat": 44.06409750251648, "lng": -98.4088946063691, "city": "", "state": "", "url": "pilot/derek-steinnerd.html"}, {"name": "Jason Harris", "lat": 44.07114552855992, "lng": -98.42207619315222, "city": "", "state": "", "url": "pilot/jason-harris.html"}, {"name": "Bill Ledley", "lat": 32.796115066494, "lng": -79.97559699285294, "city": "", "state": "", "url": "pilot/bill-ledley.html"}, {"name": "Trevor Spence", "lat": 43.52587236050039, "lng": -96.72617320032363, "city": "", "state": "", "url": "pilot/trevor-spence.html"}, {"name": "Raynor Garey", "lat": 29.79068582933284, "lng": -95.45554000390042, "city": "", "state": "", "url": "pilot/raynor-garey.html"}, {"name": "Loren McCon", "lat": 33.98643823537094, "lng": -81.05831076686106, "city": "", "state": "", "url": "pilot/loren-mccon.html"}, {"name": "Troy Buss", "lat": 43.48559174272445, "lng": -96.76127309718383, "city": "", "state": "", "url": "pilot/troy-buss.html"}, {"name": "Caleb Cole", "lat": 29.823562441634987, "lng": -95.50584976843963, "city": "", "state": "", "url": "pilot/caleb-cole.html"}, {"name": "Justin Hughes", "lat": 29.839754793335317, "lng": -95.48937407268399, "city": "", "state": "", "url": "pilot/justin-hughes.html"}, {"name": "Christopher Stegmeier", "lat": 34.83154634411237, "lng": -81.01110010697101, "city": "", "state": "", "url": "pilot/christopher-stegmeier.html"}, {"name": "Camden Nichols", "lat": 33.9963184852807, "lng": -80.98671788520728, "city": "", "state": "", "url": "pilot/camden-nichols.html"}, {"name": "Jeremy Scheeler", "lat": 43.49268274838595, "lng": -96.7296695181528, "city": "", "state": "", "url": "pilot/jeremy-scheeler.html"}, {"name": "Brandon Whatley", "lat": 29.841718228853306, "lng": -95.45357113428268, "city": "", "state": "", "url": "pilot/brandon-whatley.html"}, {"name": "Logan Jones", "lat": 33.967111707807206, "lng": -80.98106749991226, "city": "", "state": "", "url": "pilot/logan-jones.html"}, {"name": "David Wilson", "lat": 34.77519912591217, "lng": -80.2410216920598, "city": "", "state": "", "url": "pilot/david-wilson.html"}, {"name": "Billy Rhodes", "lat": 29.821130835725317, "lng": -95.47374343721825, "city": "", "state": "", "url": "pilot/billy-rhodes.html"}, {"name": "Michael Stilwell", "lat": 44.04501540121919, "lng": -98.41884613177342, "city": "", "state": "", "url": "pilot/michael-stilwell.html"}, {"name": "Joshua Strickland", "lat": 29.826753465078422, "lng": -95.48592254827972, "city": "", "state": "", "url": "pilot/joshua-strickland.html"}, {"name": "Don Grant, Jr.", "lat": 29.84864745499398, "lng": -95.49484209927597, "city": "", "state": "", "url": "pilot/don-grant-jr.html"}, {"name": "Mason Wethington", "lat": 33.58605626793433, "lng": -81.6794516166488, "city": "", "state": "", "url": "pilot/mason-wethington.html"}, {"name": "Will Smith", "lat": 34.769985035794214, "lng": -80.2345834334248, "city": "", "state": "", "url": "pilot/will-smith.html"}, {"name": "Andi McCrimon", "lat": 29.79905464711984, "lng": -95.47149980348553, "city": "", "state": "", "url": "pilot/andi-mccrimon.html"}, {"name": "Anthony Glick", "lat": 34.947408070391106, "lng": -81.84948669443938, "city": "", "state": "", "url": "pilot/anthony-glick.html"}, {"name": "Joseph Webster", "lat": 29.804481561650153, "lng": -95.49129607683393, "city": "", "state": "", "url": "pilot/joseph-webster.html"}, {"name": "Brannon Burt", "lat": 29.820011058495748, "lng": -95.45464187011329, "city": "", "state": "", "url": "pilot/brannon-burt.html"}, {"name": "Brandon Chance", "lat": 29.79225309253287, "lng": -95.49424878361009, "city": "", "state": "", "url": "pilot/brandon-chance.html"}, {"name": "Bucky DeBerry", "lat": 34.873675105261874, "lng": -81.90339116028173, "city": "", "state": "", "url": "pilot/bucky-deberry.html"}, {"name": "Dustin Jennings", "lat": 34.87433270615532, "lng": -80.97637984352481, "city": "", "state": "", "url": "pilot/dustin-jennings.html"}, {"name": "Curtis Allen", "lat": 29.808682105583262, "lng": -95.46975534308874, "city": "", "state": "", "url": "pilot/curtis-allen.html"}, {"name": "Collin Burt", "lat": 44.11946352432236, "lng": -103.27912779742252, "city": "", "state": "", "url": "pilot/collin-burt.html"}, {"name": "Tyler Hinkle", "lat": 43.53222635454328, "lng": -96.73940476764122, "city": "", "state": "", "url": "pilot/tyler-hinkle.html"}, {"name": "Ioannis Koutsis", "lat": 29.79981206521281, "lng": -95.45091913515611, "city": "", "state": "", "url": "pilot/ioannis-koutsis.html"}, {"name": "Madison Fry", "lat": 43.469074996223476, "lng": -96.73392677952364, "city": "", "state": "", "url": "pilot/madison-fry.html"}, {"name": "Tyler Ford", "lat": 43.53257393745271, "lng": -96.76890105482249, "city": "", "state": "", "url": "pilot/tyler-ford.html"}, {"name": "Kyle Sankey", "lat": 34.907123660594834, "lng": -81.90378639771698, "city": "", "state": "", "url": "pilot/kyle-sankey.html"}, {"name": "Cole Watson", "lat": 33.9566328352038, "lng": -81.03328681386016, "city": "", "state": "", "url": "pilot/cole-watson.html"}, {"name": "Daniel Rosebrook", "lat": 47.61824982455655, "lng": -122.30242219504133, "city": "", "state": "", "url": "pilot/daniel-rosebrook.html"}, {"name": "Jeremiah Cronin", "lat": 29.85528219821474, "lng": -95.46332767767969, "city": "", "state": "", "url": "pilot/jeremiah-cronin.html"}, {"name": "Ridge Crum", "lat": 33.928813684425485, "lng": -81.05929731599554, "city": "", "state": "", "url": "pilot/ridge-crum.html"}, {"name": "Todd Creech", "lat": 44.10482115004225, "lng": -103.2462424696165, "city": "", "state": "", "url": "pilot/todd-creech.html"}, {"name": "Danny Reaves", "lat": 43.51971407378247, "lng": -96.75676038473523, "city": "", "state": "", "url": "pilot/danny-reaves.html"}, {"name": "Justin Lusk", "lat": 32.772345064936, "lng": -79.96672263873491, "city": "", "state": "", "url": "pilot/justin-lusk.html"}, {"name": "Hunter Ashley", "lat": 29.796427711703778, "lng": -95.46043787553202, "city": "", "state": "", "url": "pilot/hunter-ashley.html"}, {"name": "Kris Miller", "lat": 43.48452573778168, "lng": -96.76695623496275, "city": "", "state": "", "url": "pilot/kris-miller.html"}, {"name": "Josh Dolce", "lat": 43.5085152670896, "lng": -96.78733488716415, "city": "", "state": "", "url": "pilot/josh-dolce.html"}, {"name": "Nathan Howell", "lat": 33.627911664408124, "lng": -81.66455545939554, "city": "", "state": "", "url": "pilot/nathan-howell.html"}, {"name": "Cody Reed", "lat": 44.06570074908024, "lng": -98.4476849747387, "city": "", "state": "", "url": "pilot/cody-reed.html"}, {"name": "Michael Scarborough", "lat": 29.85775036829592, "lng": -95.4588832263659, "city": "", "state": "", "url": "pilot/michael-scarborough.html"}, {"name": "Russell Eaton", "lat": 44.04925917548837, "lng": -103.27233519549142, "city": "", "state": "", "url": "pilot/russell-eaton.html"}, {"name": "Edward Ashley", "lat": 34.90688773630319, "lng": -82.6796825891741, "city": "", "state": "", "url": "pilot/edward-ashley.html"}, {"name": "Brian Lennon", "lat": 29.79117616565897, "lng": -95.47310739130926, "city": "", "state": "", "url": "pilot/brian-lennon.html"}, {"name": "Paul Walker", "lat": 43.52221877930542, "lng": -96.78430310724546, "city": "", "state": "", "url": "pilot/paul-walker.html"}, {"name": "Brax Duncan", "lat": 29.78837534872499, "lng": -95.4604721690335, "city": "", "state": "", "url": "pilot/brax-duncan.html"}, {"name": "Brooks Stewart", "lat": 32.789885237235715, "lng": -79.9529845755996, "city": "", "state": "", "url": "pilot/brooks-stewart.html"}, {"name": "Mark Slayman", "lat": 43.519005258455834, "lng": -96.71308260455771, "city": "", "state": "", "url": "pilot/mark-slayman.html"}, {"name": "Cassie Heil", "lat": 43.516886989855834, "lng": -96.72277478886163, "city": "", "state": "", "url": "pilot/cassie-heil.html"}, {"name": "John Daniels", "lat": 43.4658827570263, "lng": -96.7234772229729, "city": "", "state": "", "url": "pilot/john-daniels.html"}, {"name": "Jacob Scott", "lat": 33.634336109701366, "lng": -81.70232482075895, "city": "", "state": "", "url": "pilot/jacob-scott.html"}, {"name": "Thomas Brown", "lat": 44.09425365292769, "lng": -103.22468948215666, "city": "", "state": "", "url": "pilot/thomas-brown.html"}, {"name": "Isaiah Crihfield", "lat": 43.535113078506754, "lng": -96.76616040755545, "city": "", "state": "", "url": "pilot/isaiah-crihfield.html"}, {"name": "Jessie Bailey", "lat": 29.83619141560446, "lng": -95.49846055327451, "city": "", "state": "", "url": "pilot/jessie-bailey.html"}, {"name": "Samuel Byrd", "lat": 43.52300916499137, "lng": -96.74506643766244, "city": "", "state": "", "url": "pilot/samuel-byrd.html"}, {"name": "Ben Wilson", "lat": 33.926300527108054, "lng": -81.03621739663944, "city": "", "state": "", "url": "pilot/ben-wilson.html"}, {"name": "Alan Beck", "lat": 43.477387319898455, "lng": -96.77019751515148, "city": "", "state": "", "url": "pilot/alan-beck.html"}, {"name": "Chance Sauser", "lat": 29.827913454684566, "lng": -95.48676190408919, "city": "", "state": "", "url": "pilot/chance-sauser.html"}, {"name": "Jacob Hursey", "lat": 43.49405504831779, "lng": -96.72474584627807, "city": "", "state": "", "url": "pilot/jacob-hursey.html"}, {"name": "Austin Danner", "lat": 43.512903677280164, "lng": -96.74259764755215, "city": "", "state": "", "url": "pilot/austin-danner.html"}, {"name": "Edward Smith", "lat": 32.79566118398918, "lng": -79.99867861157236, "city": "", "state": "", "url": "pilot/edward-smith.html"}, {"name": "Joe Bergman", "lat": 43.49939587700838, "lng": -96.77622889272948, "city": "", "state": "", "url": "pilot/joe-bergman.html"}, {"name": "Timothy Dougall", "lat": 29.843108543607404, "lng": -95.50389914915841, "city": "", "state": "", "url": "pilot/timothy-dougall.html"}, {"name": "Joseph Rayl", "lat": 43.511147682663285, "lng": -96.7513205973593, "city": "", "state": "", "url": "pilot/joseph-rayl.html"}, {"name": "Ryan Evers", "lat": 29.795019158534195, "lng": -95.50968225440862, "city": "", "state": "", "url": "pilot/ryan-evers.html"}, {"name": "Daniel Watford", "lat": 44.09576025946834, "lng": -103.27949728021736, "city": "", "state": "", "url": "pilot/daniel-watford.html"}, {"name": "Tyler Gullett", "lat": 43.46166672141277, "lng": -96.76423431645412, "city": "", "state": "", "url": "pilot/tyler-gullett.html"}, {"name": "Tim Hemry", "lat": 43.50822843720155, "lng": -96.74171787151255, "city": "", "state": "", "url": "pilot/tim-hemry.html"}, {"name": "Madison Raber", "lat": 43.505336198050536, "lng": -96.72286810050836, "city": "", "state": "", "url": "pilot/madison-raber.html"}, {"name": "Ethan Flud", "lat": 29.83319935048705, "lng": -95.47461423142614, "city": "", "state": "", "url": "pilot/ethan-flud.html"}, {"name": "Mitch Seekamp", "lat": 29.826747995788455, "lng": -95.47859958976777, "city": "", "state": "", "url": "pilot/mitch-seekamp.html"}, {"name": "Thomas Rindfuss", "lat": 43.47083708116546, "lng": -96.74344678260194, "city": "", "state": "", "url": "pilot/thomas-rindfuss.html"}, {"name": "Greg Mullens", "lat": 43.517572765166825, "lng": -96.74330352214706, "city": "", "state": "", "url": "pilot/greg-mullens.html"}, {"name": "Ephraim Stoltzfus", "lat": 32.800442193008294, "lng": -79.99966721455733, "city": "", "state": "", "url": "pilot/ephraim-stoltzfus.html"}, {"name": "Jeremy Jones", "lat": 29.863518471395537, "lng": -95.46908660492203, "city": "", "state": "", "url": "pilot/jeremy-jones.html"}, {"name": "Mahlon Hostetler", "lat": 29.863739846393262, "lng": -95.50156323605393, "city": "", "state": "", "url": "pilot/mahlon-hostetler.html"}, {"name": "Gage Lau", "lat": 43.4882009618462, "lng": -96.77861524891338, "city": "", "state": "", "url": "pilot/gage-lau.html"}, {"name": "Collin Dirks", "lat": 34.89713245022505, "lng": -81.84528300832248, "city": "", "state": "", "url": "pilot/collin-dirks.html"}, {"name": "Ryan Miller", "lat": 43.47129148969247, "lng": -96.71947457400015, "city": "", "state": "", "url": "pilot/ryan-miller.html"}, {"name": "Joseph Combs", "lat": 43.49549490475008, "lng": -96.73084234722698, "city": "", "state": "", "url": "pilot/joseph-combs.html"}, {"name": "Daniel Weaver", "lat": 34.82868634865376, "lng": -80.2115583393357, "city": "", "state": "", "url": "pilot/daniel-weaver.html"}, {"name": "Dennis Miller", "lat": 43.46884008289533, "lng": -96.71988116969591, "city": "", "state": "", "url": "pilot/dennis-miller.html"}, {"name": "Kenneth Fisher", "lat": 43.53007103988714, "lng": -96.74274579107588, "city": "", "state": "", "url": "pilot/kenneth-fisher.html"}, {"name": "Jason Paridon", "lat": 43.480601324648795, "lng": -96.74187206919379, "city": "", "state": "", "url": "pilot/jason-paridon.html"}, {"name": "Brandon Penny", "lat": 43.508726500076364, "lng": -96.74002673992138, "city": "", "state": "", "url": "pilot/brandon-penny.html"}, {"name": "Linval Ebanks", "lat": 29.825560519325276, "lng": -95.48055431954603, "city": "", "state": "", "url": "pilot/linval-ebanks.html"}, {"name": "Victor Shreve", "lat": 43.52206851389804, "lng": -96.71981960973481, "city": "", "state": "", "url": "pilot/victor-shreve.html"}, {"name": "Cole Luburgh", "lat": 43.505270342007385, "lng": -96.76607274091876, "city": "", "state": "", "url": "pilot/cole-luburgh.html"}, {"name": "Nick Tully", "lat": 43.4833973974037, "lng": -96.74731772313035, "city": "", "state": "", "url": "pilot/nick-tully.html"}, {"name": "Jason Lee", "lat": 44.10700995865166, "lng": -103.23658176323822, "city": "", "state": "", "url": "pilot/jason-lee.html"}, {"name": "John McCaw", "lat": 29.832031839543987, "lng": -95.45613255370706, "city": "", "state": "", "url": "pilot/john-mccaw.html"}, {"name": "Aaron Shumate", "lat": 29.834578132212933, "lng": -95.49409083412881, "city": "", "state": "", "url": "pilot/aaron-shumate.html"}, {"name": "Chris Fenzel", "lat": 32.82765051130448, "lng": -79.99429176241291, "city": "", "state": "", "url": "pilot/chris-fenzel.html"}, {"name": "Jacob Sloan", "lat": 43.5230559462992, "lng": -96.76752937125215, "city": "", "state": "", "url": "pilot/jacob-sloan.html"}, {"name": "Brad Sanford", "lat": 29.846974702536837, "lng": -95.48006670936776, "city": "", "state": "", "url": "pilot/brad-sanford.html"}, {"name": "Bronson Cheeks", "lat": 44.07027195288452, "lng": -103.28223947850906, "city": "", "state": "", "url": "pilot/bronson-cheeks.html"}, {"name": "Dakota Miller", "lat": 29.79648504288035, "lng": -95.49760541463083, "city": "", "state": "", "url": "pilot/dakota-miller.html"}, {"name": "Tyler Sprabery", "lat": 29.800984678364507, "lng": -95.4813282478752, "city": "", "state": "", "url": "pilot/tyler-sprabery.html"}, {"name": "Andrew Beard", "lat": 43.52476041485559, "lng": -96.75946669441258, "city": "", "state": "", "url": "pilot/andrew-beard.html"}, {"name": "Bill Micke", "lat": 29.846141037338644, "lng": -95.49788101624837, "city": "", "state": "", "url": "pilot/bill-micke.html"}, {"name": "Hayden Van Buren", "lat": 33.97546259862973, "lng": -80.93018357885765, "city": "", "state": "", "url": "pilot/hayden-van-buren.html"}, {"name": "David Wood", "lat": 34.86563182993389, "lng": -81.00785389574702, "city": "", "state": "", "url": "pilot/david-wood.html"}, {"name": "Shawn Pugh", "lat": 29.845034080367416, "lng": -95.48478874894447, "city": "", "state": "", "url": "pilot/shawn-pugh.html"}, {"name": "Jason Miller", "lat": 33.92878564702717, "lng": -81.0573788555512, "city": "", "state": "", "url": "pilot/jason-miller.html"}, {"name": "Sam Grimes", "lat": 41.33262193432131, "lng": -72.14252094217788, "city": "", "state": "", "url": "pilot/sam-grimes.html"}, {"name": "Tyler Atchley", "lat": 43.516417471184646, "lng": -96.72780197686421, "city": "", "state": "", "url": "pilot/tyler-atchley.html"}, {"name": "Ryan Pruitt", "lat": 33.64432244530724, "lng": -81.69316297356399, "city": "", "state": "", "url": "pilot/ryan-pruitt.html"}, {"name": "Jon Shawhan", "lat": 43.50538036856444, "lng": -96.7451263344833, "city": "", "state": "", "url": "pilot/jon-shawhan.html"}, {"name": "Christopher Sirota", "lat": 34.88315612457888, "lng": -80.97392703993056, "city": "", "state": "", "url": "pilot/christopher-sirota.html"}, {"name": "Gavin Avery", "lat": 33.989029198772826, "lng": -80.93264553767001, "city": "", "state": "", "url": "pilot/gavin-avery.html"}, {"name": "Devan Brewer", "lat": 29.86009105163826, "lng": -95.51860045144161, "city": "", "state": "", "url": "pilot/devan-brewer.html"}, {"name": "Alex Keyser", "lat": 34.863401103975164, "lng": -82.62934211762493, "city": "", "state": "", "url": "pilot/alex-keyser.html"}, {"name": "Cody Shull", "lat": 33.96727401134093, "lng": -80.93409158610369, "city": "", "state": "", "url": "pilot/cody-shull.html"}, {"name": "Alex Scharpen", "lat": 29.849731043622583, "lng": -95.46584574361334, "city": "", "state": "", "url": "pilot/alex-scharpen.html"}, {"name": "Chris Taylor", "lat": 33.6113434779237, "lng": -81.70877028770727, "city": "", "state": "", "url": "pilot/chris-taylor.html"}, {"name": "Dustin Prievo", "lat": 32.777954666498985, "lng": -79.9656918815934, "city": "", "state": "", "url": "pilot/dustin-prievo.html"}, {"name": "Gary Smith", "lat": 33.96974949122547, "lng": -80.99679572249805, "city": "", "state": "", "url": "pilot/gary-smith.html"}, {"name": "Jason Miller", "lat": 43.53709080176426, "lng": -96.73026871717404, "city": "", "state": "", "url": "pilot/jason-miller.html"}, {"name": "Cameron Hershberger", "lat": 43.529685419576104, "lng": -96.71295888130258, "city": "", "state": "", "url": "pilot/cameron-hershberger.html"}, {"name": "Tom Sanders", "lat": 29.811580814262484, "lng": -95.46171439365234, "city": "", "state": "", "url": "pilot/tom-sanders.html"}, {"name": "Richard Hammack", "lat": 44.08734873770052, "lng": -103.26171389373172, "city": "", "state": "", "url": "pilot/richard-hammack.html"}, {"name": "David Detweiler", "lat": 43.49559671942797, "lng": -96.77611894625907, "city": "", "state": "", "url": "pilot/david-detweiler.html"}, {"name": "Gar Chappelear", "lat": 43.466223203822956, "lng": -96.7795983074574, "city": "", "state": "", "url": "pilot/gar-chappelear.html"}, {"name": "Jay Stewart", "lat": 43.50203340480596, "lng": -96.74504503475336, "city": "", "state": "", "url": "pilot/jay-stewart.html"}, {"name": "Ben Shetler", "lat": 43.49639455679857, "lng": -96.72145429859297, "city": "", "state": "", "url": "pilot/ben-shetler.html"}, {"name": "Tom Stall", "lat": 43.53524717780348, "lng": -96.78803085605692, "city": "", "state": "", "url": "pilot/tom-stall.html"}, {"name": "Justin Merry", "lat": 43.47904185622448, "lng": -96.7326411254906, "city": "", "state": "", "url": "pilot/justin-merry.html"}, {"name": "Stephen Miller", "lat": 43.48761388774348, "lng": -96.71965827768446, "city": "", "state": "", "url": "pilot/stephen-miller.html"}, {"name": "Tyler Richards", "lat": 33.9524978188513, "lng": -80.97104730303374, "city": "", "state": "", "url": "pilot/tyler-richards.html"}, {"name": "Andrew Darden", "lat": 29.81333341250004, "lng": -95.48788833694462, "city": "", "state": "", "url": "pilot/andrew-darden.html"}, {"name": "Taylor Granger", "lat": 41.30865369043132, "lng": -72.1897355046672, "city": "", "state": "", "url": "pilot/taylor-granger.html"}, {"name": "Luke Johnson", "lat": 29.856924417384224, "lng": -95.44436470509086, "city": "", "state": "", "url": "pilot/luke-johnson.html"}, {"name": "Alex Briceno", "lat": 34.89733595916129, "lng": -81.86031047328821, "city": "", "state": "", "url": "pilot/alex-briceno.html"}, {"name": "Kyle Tatem", "lat": 43.4799028192403, "lng": -96.77861321036728, "city": "", "state": "", "url": "pilot/kyle-tatem.html"}, {"name": "Jason Bray", "lat": 43.500385226471735, "lng": -96.73382311514246, "city": "", "state": "", "url": "pilot/jason-bray.html"}, {"name": "Jared Bowen", "lat": 43.52946535070258, "lng": -96.72825575049919, "city": "", "state": "", "url": "pilot/jared-bowen.html"}, {"name": "Joshua Barry", "lat": 32.757238328761424, "lng": -79.93332531686247, "city": "", "state": "", "url": "pilot/joshua-barry.html"}, {"name": "James Sullivan", "lat": 33.98416454214075, "lng": -80.94429966275692, "city": "", "state": "", "url": "pilot/james-sullivan.html"}, {"name": "Mike Roby", "lat": 33.583625469893434, "lng": -81.6826952559088, "city": "", "state": "", "url": "pilot/mike-roby.html"}, {"name": "Garrett Settles", "lat": 33.64522029973541, "lng": -81.71380342773205, "city": "", "state": "", "url": "pilot/garrett-settles.html"}, {"name": "Joshua Newswanger", "lat": 34.77232003470625, "lng": -80.22771448321579, "city": "", "state": "", "url": "pilot/joshua-newswanger.html"}, {"name": "John Pero IV", "lat": 34.94495518261432, "lng": -81.86592826967521, "city": "", "state": "", "url": "pilot/john-pero-iv.html"}, {"name": "Michael Williams", "lat": 29.794045040105473, "lng": -95.5090545316424, "city": "", "state": "", "url": "pilot/michael-williams.html"}, {"name": "William Harp", "lat": 43.493810675358375, "lng": -96.78451209507406, "city": "", "state": "", "url": "pilot/william-harp.html"}, {"name": "Milton Good", "lat": 34.01013257857895, "lng": -80.96656002316334, "city": "", "state": "", "url": "pilot/milton-good.html"}, {"name": "Brandon Selders", "lat": 43.48500024164746, "lng": -96.7320893802272, "city": "", "state": "", "url": "pilot/brandon-selders.html"}, {"name": "Wendall Miller", "lat": 43.510916191205126, "lng": -96.71367264821178, "city": "", "state": "", "url": "pilot/wendall-miller.html"}, {"name": "John Miller", "lat": 43.47822479043395, "lng": -96.76291695683204, "city": "", "state": "", "url": "pilot/john-miller.html"}, {"name": "Zach Dzurinda", "lat": 43.518828455178415, "lng": -96.73044160299962, "city": "", "state": "", "url": "pilot/zach-dzurinda.html"}, {"name": "Jarrod Roberts", "lat": 29.823443299439635, "lng": -95.44316727111782, "city": "", "state": "", "url": "pilot/jarrod-roberts.html"}, {"name": "Zach Daugherty", "lat": 29.795825110675224, "lng": -95.46819334838642, "city": "", "state": "", "url": "pilot/zach-daugherty.html"}, {"name": "Kyle Eyre", "lat": 43.46007867242777, "lng": -96.78713653105032, "city": "", "state": "", "url": "pilot/kyle-eyre.html"}, {"name": "Kenneth McAlister", "lat": 43.46304748399804, "lng": -96.72106847164545, "city": "", "state": "", "url": "pilot/kenneth-mcalister.html"}, {"name": "Austin Miller", "lat": 43.50127366094917, "lng": -96.75846410919354, "city": "", "state": "", "url": "pilot/austin-miller.html"}, {"name": "Christopher Toth", "lat": 43.5371361136046, "lng": -96.74334556050212, "city": "", "state": "", "url": "pilot/christopher-toth.html"}, {"name": "Dustin Burdine", "lat": 43.52490838640294, "lng": -96.75211506980617, "city": "", "state": "", "url": "pilot/dustin-burdine.html"}, {"name": "Sunny Wilkins", "lat": 29.81426098800547, "lng": -95.44653724567524, "city": "", "state": "", "url": "pilot/sunny-wilkins.html"}, {"name": "Kade Desormeaux", "lat": 44.07035120444173, "lng": -98.39263845247622, "city": "", "state": "", "url": "pilot/kade-desormeaux.html"}, {"name": "Joshua Dubik", "lat": 43.47666552910393, "lng": -96.77142866067048, "city": "", "state": "", "url": "pilot/joshua-dubik.html"}, {"name": "Henry Hochstetler", "lat": 43.46945965378634, "lng": -96.74893161578866, "city": "", "state": "", "url": "pilot/henry-hochstetler.html"}, {"name": "Mike Yoder", "lat": 43.47450841789251, "lng": -96.77205317522734, "city": "", "state": "", "url": "pilot/mike-yoder.html"}, {"name": "Mike Newland", "lat": 43.505816950783576, "lng": -96.78538333231437, "city": "", "state": "", "url": "pilot/mike-newland.html"}, {"name": "Joseph Golden", "lat": 33.91790849629181, "lng": -80.99314769765945, "city": "", "state": "", "url": "pilot/joseph-golden.html"}, {"name": "Alan Layman", "lat": 43.49735713501802, "lng": -96.7319330637491, "city": "", "state": "", "url": "pilot/alan-layman.html"}, {"name": "Joshua Stevens", "lat": 33.93609127926126, "lng": -80.9941675994691, "city": "", "state": "", "url": "pilot/joshua-stevens.html"}, {"name": "Zach Turner", "lat": 29.793410157759, "lng": -95.49941096904435, "city": "", "state": "", "url": "pilot/zach-turner.html"}, {"name": "Isaac Harreld", "lat": 34.810365472479226, "lng": -80.24275173632937, "city": "", "state": "", "url": "pilot/isaac-harreld.html"}, {"name": "Troy Wickman", "lat": 43.50613173664544, "lng": -96.7783998247942, "city": "", "state": "", "url": "pilot/troy-wickman.html"}, {"name": "Duane Miller", "lat": 29.82350478745097, "lng": -95.45210332332759, "city": "", "state": "", "url": "pilot/duane-miller.html"}, {"name": "Jeff Amon", "lat": 43.48350753033979, "lng": -96.729779951633, "city": "", "state": "", "url": "pilot/jeff-amon.html"}, {"name": "Kyle DeBerry", "lat": 33.62900737506292, "lng": -81.69751007285565, "city": "", "state": "", "url": "pilot/kyle-deberry.html"}, {"name": "Austin Rode", "lat": 43.49371489350362, "lng": -96.78188332907273, "city": "", "state": "", "url": "pilot/austin-rode.html"}, {"name": "Dwight Fleagle", "lat": 33.94145285052806, "lng": -80.93103645281883, "city": "", "state": "", "url": "pilot/dwight-fleagle.html"}, {"name": "Logan Wengerd", "lat": 43.48955968761466, "lng": -96.7825343797613, "city": "", "state": "", "url": "pilot/logan-wengerd.html"}, {"name": "Charles Fisher", "lat": 33.615073334164094, "lng": -81.66230901319473, "city": "", "state": "", "url": "pilot/charles-fisher.html"}, {"name": "Trevor Bryant", "lat": 34.83928210467937, "lng": -80.9917220162562, "city": "", "state": "", "url": "pilot/trevor-bryant.html"}, {"name": "Michael Jenkins", "lat": 33.640113838038694, "lng": -81.71330790512074, "city": "", "state": "", "url": "pilot/michael-jenkins.html"}, {"name": "Trey Larson", "lat": 34.81757847869379, "lng": -80.9829634128644, "city": "", "state": "", "url": "pilot/trey-larson.html"}, {"name": "Lucas Kincaid", "lat": 43.526046579087, "lng": -96.74285231133295, "city": "", "state": "", "url": "pilot/lucas-kincaid.html"}, {"name": "Ethan Snider", "lat": 43.462867297131105, "lng": -96.78766755433934, "city": "", "state": "", "url": "pilot/ethan-snider.html"}, {"name": "Willis Lott", "lat": 44.079918134561076, "lng": -103.29989081735184, "city": "", "state": "", "url": "pilot/willis-lott.html"}, {"name": "Tim Kulesza", "lat": 33.64637597869104, "lng": -81.67727120618486, "city": "", "state": "", "url": "pilot/tim-kulesza.html"}, {"name": "Joshua Davis", "lat": 43.50164439181969, "lng": -96.74575788967257, "city": "", "state": "", "url": "pilot/joshua-davis.html"}, {"name": "Andrew Reece", "lat": 43.48045183553062, "lng": -96.76181797272598, "city": "", "state": "", "url": "pilot/andrew-reece.html"}, {"name": "Rick Essex", "lat": 43.52250028112999, "lng": -96.72921042142215, "city": "", "state": "", "url": "pilot/rick-essex.html"}, {"name": "Jimmy Purdin", "lat": 44.064571995186604, "lng": -98.44442410665226, "city": "", "state": "", "url": "pilot/jimmy-purdin.html"}, {"name": "JD Sledge", "lat": 44.067140340725295, "lng": -103.29230683190029, "city": "", "state": "", "url": "pilot/jd-sledge.html"}, {"name": "James Spicer", "lat": 29.820951927739923, "lng": -95.51101793667794, "city": "", "state": "", "url": "pilot/james-spicer.html"}, {"name": "Jason Newswanger", "lat": 43.49317016002289, "lng": -96.71355138910947, "city": "", "state": "", "url": "pilot/jason-newswanger.html"}, {"name": "Ryan Keim", "lat": 43.52492802564561, "lng": -96.7226568453453, "city": "", "state": "", "url": "pilot/ryan-keim.html"}, {"name": "Jeremy Erb", "lat": 43.53780625209767, "lng": -96.75012459428825, "city": "", "state": "", "url": "pilot/jeremy-erb.html"}, {"name": "Ron Sawvel", "lat": 43.465227162627556, "lng": -96.75269811294126, "city": "", "state": "", "url": "pilot/ron-sawvel.html"}];
+    <header>
+        <a href="/" class="logo">US <span>Drone Map</span></a>
+        <nav>
+            <a href="directory.html">Full Directory</a>
+            <a href="join.html" class="nav-cta">List Your Service</a>
+        </nav>
+    </header>
     
-    pilots.forEach(p => {
-        var m = L.marker([p.lat, p.lng], {icon: quadIcon}).bindPopup('<b>'+p.name+'</b><br>'+p.city+', '+p.state+'<br><a href="'+p.url+'">Details</a>');
-        markers.addLayer(m);
-    });
-    map.addLayer(markers);
-</script>
-</body>
-</html>
+    <div class="main-content">
+        <aside class="control-panel">
+            <button class="locate-btn" id="locateBtn">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                <span id="locateBtnText">Find Services Near Me</span>
+            </button>
+            
+            <div class="panel-section">
+                <div class="search-wrapper">
+                    <input type="text" class="search-input" id="searchInput" placeholder="Search pilots, cities, states..." autocomplete="off">
+                    <div class="search-suggestions" id="searchSuggestions"></div>
+                </div>
+                
+                <div class="toggle-row">
+                    <div class="toggle-label">
+                        <div class="icon">
+                            <svg fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="text">Verified Only</div>
+                            <div class="subtext">Show verified pilots</div>
+                        </div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="verifiedToggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="filter-chips">
+                    <button class="chip" data-service="Agriculture">Agriculture</button>
+                    <button class="chip" data-service="Game Recovery">Game Recovery</button>
+                    <button class="chip" data-service="Inspection">Inspection</button>
+                    <button class="chip" data-service="Survey/Engineering">Survey</button>
+                    <button class="chip" data-service="Government">Government</button>
+                    <button class="chip" data-service="Other">Other</button>
+                </div>
+            </div>
+            
+            <div class="results-section">
+                <div class="results-header">
+                    <h2>Drone Pilots</h2>
+                    <span class="results-count" id="resultsCount">0 pilots</span>
+                </div>
+                <div class="results-list" id="resultsList"></div>
+            </div>
+        </aside>
+        
+        <div id="map"></div>
+        <div class="map-overlay" id="mapOverlay">
+            <div class="map-overlay-text">
+                Tap the map to interact
+                <small>Swipe outside to scroll page</small>
+            </div>
+        </div>
+        
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-num" id="statTotal">0</div>
+                <div class="stat-label">Total Pilots</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num" id="statStates">0</div>
+                <div class="stat-label">States</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num" id="statVerified">0</div>
+                <div class="stat-label">Verified</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num" id="statVisible">0</div>
+                <div class="stat-label">In View</div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div>© 2025 US Drone Map</div>
+        <div class="footer-links">
+            <a href="directory.html">Directory</a>
+            <a href="join.html">List Your Service</a>
+            <a href="privacy.html">Privacy</a>
+            <a href="terms.html">Terms</a>
+            <a href="/cdn-cgi/l/email-protection#23404c4d5742405763565047514c4d464e42530d404c4e">Contact</a>
+        </div>
+    </footer>
+    
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        const US_STATES = new Set([
+            'AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA',
+            'HI','ID','IL','IN','IA','KS','KY','LA','ME','MD',
+            'MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ',
+            'NM','NY','NC','ND','OH','OK','OR','PA','RI','SC',
+            'SD','TN','TX','UT','VT','VA','WA','WV','WI','WY',
+            'DC','PR','VI','GU','AS','MP'
+        ]);
+        
+        // Mobile detection
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        
+        const map = L.map('map', { 
+            zoomControl: false,
+            preferCanvas: true,
+            scrollWheelZoom: !isMobile,
+            dragging: !isMobile,
+            tap: !isMobile
+        }).setView([39.8, -98.5], 4);
+        
+        L.control.zoom({ position: 'bottomright' }).addTo(map);
+        
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '© <a href="https://carto.com/">CARTO</a>',
+            maxZoom: 19
+        }).addTo(map);
+        
+        // Mobile map interaction handling
+        if (isMobile) {
+            const mapOverlay = document.getElementById('mapOverlay');
+            const mapEl = document.getElementById('map');
+            
+            mapOverlay.classList.add('show');
+            
+            mapEl.addEventListener('click', function(e) {
+                if (mapOverlay.classList.contains('show')) {
+                    mapOverlay.classList.remove('show');
+                    map.scrollWheelZoom.enable();
+                    map.dragging.enable();
+                }
+            });
+            
+            document.querySelector('.control-panel').addEventListener('touchstart', function() {
+                if (!mapOverlay.classList.contains('show')) {
+                    mapOverlay.classList.add('show');
+                    map.scrollWheelZoom.disable();
+                    map.dragging.disable();
+                }
+            });
+        }
+        
+        let allPilots = [];
+        let allMarkers = [];
+        let activeService = null;
+        let verifiedOnly = false;
+        let userLocation = null;
+        let userMarker = null;
+        let fuse = null;
+        
+        // Decode obfuscated data (Base64)
+        function decodeData(encoded) {
+            if (!encoded) return '';
+            try {
+                return atob(encoded);
+            } catch(e) {
+                return encoded;
+            }
+        }
+        
+        function transformPilot(p) {
+            return {
+                verified: p.v === true,
+                industry: p.i || '',
+                latitude: p.la,
+                longitude: p.lo,
+                company: p.c || 'Unknown',
+                city: p.ct || '',
+                state: p.st || '',
+                phoneEncoded: p.pe || '',
+                emailEncoded: p.ee || '',
+                phone: p.p || '',
+                email: p.e || '',
+                website: p.w || '',
+                model: p.m || '',
+                manufacturer: p.mf || '',
+                fleet: p.f || ''
+            };
+        }
+        
+        function createIcon(verified) {
+            if (verified) {
+                return L.divIcon({
+                    className: 'marker-verified',
+                    html: `<div style="
+                        width: 18px;
+                        height: 18px;
+                        background: #f97316;
+                        border-radius: 50%;
+                        border: 3px solid white;
+                        box-shadow: 0 2px 8px rgba(249,115,22,0.5);
+                    "></div>`,
+                    iconSize: [18, 18],
+                    iconAnchor: [9, 9]
+                });
+            } else {
+                return L.divIcon({
+                    className: 'marker-unverified',
+                    html: `<div style="
+                        width: 10px;
+                        height: 10px;
+                        background: #737373;
+                        border-radius: 50%;
+                        border: 2px solid white;
+                        box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+                    "></div>`,
+                    iconSize: [10, 10],
+                    iconAnchor: [5, 5]
+                });
+            }
+        }
+        
+        function slugify(text) {
+            return (text || '').toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim();
+        }
+        
+        function formatPhone(phone) {
+            if (!phone) return '';
+            const digits = phone.replace(/\D/g, '');
+            if (digits.length === 10) {
+                return `(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}`;
+            }
+            return phone;
+        }
+        
+        function getDistance(lat1, lon1, lat2, lon2) {
+            const R = 3959;
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                      Math.sin(dLon/2) * Math.sin(dLon/2);
+            return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        }
+        
+        function createPopup(p) {
+            const slug = slugify(`${p.company}-${p.city}-${p.state}`);
+            
+            const phone = p.phoneEncoded ? decodeData(p.phoneEncoded) : p.phone;
+            const email = p.emailEncoded ? decodeData(p.emailEncoded) : p.email;
+            const hasContact = phone || email || p.website;
+            
+            let contactSection = '';
+            
+            if (hasContact && p.verified) {
+                let infoRows = '';
+                if (phone) {
+                    infoRows += `
+                        <div class="popup-row">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                            </svg>
+                            <a href="tel:${phone}">${formatPhone(phone)}</a>
+                        </div>
+                    `;
+                }
+                if (email) {
+                    infoRows += `
+                        <div class="popup-row">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                            <a href="mailto:${email}">${email}</a>
+                        </div>
+                    `;
+                }
+                if (p.website) {
+                    const url = p.website.startsWith('http') ? p.website : `https://${p.website}`;
+                    infoRows += `
+                        <div class="popup-row">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+                            </svg>
+                            <a href="${url}" target="_blank">${p.website}</a>
+                        </div>
+                    `;
+                }
+                contactSection = `<div class="popup-info">${infoRows}</div>`;
+            } else if (!p.verified) {
+                contactSection = `
+                    <div class="reveal-contact" onclick="window.location.href='join.html?claim=${slug}'">
+                        🔒 Claim listing to show contact info
+                    </div>
+                `;
+            }
+            
+            return `
+                <div class="popup-content">
+                    <div class="popup-header">
+                        <div class="popup-name">${p.company}</div>
+                        ${p.verified ? '<span class="popup-verified-badge">VERIFIED</span>' : ''}
+                    </div>
+                    <div class="popup-location">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                        </svg>
+                        ${p.city}${p.city && p.state ? ', ' : ''}${p.state}
+                    </div>
+                    ${p.industry ? `<div class="popup-industry">${p.industry}</div>` : ''}
+                    ${contactSection}
+                    <a href="pilot.html?id=${slug}" class="popup-btn">View Full Profile</a>
+                </div>
+            `;
+        }
+        
+        function filterPilots() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            
+            let filtered = allPilots.filter(p => {
+                if (verifiedOnly && !p.verified) return false;
+                if (activeService) {
+                    if (!p.industry.includes(activeService)) return false;
+                }
+                if (query) {
+                    const str = `${p.company} ${p.city} ${p.state}`.toLowerCase();
+                    if (!str.includes(query)) return false;
+                }
+                return true;
+            });
+            
+            if (userLocation) {
+                filtered.forEach(p => {
+                    if (p.latitude && p.longitude) {
+                        p._distance = getDistance(userLocation.lat, userLocation.lng, p.latitude, p.longitude);
+                    } else {
+                        p._distance = 99999;
+                    }
+                });
+                filtered.sort((a, b) => a._distance - b._distance);
+            }
+            
+            allMarkers.forEach(({ marker, pilot }) => {
+                const show = filtered.includes(pilot);
+                if (show && !map.hasLayer(marker)) {
+                    map.addLayer(marker);
+                } else if (!show && map.hasLayer(marker)) {
+                    map.removeLayer(marker);
+                }
+            });
+            
+            const list = document.getElementById('resultsList');
+            const display = filtered.slice(0, 50);
+            
+            list.innerHTML = display.map(p => {
+                const slug = slugify(`${p.company}-${p.city}-${p.state}`);
+                const distance = p._distance && p._distance < 99999 ? `${Math.round(p._distance)} mi` : '';
+                
+                return `
+                    <a href="pilot.html?id=${slug}" class="result-item"
+                       data-lat="${p.latitude}" data-lng="${p.longitude}">
+                        <div class="result-name">
+                            ${p.company}
+                            ${p.verified ? '<span class="verified-badge">VERIFIED</span>' : ''}
+                        </div>
+                        <div class="result-location">${p.city}${p.city && p.state ? ', ' : ''}${p.state} ${distance ? '· ' + distance : ''}</div>
+                        ${p.industry ? `<div class="result-services"><span>${p.industry}</span></div>` : ''}
+                    </a>
+                `;
+            }).join('');
+            
+            document.getElementById('resultsCount').textContent = `${filtered.length.toLocaleString()} pilots`;
+            
+            list.querySelectorAll('.result-item').forEach(item => {
+                item.addEventListener('mouseenter', () => {
+                    const lat = parseFloat(item.dataset.lat);
+                    const lng = parseFloat(item.dataset.lng);
+                    if (lat && lng) map.setView([lat, lng], Math.max(map.getZoom(), 10));
+                });
+            });
+            
+            updateVisibleCount();
+        }
+        
+        function updateVisibleCount() {
+            const bounds = map.getBounds();
+            let count = 0;
+            allMarkers.forEach(({ marker, pilot }) => {
+                if (map.hasLayer(marker) && pilot.latitude && pilot.longitude) {
+                    if (bounds.contains([pilot.latitude, pilot.longitude])) count++;
+                }
+            });
+            document.getElementById('statVisible').textContent = count.toLocaleString();
+        }
+        
+        function showSuggestions(query) {
+            const suggestionsEl = document.getElementById('searchSuggestions');
+            if (!query || query.length < 2) {
+                suggestionsEl.classList.remove('show');
+                return;
+            }
+            
+            const results = fuse.search(query, { limit: 8 });
+            if (results.length === 0) {
+                suggestionsEl.classList.remove('show');
+                return;
+            }
+            
+            suggestionsEl.innerHTML = results.map(r => {
+                const p = r.item;
+                return `
+                    <div class="search-suggestion" data-company="${p.company}" data-city="${p.city}" data-state="${p.state}">
+                        <strong>${p.company}</strong> - ${p.city}, ${p.state}
+                    </div>
+                `;
+            }).join('');
+            
+            suggestionsEl.classList.add('show');
+            
+            suggestionsEl.querySelectorAll('.search-suggestion').forEach(el => {
+                el.addEventListener('click', function() {
+                    const company = this.dataset.company;
+                    document.getElementById('searchInput').value = company;
+                    suggestionsEl.classList.remove('show');
+                    filterPilots();
+                });
+            });
+        }
+        
+        document.getElementById('locateBtn').addEventListener('click', function() {
+            const btn = this;
+            const btnText = document.getElementById('locateBtnText');
+            
+            if (!navigator.geolocation) {
+                alert('Geolocation is not supported by your browser');
+                return;
+            }
+            
+            btn.classList.add('loading');
+            btnText.textContent = 'Finding location...';
+            
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    userLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    
+                    if (userMarker) {
+                        map.removeLayer(userMarker);
+                    }
+                    
+                    userMarker = L.marker([userLocation.lat, userLocation.lng], {
+                        icon: L.divIcon({
+                            className: 'user-marker',
+                            html: `<div style="
+                                width: 16px;
+                                height: 16px;
+                                background: #10b981;
+                                border-radius: 50%;
+                                border: 3px solid white;
+                                box-shadow: 0 0 0 2px #10b981, 0 2px 8px rgba(16,185,129,0.5);
+                            "></div>`,
+                            iconSize: [16, 16],
+                            iconAnchor: [8, 8]
+                        })
+                    }).addTo(map).bindPopup('Your Location');
+                    
+                    map.setView([userLocation.lat, userLocation.lng], 8);
+                    
+                    btn.classList.remove('loading');
+                    btnText.textContent = 'Find Services Near Me';
+                    
+                    filterPilots();
+                },
+                function(error) {
+                    btn.classList.remove('loading');
+                    btnText.textContent = 'Find Services Near Me';
+                    
+                    let msg = 'Unable to get your location.';
+                    switch(error.code) {
+                        case error.PERMISSION_DENIED:
+                            msg = 'Location access denied. Please enable location permissions.';
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            msg = 'Location information unavailable.';
+                            break;
+                        case error.TIMEOUT:
+                            msg = 'Location request timed out.';
+                            break;
+                    }
+                    alert(msg);
+                },
+                { 
+                    enableHighAccuracy: true, 
+                    timeout: 15000,
+                    maximumAge: 0
+                }
+            );
+        });
+        
+        async function init() {
+            try {
+                // Cache busting
+                const version = '20250105';
+                const res = await fetch(`pilots.json?v=${version}`);
+                const rawData = await res.json();
+                
+                allPilots = rawData.map(transformPilot);
+                
+                // Initialize Fuse.js
+                fuse = new Fuse(allPilots, {
+                    keys: ['company', 'city', 'state', 'industry'],
+                    threshold: 0.3,
+                    includeScore: true
+                });
+                
+                const verifiedCount = allPilots.filter(p => p.verified === true).length;
+                const validStates = new Set(
+                    allPilots
+                        .map(p => p.state)
+                        .filter(s => s && US_STATES.has(s.toUpperCase()))
+                );
+                
+                document.getElementById('statTotal').textContent = allPilots.length.toLocaleString();
+                document.getElementById('statStates').textContent = validStates.size;
+                document.getElementById('statVerified').textContent = verifiedCount.toLocaleString();
+                
+                allPilots.forEach(pilot => {
+                    if (pilot.latitude && pilot.longitude) {
+                        const marker = L.marker([pilot.latitude, pilot.longitude], {
+                            icon: createIcon(pilot.verified)
+                        }).bindPopup(createPopup(pilot));
+                        
+                        marker.addTo(map);
+                        allMarkers.push({ marker, pilot });
+                    }
+                });
+                
+                filterPilots();
+                
+                let searchTimeout;
+                document.getElementById('searchInput').addEventListener('input', function() {
+                    clearTimeout(searchTimeout);
+                    searchTimeout = setTimeout(() => {
+                        showSuggestions(this.value);
+                        filterPilots();
+                    }, 150);
+                });
+                
+                document.addEventListener('click', function(e) {
+                    if (!e.target.closest('.search-wrapper')) {
+                        document.getElementById('searchSuggestions').classList.remove('show');
+                    }
+                });
+                
+                document.getElementById('verifiedToggle').addEventListener('change', function() {
+                    verifiedOnly = this.checked;
+                    filterPilots();
+                });
+                
+                document.querySelectorAll('.chip').forEach(chip => {
+                    chip.addEventListener('click', function() {
+                        const service = this.dataset.service;
+                        if (this.classList.contains('active')) {
+                            this.classList.remove('active');
+                            activeService = null;
+                        } else {
+                            document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+                            this.classList.add('active');
+                            activeService = service;
+                        }
+                        filterPilots();
+                    });
+                });
+                
+                map.on('moveend', updateVisibleCount);
+                
+            } catch (err) {
+                console.error('Error loading pilots:', err);
+                document.getElementById('resultsList').innerHTML = '<div style="
