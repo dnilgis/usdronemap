@@ -311,6 +311,11 @@
             border-top: 1px solid #e5e5e5;
             padding-top: 12px;
             font-style: italic;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .card-contact-locked:hover {
+            color: #f97316;
         }
         
         .pagination {
@@ -539,17 +544,17 @@
                     const phone = p.phoneEncoded ? decodeData(p.phoneEncoded) : p.phone;
                     const email = p.emailEncoded ? decodeData(p.emailEncoded) : p.email;
                     
-                    if (phone) contactInfo = `<a href="tel:${phone}">${formatPhone(phone)}</a>`;
-                    else if (email) contactInfo = `<a href="mailto:${email}">${email}</a>`;
-                    else if (p.website) contactInfo = `<a href="https://${p.website}" target="_blank">${p.website}</a>`;
+                    if (phone) contactInfo = `<a href="tel:${phone}" onclick="event.stopPropagation()">${formatPhone(phone)}</a>`;
+                    else if (email) contactInfo = `<a href="mailto:${email}" onclick="event.stopPropagation()">${email}</a>`;
+                    else if (p.website) contactInfo = `<a href="https://${p.website}" target="_blank" onclick="event.stopPropagation()">${p.website}</a>`;
                 }
                 
                 const contactSection = p.verified && contactInfo 
                     ? `<div class="card-contact">${contactInfo}</div>`
-                    : `<div class="card-contact-locked">🔒 Claim to show contact</div>`;
+                    : `<div class="card-contact-locked" onclick="event.stopPropagation(); window.location='verify.html'">🔒 Claim to show contact</div>`;
                 
                 return `
-                    <a href="pilot.html?id=${slug}" class="card${p.verified ? ' card-verified' : ''}">
+                    <div class="card${p.verified ? ' card-verified' : ''}" onclick="window.location='pilot.html?id=${slug}'" style="cursor:pointer;">
                         <div class="card-header">
                             <div class="card-name">${p.company || 'Unknown'}</div>
                             ${p.verified ? '<span class="verified-badge">VERIFIED</span>' : ''}
@@ -557,7 +562,7 @@
                         <div class="card-location">${p.city}${p.city && p.state ? ', ' : ''}${p.state}</div>
                         ${p.industry ? `<div class="card-industry">${p.industry}</div>` : ''}
                         ${contactSection}
-                    </a>
+                    </div>
                 `;
             }).join('');
             
