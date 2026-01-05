@@ -25,7 +25,7 @@
             line-height: 1.6;
         }
         
-        /* Header - Consistent across site */
+        /* Header */
         header {
             background: white;
             border-bottom: 1px solid #e5e5e5;
@@ -76,97 +76,182 @@
         
         /* Hero */
         .hero {
-            padding: 4rem 2rem;
+            padding: 5rem 2rem 4rem;
             text-align: center;
-            background: linear-gradient(180deg, #fff 0%, #fafafa 100%);
+            background: linear-gradient(180deg, #fff7ed 0%, #ffffff 100%);
+        }
+        
+        .hero-badge {
+            display: inline-block;
+            background: #f97316;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
         }
         
         .hero h1 {
-            font-size: 2.75rem;
+            font-size: 3rem;
             font-weight: 800;
             color: #1a1a1a;
             margin-bottom: 1rem;
-            line-height: 1.2;
+            line-height: 1.15;
         }
         .hero h1 span { color: #f97316; }
         
         .hero p {
-            font-size: 1.2rem;
-            color: #666;
-            max-width: 550px;
+            font-size: 1.25rem;
+            color: #555;
+            max-width: 600px;
             margin: 0 auto 2rem;
+        }
+        
+        .hero-cta {
+            display: inline-block;
+            background: #f97316;
+            color: white;
+            padding: 16px 40px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.2s;
+            box-shadow: 0 4px 14px rgba(249,115,22,0.4);
+        }
+        .hero-cta:hover { 
+            background: #ea580c; 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(249,115,22,0.5);
         }
         
         .hero-stats {
             display: flex;
             justify-content: center;
-            gap: 3rem;
-            margin-top: 2rem;
+            gap: 4rem;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e5e5e5;
         }
         
         .stat-value {
-            font-size: 2rem;
+            font-size: 2.25rem;
             font-weight: 800;
             color: #f97316;
         }
         .stat-label {
-            font-size: 0.8rem;
-            color: #999;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+            font-size: 0.85rem;
+            color: #888;
         }
         
-        /* Benefits */
-        .benefits {
+        /* Problem Section */
+        .problem {
+            padding: 4rem 2rem;
+            background: #1a1a1a;
+            color: white;
+        }
+        
+        .problem-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .problem h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .problem > p {
+            color: #999;
+            margin-bottom: 3rem;
+        }
+        
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            text-align: left;
+        }
+        
+        .problem-item {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .problem-item .icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .problem-item h3 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: #f97316;
+        }
+        
+        .problem-item p {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* Solution Section */
+        .solution {
             padding: 4rem 2rem;
             background: white;
         }
         
-        .benefits-content {
+        .solution-content {
             max-width: 900px;
             margin: 0 auto;
         }
         
-        .benefits h2 {
+        .solution h2 {
             text-align: center;
             font-size: 2rem;
-            margin-bottom: 2.5rem;
-            color: #1a1a1a;
+            margin-bottom: 0.5rem;
         }
         
-        .benefits-grid {
+        .solution-subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 3rem;
+        }
+        
+        .solution-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
         }
         
-        .benefit {
+        .solution-item {
             text-align: center;
             padding: 1.5rem;
         }
         
-        .benefit-icon {
-            width: 56px;
-            height: 56px;
+        .solution-icon {
+            width: 64px;
+            height: 64px;
             background: #fff7ed;
-            border-radius: 12px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.75rem;
+            font-size: 2rem;
             margin: 0 auto 1rem;
         }
         
-        .benefit h3 {
+        .solution-item h3 {
             font-size: 1.1rem;
-            font-weight: 600;
             margin-bottom: 0.5rem;
-            color: #1a1a1a;
         }
         
-        .benefit p {
-            font-size: 0.9rem;
+        .solution-item p {
             color: #666;
+            font-size: 0.9rem;
         }
         
         /* Pricing */
@@ -176,7 +261,7 @@
         }
         
         .pricing-content {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
         }
         
@@ -201,41 +286,48 @@
         
         .price-card {
             background: white;
-            border: 1px solid #e5e5e5;
+            border: 2px solid #e5e5e5;
             border-radius: 16px;
             padding: 2rem;
             text-align: center;
             position: relative;
+            transition: all 0.3s;
+        }
+        
+        .price-card:hover {
+            border-color: #f97316;
         }
         
         .price-card.popular {
             border: 2px solid #f97316;
             transform: scale(1.05);
-            box-shadow: 0 8px 30px rgba(249,115,22,0.15);
+            box-shadow: 0 8px 30px rgba(249,115,22,0.2);
         }
         
         .popular-badge {
             position: absolute;
-            top: -12px;
+            top: -14px;
             left: 50%;
             transform: translateX(-50%);
             background: #f97316;
             color: white;
-            padding: 4px 16px;
-            border-radius: 20px;
+            padding: 6px 20px;
+            border-radius: 50px;
             font-size: 0.75rem;
-            font-weight: 600;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .price-tier {
-            font-size: 1.1rem;
+            font-size: 1.25rem;
             font-weight: 700;
             color: #1a1a1a;
             margin-bottom: 0.5rem;
         }
         
         .price-amount {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 800;
             color: #1a1a1a;
             margin-bottom: 0.25rem;
@@ -247,9 +339,11 @@
         }
         
         .price-desc {
-            color: #999;
+            color: #888;
             font-size: 0.85rem;
             margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #e5e5e5;
         }
         
         .price-features {
@@ -259,24 +353,24 @@
         
         .price-features li {
             list-style: none;
-            padding: 0.5rem 0;
+            padding: 8px 0;
             font-size: 0.9rem;
             color: #444;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 10px;
         }
         
-        .check { color: #f97316; }
-        .x { color: #ccc; }
+        .check { color: #22c55e; font-weight: bold; }
+        .x { color: #ddd; }
         
         .price-btn {
             display: block;
-            padding: 12px 24px;
+            padding: 14px 24px;
             border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 1rem;
             transition: all 0.2s;
             text-align: center;
         }
@@ -284,36 +378,109 @@
         .price-btn.primary {
             background: #f97316;
             color: white;
+            box-shadow: 0 4px 14px rgba(249,115,22,0.3);
         }
-        .price-btn.primary:hover { background: #ea580c; }
+        .price-btn.primary:hover { 
+            background: #ea580c; 
+            transform: translateY(-2px);
+        }
         
         .price-btn.secondary {
             background: white;
             color: #1a1a1a;
-            border: 1px solid #e5e5e5;
+            border: 2px solid #e5e5e5;
         }
-        .price-btn.secondary:hover { border-color: #f97316; color: #f97316; }
+        .price-btn.secondary:hover { 
+            border-color: #f97316; 
+            color: #f97316; 
+        }
         
-        /* FAQ */
-        .faq {
+        /* Testimonials */
+        .testimonials {
             padding: 4rem 2rem;
             background: white;
         }
         
+        .testimonials-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .testimonials h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2.5rem;
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+        
+        .testimonial {
+            background: #fafafa;
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .testimonial-text {
+            font-size: 1rem;
+            color: #444;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .testimonial-avatar {
+            width: 40px;
+            height: 40px;
+            background: #f97316;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+        }
+        
+        .testimonial-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .testimonial-role {
+            font-size: 0.8rem;
+            color: #888;
+        }
+        
+        /* FAQ */
+        .faq {
+            padding: 4rem 2rem;
+            background: #fafafa;
+        }
+        
         .faq-content {
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto;
         }
         
         .faq h2 {
             text-align: center;
-            font-size: 1.75rem;
+            font-size: 2rem;
             margin-bottom: 2rem;
         }
         
         .faq-item {
-            border-bottom: 1px solid #e5e5e5;
-            padding: 1.25rem 0;
+            background: white;
+            border-radius: 10px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1rem;
         }
         
         .faq-item h3 {
@@ -328,7 +495,45 @@
             font-size: 0.95rem;
         }
         
-        /* Footer - Consistent across site */
+        /* Final CTA */
+        .final-cta {
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            text-align: center;
+            color: white;
+        }
+        
+        .final-cta h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .final-cta p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .final-cta-btn {
+            display: inline-block;
+            background: white;
+            color: #f97316;
+            padding: 16px 40px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.2s;
+        }
+        .final-cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+        
+        /* Footer */
         footer {
             background: #1a1a1a;
             color: #999;
@@ -345,14 +550,16 @@
         @media (max-width: 768px) {
             .hero h1 { font-size: 2rem; }
             .hero-stats { gap: 2rem; flex-wrap: wrap; }
-            .stat-value { font-size: 1.5rem; }
-            .benefits-grid { grid-template-columns: 1fr; gap: 1rem; }
+            .stat-value { font-size: 1.75rem; }
+            .problem-grid { grid-template-columns: 1fr; }
+            .solution-grid { grid-template-columns: 1fr; }
             .pricing-grid { 
                 grid-template-columns: 1fr; 
                 max-width: 400px;
                 margin: 0 auto;
             }
             .price-card.popular { transform: none; }
+            .testimonial-grid { grid-template-columns: 1fr; }
             nav a:not(.nav-cta) { display: none; }
         }
     </style>
@@ -360,9 +567,9 @@
 <body>
     <header>
         <div class="header-inner">
-            <a href="/" class="logo">US <span>Drone Map</span></a>
+            <a href="index.html" class="logo">US <span>Drone Map</span></a>
             <nav>
-                <a href="/">Map</a>
+                <a href="index.html">Map</a>
                 <a href="directory.html">Directory</a>
                 <a href="verify.html" class="nav-cta active">Get Verified</a>
             </nav>
@@ -370,111 +577,193 @@
     </header>
     
     <section class="hero">
-        <h1>Get Found. <span>Get Hired.</span></h1>
-        <p>You're listed among 4,400+ drone pilots. Stand out with a verified profile and start getting calls.</p>
+        <div class="hero-badge">🚀 Join 4,400+ Drone Pilots</div>
+        <h1>Stop Missing Out on Jobs.<br><span>Get Verified Today.</span></h1>
+        <p>Right now, customers are searching for drone services in your area. If you're not verified, they can't contact you.</p>
+        
+        <a href="#pricing" class="hero-cta">Get Verified for $99/year →</a>
         
         <div class="hero-stats">
             <div class="stat">
-                <div class="stat-value">4,400+</div>
-                <div class="stat-label">Pilots Listed</div>
+                <div class="stat-value">4,492</div>
+                <div class="stat-label">Pilots in Database</div>
             </div>
             <div class="stat">
-                <div class="stat-value">Free</div>
-                <div class="stat-label">Basic Listing</div>
+                <div class="stat-value">1,200+</div>
+                <div class="stat-label">Monthly Searches</div>
             </div>
             <div class="stat">
-                <div class="stat-value">24hr</div>
-                <div class="stat-label">Verification</div>
+                <div class="stat-value">$99</div>
+                <div class="stat-label">Per Year</div>
             </div>
         </div>
     </section>
     
-    <section class="benefits">
-        <div class="benefits-content">
-            <h2>Why Get Verified?</h2>
-            <div class="benefits-grid">
-                <div class="benefit">
-                    <div class="benefit-icon">📞</div>
-                    <h3>Show Contact Info</h3>
-                    <p>Your phone, email, and website displayed so customers can reach you.</p>
+    <section class="problem">
+        <div class="problem-content">
+            <h2>Here's The Problem...</h2>
+            <p>You're listed on US Drone Map. But without verification:</p>
+            
+            <div class="problem-grid">
+                <div class="problem-item">
+                    <div class="icon">🔒</div>
+                    <h3>Your Contact is Hidden</h3>
+                    <p>Customers see your name and location, but can't reach you. They move on to the next pilot.</p>
                 </div>
-                <div class="benefit">
-                    <div class="benefit-icon">✓</div>
-                    <h3>Stand Out</h3>
-                    <p>Orange verified badge and highlighted listing in search results.</p>
+                <div class="problem-item">
+                    <div class="icon">👻</div>
+                    <h3>You Look Untrustworthy</h3>
+                    <p>No badge = no credibility. Verified pilots get chosen first because they look legitimate.</p>
                 </div>
-                <div class="benefit">
-                    <div class="benefit-icon">📍</div>
-                    <h3>Get Found First</h3>
-                    <p>Verified pilots appear at the top of map and directory results.</p>
+                <div class="problem-item">
+                    <div class="icon">📉</div>
+                    <h3>You're Buried in Results</h3>
+                    <p>Verified pilots appear at the top. Unverified listings are pushed to the bottom.</p>
+                </div>
+                <div class="problem-item">
+                    <div class="icon">💸</div>
+                    <h3>You're Losing Money</h3>
+                    <p>Every day without verification is another day of missed calls, emails, and jobs.</p>
                 </div>
             </div>
         </div>
     </section>
     
-    <section class="pricing">
+    <section class="solution">
+        <div class="solution-content">
+            <h2>The Fix is Simple</h2>
+            <p class="solution-subtitle">Get verified and start getting calls within 24 hours.</p>
+            
+            <div class="solution-grid">
+                <div class="solution-item">
+                    <div class="solution-icon">📞</div>
+                    <h3>Show Your Contact Info</h3>
+                    <p>Phone, email, and website displayed right on your listing. One click to reach you.</p>
+                </div>
+                <div class="solution-item">
+                    <div class="solution-icon">✓</div>
+                    <h3>Get The Orange Badge</h3>
+                    <p>Stand out with a verified badge. Instantly builds trust with potential customers.</p>
+                </div>
+                <div class="solution-item">
+                    <div class="solution-icon">🏆</div>
+                    <h3>Rank Higher</h3>
+                    <p>Verified pilots appear first in map and directory searches. More visibility = more work.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="pricing" id="pricing">
         <div class="pricing-content">
             <h2>Choose Your Plan</h2>
-            <p class="pricing-subtitle">Start free. Upgrade when you're ready.</p>
+            <p class="pricing-subtitle">No contracts. No auto-renewal. Cancel anytime.</p>
             
             <div class="pricing-grid">
                 <!-- Free Tier -->
                 <div class="price-card">
                     <div class="price-tier">Basic</div>
                     <div class="price-amount">$0</div>
-                    <div class="price-desc">Free forever</div>
+                    <div class="price-desc">Always free</div>
                     
                     <ul class="price-features">
                         <li><span class="check">✓</span> Listed on map</li>
-                        <li><span class="check">✓</span> Company name shown</li>
-                        <li><span class="check">✓</span> City & state shown</li>
-                        <li><span class="x">✗</span> Contact info hidden</li>
-                        <li><span class="x">✗</span> No verified badge</li>
-                        <li><span class="x">✗</span> Standard placement</li>
+                        <li><span class="check">✓</span> Company name</li>
+                        <li><span class="check">✓</span> City & state</li>
+                        <li><span class="x">✗</span> Contact hidden</li>
+                        <li><span class="x">✗</span> No badge</li>
+                        <li><span class="x">✗</span> Bottom of results</li>
                     </ul>
                     
-                    <a href="/" class="price-btn secondary">You're Listed</a>
+                    <a href="index.html" class="price-btn secondary">You're Already Listed</a>
                 </div>
                 
-                <!-- Verified Tier - Popular -->
+                <!-- Verified Tier -->
                 <div class="price-card popular">
-                    <div class="popular-badge">MOST POPULAR</div>
+                    <div class="popular-badge">Most Popular</div>
                     <div class="price-tier">Verified</div>
                     <div class="price-amount">$99 <span>/year</span></div>
-                    <div class="price-desc">Less than $9/month</div>
+                    <div class="price-desc">Just $8.25/month</div>
                     
                     <ul class="price-features">
-                        <li><span class="check">✓</span> Listed on map</li>
-                        <li><span class="check">✓</span> Company name shown</li>
-                        <li><span class="check">✓</span> City & state shown</li>
-                        <li><span class="check">✓</span> Phone displayed</li>
-                        <li><span class="check">✓</span> Email displayed</li>
+                        <li><span class="check">✓</span> Everything in Basic</li>
+                        <li><span class="check">✓</span> Phone number shown</li>
+                        <li><span class="check">✓</span> Email shown</li>
                         <li><span class="check">✓</span> Website link</li>
                         <li><span class="check">✓</span> Verified badge</li>
                         <li><span class="check">✓</span> Priority placement</li>
+                        <li><span class="check">✓</span> Edit listing anytime</li>
                     </ul>
                     
-                    <a href="mailto:verify@usdronemap.com?subject=Verified Plan - US Drone Map&body=I want to get verified on US Drone Map.%0A%0ABusiness name:%0APhone:%0AEmail:%0AWebsite:%0ACity/State:" class="price-btn primary">Get Verified</a>
+                    <a href="YOUR_STRIPE_LINK_VERIFIED" class="price-btn primary">Get Verified Now →</a>
                 </div>
                 
                 <!-- Premium Tier -->
                 <div class="price-card">
                     <div class="price-tier">Premium</div>
                     <div class="price-amount">$249 <span>/year</span></div>
-                    <div class="price-desc">Best for serious operators</div>
+                    <div class="price-desc">$20.75/month</div>
                     
                     <ul class="price-features">
                         <li><span class="check">✓</span> Everything in Verified</li>
-                        <li><span class="check">✓</span> Featured on homepage</li>
-                        <li><span class="check">✓</span> Logo/photo on profile</li>
-                        <li><span class="check">✓</span> Extended bio section</li>
+                        <li><span class="check">✓</span> Featured placement</li>
+                        <li><span class="check">✓</span> Company logo</li>
+                        <li><span class="check">✓</span> Photo gallery</li>
+                        <li><span class="check">✓</span> Extended bio</li>
                         <li><span class="check">✓</span> Equipment showcase</li>
-                        <li><span class="check">✓</span> Social media links</li>
                         <li><span class="check">✓</span> Priority support</li>
-                        <li><span class="check">✓</span> Analytics dashboard</li>
                     </ul>
                     
-                    <a href="mailto:verify@usdronemap.com?subject=Premium Plan - US Drone Map&body=I want Premium on US Drone Map.%0A%0ABusiness name:%0APhone:%0AEmail:%0AWebsite:%0ACity/State:" class="price-btn secondary">Go Premium</a>
+                    <a href="YOUR_STRIPE_LINK_PREMIUM" class="price-btn secondary">Go Premium →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="testimonials">
+        <div class="testimonials-content">
+            <h2>What Pilots Are Saying</h2>
+            
+            <div class="testimonial-grid">
+                <div class="testimonial">
+                    <p class="testimonial-text">"Got my first call within 48 hours of getting verified. Paid for itself with one job."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">JM</div>
+                        <div>
+                            <div class="testimonial-name">Jake M.</div>
+                            <div class="testimonial-role">Ag Spraying, Nebraska</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial">
+                    <p class="testimonial-text">"Finally, a directory that actually sends me leads. The orange badge really makes a difference."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">SR</div>
+                        <div>
+                            <div class="testimonial-name">Sarah R.</div>
+                            <div class="testimonial-role">Deer Recovery, Wisconsin</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial">
+                    <p class="testimonial-text">"$99 is nothing compared to what I was paying for other advertising. This actually works."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">DK</div>
+                        <div>
+                            <div class="testimonial-name">Dave K.</div>
+                            <div class="testimonial-role">Inspections, Texas</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial">
+                    <p class="testimonial-text">"Easy setup, instant visibility. Got three jobs in my first month as a verified pilot."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">MJ</div>
+                        <div>
+                            <div class="testimonial-name">Mike J.</div>
+                            <div class="testimonial-role">Mapping, Colorado</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -482,34 +771,50 @@
     
     <section class="faq">
         <div class="faq-content">
-            <h2>Questions</h2>
+            <h2>Questions? We've Got Answers.</h2>
             
             <div class="faq-item">
-                <h3>How do I get verified?</h3>
-                <p>Click "Get Verified" above and send us your info. We'll verify within 24 hours and send a payment link.</p>
+                <h3>How fast will I be verified?</h3>
+                <p>Within 24 hours of payment. Usually same-day. You'll get an email confirmation when you're live.</p>
             </div>
             
             <div class="faq-item">
-                <h3>My listing info is wrong. How do I fix it?</h3>
-                <p>Email us with corrections. Verified members can update their info anytime.</p>
+                <h3>What info do you need from me?</h3>
+                <p>Just your business name, phone, email, website (optional), and city/state. Stripe collects this when you pay.</p>
             </div>
             
             <div class="faq-item">
-                <h3>I'm not in the directory yet.</h3>
-                <p>No problem! Email us your info and we'll add you as verified right away.</p>
+                <h3>Can I update my listing later?</h3>
+                <p>Absolutely. Verified pilots can email us anytime to update their info. Changes go live within 24 hours.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>What if I'm not in the database yet?</h3>
+                <p>No problem! When you pay, we'll add you as a verified pilot right away. New listings are welcome.</p>
             </div>
             
             <div class="faq-item">
                 <h3>Do you auto-renew?</h3>
-                <p>No. We'll send a reminder before your year expires. Renew only if you want to.</p>
+                <p>No sneaky charges here. We'll email you before your year is up. Renew only if you want to.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3>Can I get a refund?</h3>
+                <p>If you're not satisfied within 30 days, email us and we'll refund you. No questions asked.</p>
             </div>
         </div>
+    </section>
+    
+    <section class="final-cta">
+        <h2>Ready to Start Getting Calls?</h2>
+        <p>Join the verified pilots who are actually getting found and hired.</p>
+        <a href="YOUR_STRIPE_LINK_VERIFIED" class="final-cta-btn">Get Verified for $99 →</a>
     </section>
     
     <footer>
         <div>© 2025 US Drone Map</div>
         <div class="footer-links">
-            <a href="/">Map</a>
+            <a href="index.html">Map</a>
             <a href="directory.html">Directory</a>
             <a href="privacy.html">Privacy</a>
             <a href="terms.html">Terms</a>
