@@ -128,12 +128,21 @@
             min-width: 0;
         }
         
+        .map-container {
+            flex: 1;
+            position: relative;
+            min-height: 0;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        
         /* Map overlay for mobile scroll trap fix */
         .map-overlay {
             display: none;
             position: absolute;
             top: 0;
-            left: 340px;
+            left: 0;
             right: 0;
             bottom: 0;
             background: rgba(0,0,0,0.5);
@@ -556,13 +565,13 @@
                 border-right: none;
                 border-bottom: 1px solid #e5e5e5;
             }
-            #map {
+            .map-container {
                 flex: 1;
                 min-height: 250px;
             }
-            .map-overlay {
-                left: 0;
-                top: 0;
+            #map {
+                flex: 1;
+                min-height: 250px;
             }
             .stats-bar { 
                 bottom: 10px; 
@@ -597,6 +606,9 @@
         @media (max-width: 480px) {
             .control-panel {
                 max-height: 35vh;
+            }
+            .map-container {
+                min-height: 200px;
             }
             #map {
                 min-height: 200px;
@@ -690,12 +702,14 @@
             </div>
         </aside>
         
-        <div id="map"></div>
-        <div class="map-overlay" id="mapOverlay">
-            <div class="map-overlay-text">
-                <span class="tap-icon">👆</span>
-                <div class="main-text">Tap here to explore map</div>
-                <small>Use two fingers to zoom</small>
+        <div class="map-container">
+            <div id="map"></div>
+            <div class="map-overlay" id="mapOverlay">
+                <div class="map-overlay-text">
+                    <span class="tap-icon">👆</span>
+                    <div class="main-text">Tap here to explore map</div>
+                    <small>Use two fingers to zoom</small>
+                </div>
             </div>
         </div>
         
