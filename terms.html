@@ -151,21 +151,70 @@
         }
         
         footer a {
-            color: #f97316;
+            color: #999;
             text-decoration: none;
+            margin: 0 0.75rem;
+        }
+        
+        footer a:hover {
+            color: #f97316;
+        }
+        
+        .footer-links {
+            margin-top: 0.75rem;
         }
         
         @media (max-width: 768px) {
+            header {
+                padding: 12px 16px;
+            }
+            .header-content {
+                padding: 0;
+            }
+            .logo {
+                font-size: 1.25rem;
+            }
             main {
                 padding: 2rem 1rem;
             }
-            
             .content {
                 padding: 1.5rem;
+                border-radius: 12px;
             }
-            
             h1 {
                 font-size: 1.75rem;
+            }
+            h2 {
+                font-size: 1.25rem;
+            }
+            nav a:not(.nav-cta) { display: none; }
+            .nav-cta {
+                padding: 10px 16px;
+                font-size: 0.85rem;
+            }
+            footer {
+                padding: 1.5rem 1rem;
+            }
+            .footer-links {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 4px 12px;
+            }
+            .footer-links a {
+                padding: 8px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            main {
+                padding: 1.5rem 0.75rem;
+            }
+            .content {
+                padding: 1.25rem;
+            }
+            h1 {
+                font-size: 1.5rem;
             }
         }
     </style>
@@ -276,13 +325,14 @@
     </main>
     
     <footer>
-        <p>© 2025 US Drone Map</p>
-        <p style="margin-top: 0.5rem;">
-            <a href="index.html">Map</a> · 
-            <a href="directory.html">Directory</a> · 
-            <a href="privacy.html">Privacy</a> · 
+        <div>© 2025 US Drone Map</div>
+        <div class="footer-links">
+            <a href="index.html">Map</a>
+            <a href="directory.html">Directory</a>
+            <a href="privacy.html">Privacy</a>
             <a href="terms.html">Terms</a>
-        </p>
+            <a href="mailto:contact@usdronemap.com">Contact</a>
+        </div>
     </footer>
 </body>
 </html>

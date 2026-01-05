@@ -409,11 +409,89 @@
         .footer-links a:hover { color: #f97316; }
         
         @media (max-width: 768px) {
-            .profile-body { grid-template-columns: 1fr; }
-            .contact-section { border-right: none; border-bottom: 1px solid #e5e5e5; }
-            .profile-title { flex-direction: column; align-items: flex-start; }
+            header {
+                padding: 12px 16px;
+            }
+            .logo {
+                font-size: 1.25rem;
+            }
+            main {
+                padding: 1.5rem 1rem;
+            }
+            .profile-card {
+                border-radius: 12px;
+            }
+            .profile-header {
+                padding: 1.5rem;
+            }
+            .profile-title { 
+                flex-direction: column; 
+                align-items: flex-start;
+                gap: 12px;
+            }
+            .profile-title h1 {
+                font-size: 1.5rem;
+            }
+            .profile-body { 
+                grid-template-columns: 1fr;
+                padding: 1.5rem;
+            }
+            .contact-section { 
+                border-right: none; 
+                border-bottom: 1px solid #e5e5e5;
+                padding-bottom: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+            .contact-item {
+                padding: 12px 0;
+            }
+            .contact-value a {
+                font-size: 1rem;
+                word-break: break-all;
+            }
+            .reveal-contact-btn,
+            .claim-btn {
+                padding: 14px 20px;
+                font-size: 1rem;
+                min-height: 48px;
+            }
+            .back-link {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
             nav a:not(.nav-cta) { display: none; }
-            .footer-inner { flex-direction: column; gap: 12px; text-align: center; }
+            .nav-cta {
+                padding: 10px 16px;
+                font-size: 0.85rem;
+            }
+            .footer-inner { 
+                flex-direction: column; 
+                gap: 12px; 
+                text-align: center;
+            }
+            .footer-links {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 8px;
+            }
+            .footer-links a {
+                padding: 8px 12px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            main {
+                padding: 1rem;
+            }
+            .profile-header,
+            .profile-body {
+                padding: 1rem;
+            }
+            .industry-tag {
+                font-size: 0.75rem;
+                padding: 4px 10px;
+            }
         }
     </style>
 </head>
