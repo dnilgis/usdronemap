@@ -579,7 +579,7 @@
         <a href="/" class="logo">US <span>Drone Map</span></a>
         <nav>
             <a href="directory.html">Full Directory</a>
-            <a href="join.html" class="nav-cta">List Your Service</a>
+            <a href="verify.html" class="nav-cta">List Your Service</a>
         </nav>
     </header>
     
@@ -668,7 +668,7 @@
         <div>© 2025 US Drone Map</div>
         <div class="footer-links">
             <a href="directory.html">Directory</a>
-            <a href="join.html">List Your Service</a>
+            <a href="verify.html">List Your Service</a>
             <a href="privacy.html">Privacy</a>
             <a href="terms.html">Terms</a>
             <a href="mailto:contact@usdronemap.com">Contact</a>
@@ -865,7 +865,7 @@
                 contactSection = `<div class="popup-info">${infoRows}</div>`;
             } else if (!p.verified) {
                 contactSection = `
-                    <div class="reveal-contact" onclick="window.location.href='join.html?claim=${slug}'">
+                    <div class="reveal-contact" onclick="window.location.href='verify.html?claim=${slug}'">
                         🔒 Claim listing to show contact info
                     </div>
                 `;
