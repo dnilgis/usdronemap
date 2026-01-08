@@ -137,6 +137,34 @@
             flex-direction: column;
         }
         
+        /* Locate button - now on the map */
+        .locate-btn {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            z-index: 1000;
+            padding: 12px 18px;
+            background: #f97316;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .locate-btn:hover { 
+            background: #ea580c; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .locate-btn.loading { opacity: 0.7; pointer-events: none; }
+        .locate-btn svg { width: 18px; height: 18px; }
+        
         /* Map overlay for mobile scroll trap fix */
         .map-overlay {
             display: none;
@@ -191,40 +219,65 @@
             overflow: hidden;
         }
         
-        .locate-btn {
-            margin: 16px;
-            padding: 14px 20px;
-            background: #f97316;
-            border: none;
-            border-radius: 8px;
-            color: white;
-            font-family: inherit;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
+        .panel-section { 
+            padding: 16px;
+            flex-shrink: 0;
+        }
+        
+        /* Search section styling */
+        .search-section-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        .search-section-header .icon {
+            width: 32px;
+            height: 32px;
+            background: #fff7ed;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            transition: all 0.2s;
+            color: #f97316;
             flex-shrink: 0;
         }
-        .locate-btn:hover { background: #ea580c; }
-        .locate-btn.loading { opacity: 0.7; pointer-events: none; }
-        .locate-btn svg { width: 20px; height: 20px; }
-        
-        .panel-section { 
-            padding: 0 16px 16px;
-            flex-shrink: 0;
+        .search-section-header .icon svg { width: 18px; height: 18px; }
+        .search-section-header .text {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+        .search-section-header .subtext {
+            font-size: 0.75rem;
+            color: #666;
+            margin-top: 1px;
         }
         
         .search-wrapper {
             position: relative;
         }
         
+        .search-input-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-input-icon {
+            position: absolute;
+            left: 12px;
+            color: #999;
+            pointer-events: none;
+        }
+        .search-input-icon svg {
+            width: 18px;
+            height: 18px;
+        }
+        
         .search-input {
             width: 100%;
-            padding: 12px 16px;
+            padding: 12px 16px 12px 42px;
             border: 1px solid #e5e5e5;
             border-radius: 8px;
             background: #fafafa;
@@ -321,11 +374,20 @@
         .toggle-switch input:checked + .toggle-slider { background: #f97316; }
         .toggle-switch input:checked + .toggle-slider:before { transform: translateX(22px); }
         
+        .filter-section-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            margin-top: 16px;
+        }
+        
         .filter-chips {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            margin-top: 12px;
         }
         .chip {
             padding: 6px 12px;
@@ -573,6 +635,19 @@
                 flex: 1;
                 min-height: 250px;
             }
+            .locate-btn {
+                top: 10px;
+                right: 10px;
+                padding: 10px 14px;
+                font-size: 0.85rem;
+            }
+            .locate-btn span {
+                display: none;
+            }
+            .locate-btn svg {
+                width: 20px;
+                height: 20px;
+            }
             .stats-bar { 
                 bottom: 10px; 
                 padding: 8px 16px; 
@@ -621,13 +696,8 @@
                 padding: 10px 16px;
             }
             .logo { font-size: 1.25rem; }
-            .locate-btn {
-                margin: 12px;
-                padding: 12px 16px;
-                font-size: 0.9rem;
-            }
             .panel-section {
-                padding: 0 12px 12px;
+                padding: 12px;
             }
             .filter-chips {
                 gap: 6px;
@@ -651,17 +721,29 @@
     
     <div class="main-content">
         <aside class="control-panel">
-            <button class="locate-btn" id="locateBtn">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                </svg>
-                <span id="locateBtnText">Find Services Near Me</span>
-            </button>
-            
             <div class="panel-section">
+                <!-- Search section with clear header -->
+                <div class="search-section-header">
+                    <div class="icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="text">Search Directory</div>
+                        <div class="subtext">Find pilots by name, city, or state</div>
+                    </div>
+                </div>
+                
                 <div class="search-wrapper">
-                    <input type="text" class="search-input" id="searchInput" placeholder="Search pilots, cities, states..." autocomplete="off">
+                    <div class="search-input-container">
+                        <span class="search-input-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                        </span>
+                        <input type="text" class="search-input" id="searchInput" placeholder="e.g. &quot;AgriDrones&quot; or &quot;Austin, TX&quot;" autocomplete="off">
+                    </div>
                     <div class="search-suggestions" id="searchSuggestions"></div>
                 </div>
                 
@@ -683,6 +765,7 @@
                     </label>
                 </div>
                 
+                <div class="filter-section-label">Filter by Service</div>
                 <div class="filter-chips">
                     <button class="chip" data-service="Agriculture">Agriculture</button>
                     <button class="chip" data-service="Game Recovery">Game Recovery</button>
@@ -704,6 +787,16 @@
         
         <div class="map-container">
             <div id="map"></div>
+            
+            <!-- Locate button now on map -->
+            <button class="locate-btn" id="locateBtn">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                <span id="locateBtnText">Find Near Me</span>
+            </button>
+            
             <div class="map-overlay" id="mapOverlay">
                 <div class="map-overlay-text">
                     <span class="tap-icon">👆</span>
@@ -1123,7 +1216,7 @@
             }
             
             btn.classList.add('loading');
-            btnText.textContent = 'Finding location...';
+            if (btnText) btnText.textContent = 'Finding...';
             
             navigator.geolocation.getCurrentPosition(
                 function(position) {
@@ -1155,13 +1248,13 @@
                     map.setView([userLocation.lat, userLocation.lng], 8);
                     
                     btn.classList.remove('loading');
-                    btnText.textContent = 'Find Services Near Me';
+                    if (btnText) btnText.textContent = 'Find Near Me';
                     
                     filterPilots();
                 },
                 function(error) {
                     btn.classList.remove('loading');
-                    btnText.textContent = 'Find Services Near Me';
+                    if (btnText) btnText.textContent = 'Find Near Me';
                     
                     let msg = 'Unable to get your location.';
                     switch(error.code) {
