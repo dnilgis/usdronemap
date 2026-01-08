@@ -892,29 +892,9 @@
         // ============================================
         // VIEW COUNTER - Supabase Integration
         // ============================================
-        // 
-        // To enable view tracking:
-        // 1. Create free Supabase account at supabase.com
-        // 2. Create table 'profile_views' with columns:
-        //    - id (int8, primary key, auto-increment)
-        //    - pilot_id (text)
-        //    - viewed_at (timestamptz, default now())
-        //    - visitor_hash (text, optional for unique tracking)
-        // 3. Replace SUPABASE_URL and SUPABASE_ANON_KEY below
-        // 4. Enable RLS policy: allow INSERT for anon, SELECT for anon
-        //
-        // SQL to create table:
-        // CREATE TABLE profile_views (
-        //   id BIGSERIAL PRIMARY KEY,
-        //   pilot_id TEXT NOT NULL,
-        //   viewed_at TIMESTAMPTZ DEFAULT NOW(),
-        //   visitor_hash TEXT
-        // );
-        // CREATE INDEX idx_views_pilot ON profile_views(pilot_id);
-        // CREATE INDEX idx_views_date ON profile_views(viewed_at);
         
-        const SUPABASE_URL = 'YOUR_SUPABASE_URL'; // e.g., 'https://xxxxx.supabase.co'
-        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+        const SUPABASE_URL = 'https://xkwpjbdifnaytzuggdok.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhrd3BqYmRpZm5heXR6dWdnZG9rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4Mjg4MTYsImV4cCI6MjA4MzQwNDgxNn0.xwj09-LKxz0VwPkWq7YiiRTyOP7tOG5xwuTpKlBlN2o';
         
         // Simple hash for visitor deduplication (not tracking, just counts)
         async function getVisitorHash() {
@@ -926,11 +906,6 @@
         }
         
         async function trackView(pilotId) {
-            if (SUPABASE_URL === 'YOUR_SUPABASE_URL') {
-                console.log('View tracking not configured. Set SUPABASE_URL and SUPABASE_ANON_KEY.');
-                return;
-            }
-            
             try {
                 const visitorHash = await getVisitorHash();
                 
@@ -953,17 +928,13 @@
         }
         
         async function getViewCount(pilotId) {
-            if (SUPABASE_URL === 'YOUR_SUPABASE_URL') {
-                return null;
-            }
-            
             try {
                 // Get views from last 30 days
                 const thirtyDaysAgo = new Date();
                 thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
                 
                 const res = await fetch(
-                    `${SUPABASE_URL}/rest/v1/profile_views?pilot_id=eq.${pilotId}&viewed_at=gte.${thirtyDaysAgo.toISOString()}&select=id`,
+                    `${SUPABASE_URL}/rest/v1/profile_views?pilot_id=eq.${encodeURIComponent(pilotId)}&viewed_at=gte.${thirtyDaysAgo.toISOString()}&select=id`,
                     {
                         headers: {
                             'apikey': SUPABASE_ANON_KEY,
