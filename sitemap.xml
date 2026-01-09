@@ -1,92 +1,143 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    <!-- Main Pages -->
+    <!-- Core Pages -->
     <url>
         <loc>https://usdronemap.com/</loc>
-        <lastmod>2026-01-05</lastmod>
+        <lastmod>2025-01-08</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
     <url>
         <loc>https://usdronemap.com/directory.html</loc>
-        <lastmod>2026-01-05</lastmod>
+        <lastmod>2025-01-08</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://usdronemap.com/privacy.html</loc>
-        <lastmod>2026-01-05</lastmod>
+        <loc>https://usdronemap.com/verify.html</loc>
+        <lastmod>2025-01-08</lastmod>
         <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <!-- Service Landing Pages -->
+    <url>
+        <loc>https://usdronemap.com/deer-recovery.html</loc>
+        <lastmod>2025-01-08</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://usdronemap.com/pet-recovery.html</loc>
+        <lastmod>2025-01-08</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://usdronemap.com/game-recovery.html</loc>
+        <lastmod>2025-01-08</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- State Pages - Top 10 Hunting States -->
+    <url>
+        <loc>https://usdronemap.com/states/wisconsin-deer-recovery.html</loc>
+        <lastmod>2025-01-08</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://usdronemap.com/states/texas-deer-recovery.html</loc>
+        <lastmod>2025-01-08</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://usdronemap.com/states/michigan-deer-recovery.html</loc>
+        <lastmod>2025-01-08</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://usdronemap.com/states/pennsylvania-deer-recovery.html</loc>
+        <lastmod>2025-01-08</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://usdronemap.com/states/new-york-deer-recovery.html</loc>
+        <lastmod>2025-01-08</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://usdronemap.com/states/ohio-deer-recovery.html</loc>
+        <lastmod>2025-01-08</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://usdronemap.com/states/minnesota-deer-recovery.html</loc>
+        <lastmod>2025-01-08</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://usdronemap.com/states/missouri-deer-recovery.html</loc>
+        <lastmod>2025-01-08</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://usdronemap.com/states/georgia-deer-recovery.html</loc>
+        <lastmod>2025-01-08</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://usdronemap.com/states/alabama-deer-recovery.html</loc>
+        <lastmod>2025-01-08</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <!-- State Pages - Other States -->
+    <url><loc>https://usdronemap.com/states/iowa-deer-recovery.html</loc><lastmod>2025-01-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+    <url><loc>https://usdronemap.com/states/illinois-deer-recovery.html</loc><lastmod>2025-01-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+    <url><loc>https://usdronemap.com/states/indiana-deer-recovery.html</loc><lastmod>2025-01-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+    <url><loc>https://usdronemap.com/states/kentucky-deer-recovery.html</loc><lastmod>2025-01-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+    <url><loc>https://usdronemap.com/states/tennessee-deer-recovery.html</loc><lastmod>2025-01-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+    <url><loc>https://usdronemap.com/states/north-carolina-deer-recovery.html</loc><lastmod>2025-01-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+    <url><loc>https://usdronemap.com/states/south-carolina-deer-recovery.html</loc><lastmod>2025-01-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+    <url><loc>https://usdronemap.com/states/virginia-deer-recovery.html</loc><lastmod>2025-01-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+    <url><loc>https://usdronemap.com/states/west-virginia-deer-recovery.html</loc><lastmod>2025-01-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+    <url><loc>https://usdronemap.com/states/arkansas-deer-recovery.html</loc><lastmod>2025-01-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+    <url><loc>https://usdronemap.com/states/louisiana-deer-recovery.html</loc><lastmod>2025-01-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+    <url><loc>https://usdronemap.com/states/mississippi-deer-recovery.html</loc><lastmod>2025-01-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+    <url><loc>https://usdronemap.com/states/oklahoma-deer-recovery.html</loc><lastmod>2025-01-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+    <url><loc>https://usdronemap.com/states/kansas-deer-recovery.html</loc><lastmod>2025-01-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+    <url><loc>https://usdronemap.com/states/nebraska-deer-recovery.html</loc><lastmod>2025-01-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+    <url><loc>https://usdronemap.com/states/north-dakota-deer-recovery.html</loc><lastmod>2025-01-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+    <url><loc>https://usdronemap.com/states/south-dakota-deer-recovery.html</loc><lastmod>2025-01-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+    <url><loc>https://usdronemap.com/states/montana-deer-recovery.html</loc><lastmod>2025-01-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+    <url><loc>https://usdronemap.com/states/wyoming-deer-recovery.html</loc><lastmod>2025-01-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+    <url><loc>https://usdronemap.com/states/colorado-deer-recovery.html</loc><lastmod>2025-01-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+    <url><loc>https://usdronemap.com/states/arizona-deer-recovery.html</loc><lastmod>2025-01-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+    <url><loc>https://usdronemap.com/states/california-deer-recovery.html</loc><lastmod>2025-01-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+    <url><loc>https://usdronemap.com/states/alaska-deer-recovery.html</loc><lastmod>2025-01-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+    
+    <!-- Legal Pages -->
+    <url>
+        <loc>https://usdronemap.com/privacy.html</loc>
+        <lastmod>2025-01-08</lastmod>
+        <changefreq>yearly</changefreq>
         <priority>0.3</priority>
     </url>
     <url>
         <loc>https://usdronemap.com/terms.html</loc>
-        <lastmod>2026-01-05</lastmod>
-        <changefreq>monthly</changefreq>
+        <lastmod>2025-01-08</lastmod>
+        <changefreq>yearly</changefreq>
         <priority>0.3</priority>
-    </url>
-    
-    <!-- Pilot Profile Pages (Verified Pilots) -->
-    <url>
-        <loc>https://usdronemap.com/pilot.html?id=pilot-001</loc>
-        <lastmod>2026-01-05</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://usdronemap.com/pilot.html?id=pilot-002</loc>
-        <lastmod>2026-01-05</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://usdronemap.com/pilot.html?id=pilot-003</loc>
-        <lastmod>2026-01-05</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://usdronemap.com/pilot.html?id=pilot-005</loc>
-        <lastmod>2026-01-05</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://usdronemap.com/pilot.html?id=pilot-007</loc>
-        <lastmod>2026-01-05</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://usdronemap.com/pilot.html?id=pilot-008</loc>
-        <lastmod>2026-01-05</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://usdronemap.com/pilot.html?id=pilot-009</loc>
-        <lastmod>2026-01-05</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <!-- Unverified Pilots (Lower Priority) -->
-    <url>
-        <loc>https://usdronemap.com/pilot.html?id=pilot-004</loc>
-        <lastmod>2026-01-05</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    <url>
-        <loc>https://usdronemap.com/pilot.html?id=pilot-006</loc>
-        <lastmod>2026-01-05</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    <url>
-        <loc>https://usdronemap.com/pilot.html?id=pilot-010</loc>
-        <lastmod>2026-01-05</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
     </url>
 </urlset>
