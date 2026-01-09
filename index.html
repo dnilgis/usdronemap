@@ -715,6 +715,7 @@
         <nav>
             <a href="index.html">Map</a>
             <a href="directory.html">Directory</a>
+            <a href="ag-spraying.html">Ag Spraying</a>
             <a href="deer-recovery.html">Deer Recovery</a>
             <a href="verify.html" class="nav-cta">Get Verified</a>
         </nav>
@@ -828,7 +829,7 @@
     </div>
     
     <footer>
-        <div>© 2025 US Drone Map</div>
+        <div>© 2026 US Drone Map</div>
         <div class="footer-links">
             <a href="index.html">Map</a>
             <a href="directory.html">Directory</a>
@@ -856,11 +857,10 @@
         const map = L.map('map', { 
             zoomControl: false,
             preferCanvas: true,
-            // Start with interactions enabled - overlay will handle the UX
             scrollWheelZoom: true,
-            dragging: !isMobile, // Disabled initially on mobile
+            dragging: !isMobile,
             tap: true,
-            touchZoom: !isMobile // Disabled initially on mobile
+            touchZoom: !isMobile
         }).setView([39.8, -98.5], 4);
         
         L.control.zoom({ position: 'bottomright' }).addTo(map);
@@ -876,22 +876,17 @@
             let mapInteractionEnabled = false;
             let interactionTimeout = null;
             
-            // Show overlay initially
             mapOverlay.classList.add('show');
             
-            // Function to enable map interaction
             function enableMapInteraction() {
                 mapOverlay.classList.remove('show');
                 map.dragging.enable();
                 map.touchZoom.enable();
                 mapInteractionEnabled = true;
-                
-                // Auto-disable after 10 seconds of no interaction
                 clearTimeout(interactionTimeout);
                 interactionTimeout = setTimeout(disableMapInteraction, 10000);
             }
             
-            // Function to disable map interaction
             function disableMapInteraction() {
                 mapOverlay.classList.add('show');
                 map.dragging.disable();
@@ -899,7 +894,6 @@
                 mapInteractionEnabled = false;
             }
             
-            // Reset timeout on any map interaction
             function resetInteractionTimeout() {
                 if (mapInteractionEnabled) {
                     clearTimeout(interactionTimeout);
@@ -907,7 +901,6 @@
                 }
             }
             
-            // Handle tap/click on overlay to enable map
             mapOverlay.addEventListener('touchstart', function(e) {
                 e.preventDefault();
                 enableMapInteraction();
@@ -918,12 +911,10 @@
                 enableMapInteraction();
             });
             
-            // Track map interactions to reset timeout
             map.on('movestart', resetInteractionTimeout);
             map.on('zoomstart', resetInteractionTimeout);
             map.on('click', resetInteractionTimeout);
             
-            // Re-show overlay when touching control panel
             document.querySelector('.control-panel').addEventListener('touchstart', function() {
                 if (mapInteractionEnabled) {
                     disableMapInteraction();
@@ -939,7 +930,6 @@
         let userMarker = null;
         let fuse = null;
         
-        // Decode obfuscated data (Base64)
         function decodeData(encoded) {
             if (!encoded) return '';
             try {
@@ -973,28 +963,14 @@
             if (verified) {
                 return L.divIcon({
                     className: 'marker-verified',
-                    html: `<div style="
-                        width: 18px;
-                        height: 18px;
-                        background: #f97316;
-                        border-radius: 50%;
-                        border: 3px solid white;
-                        box-shadow: 0 2px 8px rgba(249,115,22,0.5);
-                    "></div>`,
+                    html: `<div style="width:18px;height:18px;background:#f97316;border-radius:50%;border:3px solid white;box-shadow:0 2px 8px rgba(249,115,22,0.5);"></div>`,
                     iconSize: [18, 18],
                     iconAnchor: [9, 9]
                 });
             } else {
                 return L.divIcon({
                     className: 'marker-unverified',
-                    html: `<div style="
-                        width: 10px;
-                        height: 10px;
-                        background: #737373;
-                        border-radius: 50%;
-                        border: 2px solid white;
-                        box-shadow: 0 1px 4px rgba(0,0,0,0.2);
-                    "></div>`,
+                    html: `<div style="width:10px;height:10px;background:#737373;border-radius:50%;border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.2);"></div>`,
                     iconSize: [10, 10],
                     iconAnchor: [5, 5]
                 });
@@ -1026,82 +1002,36 @@
         
         function createPopup(p) {
             const slug = slugify(`${p.company}-${p.city}-${p.state}`);
-            
             const phone = p.phoneEncoded ? decodeData(p.phoneEncoded) : p.phone;
             const email = p.emailEncoded ? decodeData(p.emailEncoded) : p.email;
             const hasContact = phone || email || p.website;
-            
             let contactSection = '';
             
             if (hasContact && p.verified) {
                 let infoRows = '';
                 if (phone) {
-                    infoRows += `
-                        <div class="popup-row">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                            </svg>
-                            <a href="tel:${phone}">${formatPhone(phone)}</a>
-                        </div>
-                    `;
+                    infoRows += `<div class="popup-row"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg><a href="tel:${phone}">${formatPhone(phone)}</a></div>`;
                 }
                 if (email) {
-                    infoRows += `
-                        <div class="popup-row">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                            </svg>
-                            <a href="mailto:${email}">${email}</a>
-                        </div>
-                    `;
+                    infoRows += `<div class="popup-row"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg><a href="mailto:${email}">${email}</a></div>`;
                 }
                 if (p.website) {
                     const url = p.website.startsWith('http') ? p.website : `https://${p.website}`;
-                    infoRows += `
-                        <div class="popup-row">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
-                            </svg>
-                            <a href="${url}" target="_blank">${p.website}</a>
-                        </div>
-                    `;
+                    infoRows += `<div class="popup-row"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg><a href="${url}" target="_blank">${p.website}</a></div>`;
                 }
                 contactSection = `<div class="popup-info">${infoRows}</div>`;
             } else if (!p.verified) {
-                contactSection = `
-                    <div class="reveal-contact" onclick="window.location.href='verify.html?claim=${slug}'">
-                        🔒 Claim listing to show contact info
-                    </div>
-                `;
+                contactSection = `<div class="reveal-contact" onclick="window.location.href='verify.html?claim=${slug}'">🔒 Claim listing to show contact info</div>`;
             }
             
-            return `
-                <div class="popup-content">
-                    <div class="popup-header">
-                        <div class="popup-name">${p.company}</div>
-                        ${p.verified ? '<span class="popup-verified-badge">VERIFIED</span>' : ''}
-                    </div>
-                    <div class="popup-location">
-                        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                        </svg>
-                        ${p.city}${p.city && p.state ? ', ' : ''}${p.state}
-                    </div>
-                    ${p.industry ? `<div class="popup-industry">${p.industry}</div>` : ''}
-                    ${contactSection}
-                    <a href="pilot.html?id=${slug}" class="popup-btn">View Full Profile</a>
-                </div>
-            `;
+            return `<div class="popup-content"><div class="popup-header"><div class="popup-name">${p.company}</div>${p.verified ? '<span class="popup-verified-badge">VERIFIED</span>' : ''}</div><div class="popup-location"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>${p.city}${p.city && p.state ? ', ' : ''}${p.state}</div>${p.industry ? `<div class="popup-industry">${p.industry}</div>` : ''}${contactSection}<a href="pilot.html?id=${slug}" class="popup-btn">View Full Profile</a></div>`;
         }
         
         function filterPilots() {
             const query = document.getElementById('searchInput').value.toLowerCase();
-            
             let filtered = allPilots.filter(p => {
                 if (verifiedOnly && !p.verified) return false;
-                if (activeService) {
-                    if (!p.industry.includes(activeService)) return false;
-                }
+                if (activeService && !p.industry.includes(activeService)) return false;
                 if (query) {
                     const str = `${p.company} ${p.city} ${p.state}`.toLowerCase();
                     if (!str.includes(query)) return false;
@@ -1111,22 +1041,15 @@
             
             if (userLocation) {
                 filtered.forEach(p => {
-                    if (p.latitude && p.longitude) {
-                        p._distance = getDistance(userLocation.lat, userLocation.lng, p.latitude, p.longitude);
-                    } else {
-                        p._distance = 99999;
-                    }
+                    p._distance = (p.latitude && p.longitude) ? getDistance(userLocation.lat, userLocation.lng, p.latitude, p.longitude) : 99999;
                 });
                 filtered.sort((a, b) => a._distance - b._distance);
             }
             
             allMarkers.forEach(({ marker, pilot }) => {
                 const show = filtered.includes(pilot);
-                if (show && !map.hasLayer(marker)) {
-                    map.addLayer(marker);
-                } else if (!show && map.hasLayer(marker)) {
-                    map.removeLayer(marker);
-                }
+                if (show && !map.hasLayer(marker)) map.addLayer(marker);
+                else if (!show && map.hasLayer(marker)) map.removeLayer(marker);
             });
             
             const list = document.getElementById('resultsList');
@@ -1135,18 +1058,7 @@
             list.innerHTML = display.map(p => {
                 const slug = slugify(`${p.company}-${p.city}-${p.state}`);
                 const distance = p._distance && p._distance < 99999 ? `${Math.round(p._distance)} mi` : '';
-                
-                return `
-                    <a href="pilot.html?id=${slug}" class="result-item"
-                       data-lat="${p.latitude}" data-lng="${p.longitude}">
-                        <div class="result-name">
-                            ${p.company}
-                            ${p.verified ? '<span class="verified-badge">VERIFIED</span>' : ''}
-                        </div>
-                        <div class="result-location">${p.city}${p.city && p.state ? ', ' : ''}${p.state} ${distance ? '· ' + distance : ''}</div>
-                        ${p.industry ? `<div class="result-services"><span>${p.industry}</span></div>` : ''}
-                    </a>
-                `;
+                return `<a href="pilot.html?id=${slug}" class="result-item" data-lat="${p.latitude}" data-lng="${p.longitude}"><div class="result-name">${p.company}${p.verified ? '<span class="verified-badge">VERIFIED</span>' : ''}</div><div class="result-location">${p.city}${p.city && p.state ? ', ' : ''}${p.state} ${distance ? '· ' + distance : ''}</div>${p.industry ? `<div class="result-services"><span>${p.industry}</span></div>` : ''}</a>`;
             }).join('');
             
             document.getElementById('resultsCount').textContent = `${filtered.length.toLocaleString()} pilots`;
@@ -1166,41 +1078,21 @@
             const bounds = map.getBounds();
             let count = 0;
             allMarkers.forEach(({ marker, pilot }) => {
-                if (map.hasLayer(marker) && pilot.latitude && pilot.longitude) {
-                    if (bounds.contains([pilot.latitude, pilot.longitude])) count++;
-                }
+                if (map.hasLayer(marker) && pilot.latitude && pilot.longitude && bounds.contains([pilot.latitude, pilot.longitude])) count++;
             });
             document.getElementById('statVisible').textContent = count.toLocaleString();
         }
         
         function showSuggestions(query) {
             const suggestionsEl = document.getElementById('searchSuggestions');
-            if (!query || query.length < 2) {
-                suggestionsEl.classList.remove('show');
-                return;
-            }
-            
+            if (!query || query.length < 2) { suggestionsEl.classList.remove('show'); return; }
             const results = fuse.search(query, { limit: 8 });
-            if (results.length === 0) {
-                suggestionsEl.classList.remove('show');
-                return;
-            }
-            
-            suggestionsEl.innerHTML = results.map(r => {
-                const p = r.item;
-                return `
-                    <div class="search-suggestion" data-company="${p.company}" data-city="${p.city}" data-state="${p.state}">
-                        <strong>${p.company}</strong> - ${p.city}, ${p.state}
-                    </div>
-                `;
-            }).join('');
-            
+            if (results.length === 0) { suggestionsEl.classList.remove('show'); return; }
+            suggestionsEl.innerHTML = results.map(r => `<div class="search-suggestion" data-company="${r.item.company}" data-city="${r.item.city}" data-state="${r.item.state}"><strong>${r.item.company}</strong> - ${r.item.city}, ${r.item.state}</div>`).join('');
             suggestionsEl.classList.add('show');
-            
             suggestionsEl.querySelectorAll('.search-suggestion').forEach(el => {
                 el.addEventListener('click', function() {
-                    const company = this.dataset.company;
-                    document.getElementById('searchInput').value = company;
+                    document.getElementById('searchInput').value = this.dataset.company;
                     suggestionsEl.classList.remove('show');
                     filterPilots();
                 });
@@ -1210,158 +1102,82 @@
         document.getElementById('locateBtn').addEventListener('click', function() {
             const btn = this;
             const btnText = document.getElementById('locateBtnText');
-            
-            if (!navigator.geolocation) {
-                alert('Geolocation is not supported by your browser');
-                return;
-            }
-            
+            if (!navigator.geolocation) { alert('Geolocation is not supported by your browser'); return; }
             btn.classList.add('loading');
             if (btnText) btnText.textContent = 'Finding...';
-            
             navigator.geolocation.getCurrentPosition(
                 function(position) {
-                    userLocation = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    };
-                    
-                    if (userMarker) {
-                        map.removeLayer(userMarker);
-                    }
-                    
+                    userLocation = { lat: position.coords.latitude, lng: position.coords.longitude };
+                    if (userMarker) map.removeLayer(userMarker);
                     userMarker = L.marker([userLocation.lat, userLocation.lng], {
                         icon: L.divIcon({
                             className: 'user-marker',
-                            html: `<div style="
-                                width: 16px;
-                                height: 16px;
-                                background: #10b981;
-                                border-radius: 50%;
-                                border: 3px solid white;
-                                box-shadow: 0 0 0 2px #10b981, 0 2px 8px rgba(16,185,129,0.5);
-                            "></div>`,
+                            html: `<div style="width:16px;height:16px;background:#10b981;border-radius:50%;border:3px solid white;box-shadow:0 0 0 2px #10b981,0 2px 8px rgba(16,185,129,0.5);"></div>`,
                             iconSize: [16, 16],
                             iconAnchor: [8, 8]
                         })
                     }).addTo(map).bindPopup('Your Location');
-                    
                     map.setView([userLocation.lat, userLocation.lng], 8);
-                    
                     btn.classList.remove('loading');
                     if (btnText) btnText.textContent = 'Find Near Me';
-                    
                     filterPilots();
                 },
                 function(error) {
                     btn.classList.remove('loading');
                     if (btnText) btnText.textContent = 'Find Near Me';
-                    
                     let msg = 'Unable to get your location.';
-                    switch(error.code) {
-                        case error.PERMISSION_DENIED:
-                            msg = 'Location access denied. Please enable location permissions.';
-                            break;
-                        case error.POSITION_UNAVAILABLE:
-                            msg = 'Location information unavailable.';
-                            break;
-                        case error.TIMEOUT:
-                            msg = 'Location request timed out.';
-                            break;
-                    }
+                    if (error.code === error.PERMISSION_DENIED) msg = 'Location access denied. Please enable location permissions.';
+                    else if (error.code === error.POSITION_UNAVAILABLE) msg = 'Location information unavailable.';
+                    else if (error.code === error.TIMEOUT) msg = 'Location request timed out.';
                     alert(msg);
                 },
-                { 
-                    enableHighAccuracy: true, 
-                    timeout: 15000,
-                    maximumAge: 0
-                }
+                { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
             );
         });
         
         async function init() {
             try {
-                // Cache busting
                 const version = '20250105';
                 const res = await fetch(`pilots.json?v=${version}`);
                 const rawData = await res.json();
-                
                 allPilots = rawData.map(transformPilot);
-                
-                // Initialize Fuse.js
-                fuse = new Fuse(allPilots, {
-                    keys: ['company', 'city', 'state', 'industry'],
-                    threshold: 0.3,
-                    includeScore: true
-                });
-                
+                fuse = new Fuse(allPilots, { keys: ['company', 'city', 'state', 'industry'], threshold: 0.3, includeScore: true });
                 const verifiedCount = allPilots.filter(p => p.verified === true).length;
-                const validStates = new Set(
-                    allPilots
-                        .map(p => p.state)
-                        .filter(s => s && US_STATES.has(s.toUpperCase()))
-                );
-                
+                const validStates = new Set(allPilots.map(p => p.state).filter(s => s && US_STATES.has(s.toUpperCase())));
                 document.getElementById('statTotal').textContent = allPilots.length.toLocaleString();
                 document.getElementById('statStates').textContent = validStates.size;
                 document.getElementById('statVerified').textContent = verifiedCount.toLocaleString();
-                
                 allPilots.forEach(pilot => {
                     if (pilot.latitude && pilot.longitude) {
-                        const marker = L.marker([pilot.latitude, pilot.longitude], {
-                            icon: createIcon(pilot.verified)
-                        }).bindPopup(createPopup(pilot));
-                        
+                        const marker = L.marker([pilot.latitude, pilot.longitude], { icon: createIcon(pilot.verified) }).bindPopup(createPopup(pilot));
                         marker.addTo(map);
                         allMarkers.push({ marker, pilot });
                     }
                 });
-                
                 filterPilots();
-                
                 let searchTimeout;
                 document.getElementById('searchInput').addEventListener('input', function() {
                     clearTimeout(searchTimeout);
-                    searchTimeout = setTimeout(() => {
-                        showSuggestions(this.value);
-                        filterPilots();
-                    }, 150);
+                    searchTimeout = setTimeout(() => { showSuggestions(this.value); filterPilots(); }, 150);
                 });
-                
                 document.addEventListener('click', function(e) {
-                    if (!e.target.closest('.search-wrapper')) {
-                        document.getElementById('searchSuggestions').classList.remove('show');
-                    }
+                    if (!e.target.closest('.search-wrapper')) document.getElementById('searchSuggestions').classList.remove('show');
                 });
-                
-                document.getElementById('verifiedToggle').addEventListener('change', function() {
-                    verifiedOnly = this.checked;
-                    filterPilots();
-                });
-                
+                document.getElementById('verifiedToggle').addEventListener('change', function() { verifiedOnly = this.checked; filterPilots(); });
                 document.querySelectorAll('.chip').forEach(chip => {
                     chip.addEventListener('click', function() {
                         const service = this.dataset.service;
-                        if (this.classList.contains('active')) {
-                            this.classList.remove('active');
-                            activeService = null;
-                        } else {
-                            document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-                            this.classList.add('active');
-                            activeService = service;
-                        }
+                        if (this.classList.contains('active')) { this.classList.remove('active'); activeService = null; }
+                        else { document.querySelectorAll('.chip').forEach(c => c.classList.remove('active')); this.classList.add('active'); activeService = service; }
                         filterPilots();
                     });
                 });
-                
                 map.on('moveend', updateVisibleCount);
-                
             } catch (err) {
                 console.error('Error loading pilots:', err);
                 document.getElementById('resultsList').innerHTML = '<div style="padding:20px;text-align:center;color:#ef4444;">Error loading data</div>';
             }
         }
-        
         init();
     </script>
 </body>
