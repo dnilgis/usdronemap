@@ -533,4 +533,16 @@
                 applyFilters();
             } catch (err) {
                 console.error('Error:', err);
-                document.getElementById('pilotsContainer').innerHTML = '<div class="no-results" style="grid-column:1/-1"><h3>Error loading pilots</h3><p>Please try ref
+                document.getElementById('pilotsContainer').innerHTML = '<div class="no-results" style="grid-column:1/-1"><h3>Error loading pilots</h3><p>Please try refreshing the page.</p></div>';
+        }
+    }
+
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+    </script>
+</body>
+</html>
