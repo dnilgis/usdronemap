@@ -278,18 +278,18 @@
                 const viewCount=await viewPromise;
                 
                 renderProfile(pilot,viewCount);
-            }catch(e){
+            } catch(e) {
                 console.error('Error:',e);
-                reshing the page.</p></div>';
+                renderError();
+            }
         }
-    }
 
-    // Initialize when DOM is ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-    } else {
-        init();
-    }
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
     </script>
 </body>
 </html>
