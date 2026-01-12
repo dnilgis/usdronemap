@@ -88,10 +88,8 @@
         .btn-primary:hover { background: #ea580c; }
         .btn-secondary { background: white; color: #666; border: 1px solid #e5e5e5; }
         .btn-secondary:hover { border-color: #f97316; color: #f97316; }
-        /* Reset button styles removed */
-        .btn svg { width: 16px; height: 16px; }
-
-        /* New Button Style */
+        
+        /* New Button Style for Contact Reveal */
         .btn-reveal {
             background: #f97316;
             color: white;
@@ -145,7 +143,7 @@
         
         .no-results { text-align: center; padding: 60px 20px; background: white; border-radius: 12px; border: 1px solid #e5e5e5; }
         .no-results-icon { font-size: 3rem; margin-bottom: 16px; }
-        .no-results h3 { font-size: 1.25rem; margin-bottom: 8px; color: #1a1a1a; }
+        .no-results h3 { font-size: 1.25rem; margin-bottom: 8px; color: #1a1a; }
         .no-results p { color: #666; margin-bottom: 20px; }
         
         .pagination { display: flex; justify-content: center; gap: 8px; margin-top: 32px; flex-wrap: wrap; }
@@ -278,10 +276,10 @@
         <div class="results-header">
             <div class="results-count" id="resultsCount">Loading pilots...</div>
             <select class="sort-select" id="sortSelect" aria-label="Sort pilots">
+                <option value="verified" selected>Sort: Verified First</option>
                 <option value="name">Sort: Name A-Z</option>
                 <option value="name-desc">Sort: Name Z-A</option>
                 <option value="state">Sort: State A-Z</option>
-                <option value="verified">Sort: Verified First</option>
             </select>
         </div>
         
@@ -452,6 +450,9 @@
                 const url = `pilot.html?id=${encodeURIComponent(slugify(p.company))}-${encodeURIComponent(p.city)}-${encodeURIComponent(p.state)}`;
                 const services = p.industry.split(',').slice(0, 3).map(s => s.trim()).filter(Boolean);
                 
+                // Privacy Logic: Show contact info ONLY if verified
+                const showContact = p.verified && (phone || email);
+                
                 return `
                     <a href="${url}" class="pilot-card ${p.verified ? 'verified' : ''}">
                         <div class="pilot-header">
@@ -463,7 +464,8 @@
                             ${sanitizeHtml(p.city)}, ${sanitizeHtml(p.state)}
                         </div>
                         ${services.length ? `<div class="pilot-services">${services.map(s => `<span class="service-tag">${sanitizeHtml(s)}</span>`).join('')}</div>` : ''}
-                        ${phone || email ? `<div class="pilot-contact">
+                        
+                        ${showContact ? `<div class="pilot-contact">
                             ${phone ? `<button class="btn-reveal" onclick="event.preventDefault(); this.outerHTML='<span>📞 ' + '${sanitizeHtml(phone)}' + '</span>'">Show Number</button>` : ''}
                             ${email ? `<span><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>Email</span>` : ''}
                         </div>` : ''}
