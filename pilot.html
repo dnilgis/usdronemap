@@ -1,969 +1,282 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-WX7S46H7W1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-WX7S46H7W1');
-    </script>
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('consent','default',{'analytics_storage':'denied'});gtag('js',new Date());gtag('config','G-WX7S46H7W1');</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <title>Drone Pilot Profile | US Drone Map</title>
-    <meta name="description" content="View drone pilot profile and contact information on US Drone Map.">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://usdronemap.com/pilot.html">
-    
-    <!-- Open Graph (will be updated by JS) -->
-    <meta property="og:type" content="business.business">
-    <meta property="og:url" content="https://usdronemap.com/pilot.html">
-    <meta property="og:title" content="Drone Pilot Profile | US Drone Map">
-    <meta property="og:description" content="View drone pilot profile and services.">
-    <meta property="og:image" content="https://usdronemap.com/og-image.png">
-    <meta property="og:site_name" content="US Drone Map">
-    
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Drone Pilot Profile | US Drone Map">
-    <meta name="twitter:description" content="View drone pilot profile and services.">
-    
+    <meta name="description" content="View drone pilot profile, services, and contact information.">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23f97316'/></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    
-    <!-- JSON-LD placeholder - will be populated dynamically -->
-    <script type="application/ld+json" id="schema-jsonld">
-    {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "Drone Pilot",
-        "description": "Professional drone services"
-    }
-    </script>
-    
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background: #f5f5f5;
-            color: #1a1a1a;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        header {
-            background: white;
-            border-bottom: 1px solid #e5e5e5;
-            padding: 14px 24px;
-        }
-        .header-inner {
-            max-width: 1000px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: #1a1a1a;
-            text-decoration: none;
-        }
-        .logo span { color: #f97316; }
-        nav { display: flex; gap: 8px; }
-        nav a {
-            color: #666;
-            text-decoration: none;
-            font-weight: 500;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 0.9rem;
-        }
-        nav a:hover { color: #1a1a1a; background: #f5f5f5; }
-        .nav-cta {
-            background: #f97316 !important;
-            color: white !important;
-        }
-        .nav-cta:hover { background: #ea580c !important; }
-        
-        main {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 32px 24px;
-            flex: 1;
-            width: 100%;
-        }
-        
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            color: #666;
-            text-decoration: none;
-            font-size: 0.9rem;
-            margin-bottom: 24px;
-            cursor: pointer;
-            background: none;
-            border: none;
-            font-family: inherit;
-        }
-        .back-link:hover { color: #f97316; }
-        .back-link svg { width: 16px; height: 16px; }
-        
-        .profile-card {
-            background: white;
-            border-radius: 12px;
-            border: 1px solid #e5e5e5;
-            overflow: hidden;
-        }
-        
-        .profile-header {
-            padding: 32px;
-            border-bottom: 1px solid #e5e5e5;
-        }
-        .profile-title {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 16px;
-            margin-bottom: 12px;
-        }
-        .profile-name {
-            font-size: 1.75rem;
-            font-weight: 800;
-            color: #1a1a1a;
-            line-height: 1.2;
-        }
-        .verified-badge {
-            font-size: 0.75rem;
-            padding: 6px 12px;
-            background: #f97316;
-            color: white;
-            border-radius: 6px;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-        .unverified-badge {
-            font-size: 0.75rem;
-            padding: 6px 12px;
-            background: #f5f5f5;
-            color: #666;
-            border-radius: 6px;
-            font-weight: 500;
-        }
-        
-        /* View Counter */
-        .profile-stats {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px solid #f0f0f0;
-        }
-        .stat-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.875rem;
-            color: #666;
-        }
-        .stat-item svg {
-            width: 16px;
-            height: 16px;
-            color: #999;
-        }
-        .stat-value {
-            font-weight: 600;
-            color: #1a1a1a;
-        }
-        .stat-item {
-            display: flex;
-        }
-        .profile-location {
-            font-size: 1.1rem;
-            color: #666;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-bottom: 16px;
-        }
-        .profile-location svg { width: 18px; height: 18px; color: #999; }
-        .profile-industry {
-            display: inline-block;
-            font-size: 0.85rem;
-            padding: 6px 14px;
-            background: #f5f5f5;
-            color: #555;
-            border-radius: 6px;
-        }
-        
-        .profile-body {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0;
-        }
-        
-        .contact-section {
-            padding: 32px;
-            border-right: 1px solid #e5e5e5;
-        }
-        .section-title {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #999;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 20px;
-        }
-        
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 14px 0;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        .contact-item:last-child { border-bottom: none; }
-        .contact-icon {
-            width: 40px;
-            height: 40px;
-            background: #fff7ed;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #f97316;
-            flex-shrink: 0;
-        }
-        .contact-icon svg { width: 20px; height: 20px; }
-        .contact-info {
-            flex: 1;
-        }
-        .contact-label {
-            font-size: 0.75rem;
-            color: #999;
-            text-transform: uppercase;
-            margin-bottom: 2px;
-        }
-        .contact-value {
-            font-size: 0.95rem;
-            color: #1a1a1a;
-        }
-        .contact-value a {
-            color: #f97316;
-            text-decoration: none;
-        }
-        .contact-value a:hover { text-decoration: underline; }
-        
-        .no-contact {
-            color: #999;
-            font-size: 0.9rem;
-            padding: 20px;
-            background: #fafafa;
-            border-radius: 8px;
-            text-align: center;
-        }
-        
-        /* Click to reveal contact */
-        .reveal-contact-section {
-            background: #fff7ed;
-            border: 1px dashed #f97316;
-            border-radius: 8px;
-            padding: 24px;
-            text-align: center;
-        }
-        .reveal-contact-title {
-            font-weight: 600;
-            color: #1a1a1a;
-            margin-bottom: 8px;
-        }
-        .reveal-contact-text {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 16px;
-        }
-        .reveal-contact-btn {
-            display: inline-block;
-            padding: 12px 24px;
-            background: #f97316;
-            color: white;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: background 0.2s;
-        }
-        .reveal-contact-btn:hover { background: #ea580c; }
-        
-        .equipment-section {
-            padding: 32px;
-        }
-        .equipment-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            padding: 14px 0;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        .equipment-item:last-child { border-bottom: none; }
-        .equipment-icon {
-            width: 40px;
-            height: 40px;
-            background: #f5f5f5;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666;
-            flex-shrink: 0;
-        }
-        .equipment-icon svg { width: 20px; height: 20px; }
-        .equipment-label {
-            font-size: 0.75rem;
-            color: #999;
-            text-transform: uppercase;
-            margin-bottom: 2px;
-        }
-        .equipment-value {
-            font-size: 0.95rem;
-            color: #1a1a1a;
-        }
-        
-        .map-section {
-            border-top: 1px solid #e5e5e5;
-        }
-        #map {
-            height: 300px;
-            width: 100%;
-        }
-        
-        .claim-section {
-            margin-top: 24px;
-            background: #fff7ed;
-            border: 1px solid #fed7aa;
-            border-radius: 12px;
-            padding: 24px;
-        }
-        .claim-title {
-            font-weight: 700;
-            font-size: 1rem;
-            color: #1a1a1a;
-            margin-bottom: 8px;
-        }
-        .claim-text {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 16px;
-        }
-        .claim-btn {
-            display: inline-block;
-            padding: 12px 24px;
-            background: #f97316;
-            color: white;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: background 0.2s;
-        }
-        .claim-btn:hover { background: #ea580c; }
-        
-        .not-found {
-            text-align: center;
-            padding: 60px 20px;
-        }
-        .not-found h1 {
-            font-size: 1.5rem;
-            margin-bottom: 12px;
-        }
-        .not-found p {
-            color: #666;
-            margin-bottom: 24px;
-        }
-        .not-found a {
-            color: #f97316;
-            text-decoration: none;
-            font-weight: 600;
-        }
-        
-        footer {
-            background: white;
-            border-top: 1px solid #e5e5e5;
-            padding: 20px 24px;
-            margin-top: auto;
-        }
-        .footer-inner {
-            max-width: 1000px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.85rem;
-            color: #666;
-        }
-        .footer-links { display: flex; gap: 24px; }
-        .footer-links a { color: #666; text-decoration: none; }
-        .footer-links a:hover { color: #f97316; }
-        
-        @media (max-width: 768px) {
-            header {
-                padding: 12px 16px;
-            }
-            .logo {
-                font-size: 1.25rem;
-            }
-            main {
-                padding: 1.5rem 1rem;
-            }
-            .profile-card {
-                border-radius: 12px;
-            }
-            .profile-header {
-                padding: 1.5rem;
-            }
-            .profile-title { 
-                flex-direction: column; 
-                align-items: flex-start;
-                gap: 12px;
-            }
-            .profile-title h1 {
-                font-size: 1.5rem;
-            }
-            .profile-body { 
-                grid-template-columns: 1fr;
-                padding: 1.5rem;
-            }
-            .contact-section { 
-                border-right: none; 
-                border-bottom: 1px solid #e5e5e5;
-                padding-bottom: 1.5rem;
-                margin-bottom: 1.5rem;
-            }
-            .contact-item {
-                padding: 12px 0;
-            }
-            .contact-value a {
-                font-size: 1rem;
-                word-break: break-all;
-            }
-            .reveal-contact-btn,
-            .claim-btn {
-                padding: 14px 20px;
-                font-size: 1rem;
-                min-height: 48px;
-            }
-            .back-link {
-                padding: 10px 16px;
-                font-size: 0.9rem;
-            }
-            nav a:not(.nav-cta) { display: none; }
-            .nav-cta {
-                padding: 10px 16px;
-                font-size: 0.85rem;
-            }
-            .footer-inner { 
-                flex-direction: column; 
-                gap: 12px; 
-                text-align: center;
-            }
-            .footer-links {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 8px;
-            }
-            .footer-links a {
-                padding: 8px 12px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            main {
-                padding: 1rem;
-            }
-            .profile-header,
-            .profile-body {
-                padding: 1rem;
-            }
-            .industry-tag {
-                font-size: 0.75rem;
-                padding: 4px 10px;
-            }
+        *{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',-apple-system,sans-serif;background:#f5f5f5;color:#1a1a1a;line-height:1.6}
+        header{background:#fff;border-bottom:1px solid #e5e5e5;padding:14px 24px;position:sticky;top:0;z-index:1000}.header-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+        .logo{font-size:1.5rem;font-weight:800;color:#1a1a1a;text-decoration:none}.logo span{color:#f97316}
+        nav{display:flex;gap:8px;align-items:center}nav a{color:#666;text-decoration:none;font-weight:500;font-size:.9rem;padding:8px 16px;border-radius:6px;transition:all .2s}nav a:hover{color:#1a1a1a;background:#f5f5f5}.nav-cta{background:#f97316!important;color:#fff!important}.nav-cta:hover{background:#ea580c!important}
+        .nav-toggle{display:none;background:none;border:none;padding:8px;cursor:pointer;color:#666}.nav-toggle svg{width:24px;height:24px}
+        .nav-mobile{display:none;position:fixed;top:60px;left:0;right:0;bottom:0;background:#fff;padding:16px;z-index:999;flex-direction:column;gap:8px}.nav-mobile.open{display:flex}.nav-mobile a{display:block;padding:14px 16px;color:#1a1a1a;text-decoration:none;font-weight:500;border-radius:8px}.nav-mobile a:hover{background:#fff7ed;color:#f97316}
+        main{max-width:900px;margin:0 auto;padding:32px 24px}
+        .breadcrumb{display:flex;gap:8px;align-items:center;font-size:.85rem;color:#666;margin-bottom:24px}.breadcrumb a{color:#666;text-decoration:none}.breadcrumb a:hover{color:#f97316}.breadcrumb svg{width:14px;height:14px}
+        .profile-card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.08)}
+        .profile-card.verified{border:2px solid #f97316}
+        .profile-header{padding:32px;border-bottom:1px solid #e5e5e5}
+        .profile-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+        .profile-name{font-size:2rem;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+        .verified-badge{display:inline-flex;align-items:center;gap:4px;background:#f97316;color:#fff;padding:6px 12px;border-radius:6px;font-size:.75rem;font-weight:700}
+        .profile-location{display:flex;align-items:center;gap:6px;font-size:1rem;color:#666;margin-bottom:16px}
+        .profile-location svg{width:18px;height:18px;color:#999}
+        .profile-stats{display:flex;gap:24px;flex-wrap:wrap}
+        .stat{text-align:center;padding:12px 16px;background:#f9fafb;border-radius:8px;min-width:80px}
+        .stat-value{font-size:1.25rem;font-weight:700;color:#1a1a1a}
+        .stat-label{font-size:.75rem;color:#666;text-transform:uppercase;letter-spacing:.5px}
+        .profile-body{display:grid;grid-template-columns:1fr 300px;gap:32px;padding:32px}
+        .profile-main h2{font-size:1.1rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+        .profile-main h2 svg{width:20px;height:20px;color:#f97316}
+        .services-list{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px}
+        .service-tag{padding:8px 16px;background:#fff7ed;color:#ea580c;border-radius:6px;font-size:.85rem;font-weight:500}
+        .equipment-section{margin-bottom:32px}
+        .equipment-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #f0f0f0}
+        .equipment-item:last-child{border-bottom:none}
+        .equipment-icon{width:40px;height:40px;background:#f5f5f5;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.25rem}
+        .equipment-info{flex:1}
+        .equipment-name{font-weight:600;font-size:.9rem}
+        .equipment-detail{font-size:.8rem;color:#666}
+        .profile-sidebar{display:flex;flex-direction:column;gap:24px}
+        .contact-card{background:#f9fafb;border-radius:12px;padding:24px}
+        .contact-card h3{font-size:1rem;font-weight:700;margin-bottom:16px}
+        .contact-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #e5e5e5}
+        .contact-item:last-child{border-bottom:none}
+        .contact-item svg{width:18px;height:18px;color:#999;flex-shrink:0}
+        .contact-item a{color:#f97316;text-decoration:none;font-size:.9rem;word-break:break-all}
+        .contact-item a:hover{text-decoration:underline}
+        .contact-item span{color:#555;font-size:.9rem}
+        .map-card{background:#f9fafb;border-radius:12px;overflow:hidden}
+        .map-card h3{font-size:1rem;font-weight:700;padding:16px 24px;border-bottom:1px solid #e5e5e5}
+        #pilotMap{height:200px;width:100%}
+        .cta-card{background:linear-gradient(135deg,#f97316,#ea580c);border-radius:12px;padding:24px;color:#fff;text-align:center}
+        .cta-card h3{font-size:1.1rem;font-weight:700;margin-bottom:8px}
+        .cta-card p{font-size:.85rem;opacity:.9;margin-bottom:16px}
+        .cta-card .btn{display:inline-block;background:#fff;color:#f97316;padding:12px 24px;border-radius:8px;font-weight:600;text-decoration:none;transition:all .2s}
+        .cta-card .btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.2)}
+        .loading{text-align:center;padding:60px;color:#666}
+        .loading-spinner{width:40px;height:40px;border:3px solid #e5e5e5;border-top-color:#f97316;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 16px}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        .error-state{text-align:center;padding:60px 24px}
+        .error-state h2{font-size:1.5rem;margin-bottom:12px}
+        .error-state p{color:#666;margin-bottom:24px}
+        .error-state .btn{display:inline-block;background:#f97316;color:#fff;padding:12px 24px;border-radius:8px;font-weight:600;text-decoration:none}
+        .faa-disclaimer{font-size:.75rem;color:#999;text-align:center;padding:16px;background:#fafafa;border-top:1px solid #e5e5e5;margin-top:40px}
+        footer{background:#fff;border-top:1px solid #e5e5e5;padding:20px 24px}.footer-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;font-size:.85rem;color:#666}footer a{color:#666;text-decoration:none}footer a:hover{color:#f97316}.footer-links{display:flex;gap:20px}
+        @media(max-width:768px){
+            header{padding:12px 16px}.logo{font-size:1.25rem}nav a:not(.nav-cta){display:none}.nav-toggle{display:block}
+            main{padding:20px 16px}
+            .profile-name{font-size:1.5rem}
+            .profile-body{grid-template-columns:1fr;padding:20px}
+            .profile-sidebar{order:-1}
+            #pilotMap{height:250px}
+            .footer-inner{flex-direction:column;gap:12px;text-align:center}.footer-links{flex-wrap:wrap;justify-content:center}
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-inner">
-            <a href="index.html" class="logo">US <span>Drone Map</span></a>
-            <nav>
-                <a href="index.html">Map</a>
-                <a href="directory.html">Directory</a>
-                <a href="deer-recovery.html">Deer Recovery</a>
-                <a href="verify.html" class="nav-cta">Get Verified</a>
-            </nav>
-        </div>
-    </header>
+    <header><div class="header-inner"><a href="index.html" class="logo">US<span>Drone</span>Map</a><nav><a href="index.html">Map</a><a href="directory.html">Directory</a><a href="ag-spraying.html">Ag Spraying</a><a href="deer-recovery.html">Deer Recovery</a><a href="verify.html" class="nav-cta">Get Verified</a></nav><button class="nav-toggle" id="navToggle" aria-label="Menu"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg></button></div></header>
+    <nav class="nav-mobile" id="navMobile"><a href="index.html">Map</a><a href="directory.html">Directory</a><a href="ag-spraying.html">Ag Spraying</a><a href="deer-recovery.html">Deer Recovery</a><a href="verify.html" class="nav-cta">Get Verified</a></nav>
     
-    <main>
-        <button class="back-link" onclick="goBack()">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-            </svg>
-            Back to Directory
-        </button>
-        
-        <div id="content">
-            <div class="not-found">
-                <h1>Loading...</h1>
-            </div>
+    <main id="mainContent">
+        <div class="loading" id="loadingState">
+            <div class="loading-spinner"></div>
+            <p>Loading pilot profile...</p>
         </div>
     </main>
     
-    <footer>
-        <div class="footer-inner">
-            <div>© 2025 US Drone Map</div>
-            <div class="footer-links">
-                <a href="index.html">Map</a>
-                <a href="directory.html">Directory</a>
-                <a href="privacy.html">Privacy</a>
-                <a href="terms.html">Terms</a>
-                <a href="mailto:contact@usdronemap.com">Contact</a>
-            </div>
-        </div>
-    </footer>
+    <div class="faa-disclaimer">All drone operations must comply with FAA regulations. Verify pilot credentials and Part 107 certification independently.</div>
+    <footer><div class="footer-inner"><div>© 2026 US Drone Map. All rights reserved.</div><div class="footer-links"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="cookie-policy.html">Cookies</a><a href="/cdn-cgi/l/email-protection#62010d0c1603011622171106100d0c070f03124c010d0f">Contact</a></div></div></footer>
     
-    <script>
-        // Smart back navigation - preserves filters
-        function goBack() {
-            if (window.history.length > 1) {
-                window.history.back();
-            } else {
-                window.location.href = 'directory.html';
-            }
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        const CONFIG = {
+            PILOTS_VERSION: '20260111',
+            SUPABASE_URL: 'https://xkwpjbdifnaytzuggdok.supabase.co',
+            SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhrd3BqYmRpZm5heXR6dWdnZG9rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4Mjg4MTYsImV4cCI6MjA4MzQwNDgxNn0.xwj09-LKxz0VwPkWq7YiiRTyOP7tOG5xwuTpKlBlN2o'
+        };
+        
+        // Mobile Nav
+        const MN={isOpen:false,init(){const t=document.getElementById('navToggle'),m=document.getElementById('navMobile');if(t&&m){t.addEventListener('click',()=>{this.isOpen=!this.isOpen;m.classList.toggle('open',this.isOpen);document.body.style.overflow=this.isOpen?'hidden':''})}}};
+        
+        // Utilities
+        function sanitize(str){if(!str)return'';const d=document.createElement('div');d.textContent=str;return d.innerHTML}
+        function decode(e){if(!e)return'';try{return atob(e)}catch{return e}}
+        function slugify(t){return(t||'').toLowerCase().replace(/[^\w\s-]/g,'').replace(/\s+/g,'-').trim()}
+        function transform(p){return{verified:p.v===true,industry:p.i||'',latitude:p.la,longitude:p.lo,company:p.c||'Unknown',city:p.ct||'',state:p.st||'',phoneEncoded:p.pe||'',emailEncoded:p.ee||'',phone:p.p||'',email:p.e||'',website:p.w||'',model:p.m||'',manufacturer:p.mf||'',fleet:p.f||''}}
+        
+        // View counter (rate-limited via Supabase RLS)
+        async function trackView(pilotId){
+            try{
+                const vh=await getVisitorHash();
+                await fetch(`${CONFIG.SUPABASE_URL}/rest/v1/profile_views`,{
+                    method:'POST',
+                    headers:{'Content-Type':'application/json','apikey':CONFIG.SUPABASE_ANON_KEY,'Authorization':`Bearer ${CONFIG.SUPABASE_ANON_KEY}`,'Prefer':'return=minimal'},
+                    body:JSON.stringify({pilot_id:pilotId,visitor_hash:vh})
+                });
+            }catch(e){console.log('View tracking:',e)}
         }
         
-        // Decode obfuscated data
-        function decodeData(encoded) {
-            if (!encoded) return '';
-            try {
-                return atob(encoded);
-            } catch(e) {
-                return encoded;
-            }
+        async function getViewCount(pilotId){
+            try{
+                const ago=new Date();ago.setDate(ago.getDate()-30);
+                const res=await fetch(`${CONFIG.SUPABASE_URL}/rest/v1/profile_views?pilot_id=eq.${encodeURIComponent(pilotId)}&viewed_at=gte.${ago.toISOString()}&select=id`,{
+                    headers:{'apikey':CONFIG.SUPABASE_ANON_KEY,'Authorization':`Bearer ${CONFIG.SUPABASE_ANON_KEY}`,'Prefer':'count=exact'}
+                });
+                const count=res.headers.get('content-range');
+                if(count){return parseInt(count.split('/')[1])||0}
+                return 0;
+            }catch{return null}
         }
         
-        function transformPilot(p) {
-            return {
-                verified: p.v === true,
-                industry: p.i || '',
-                latitude: p.la,
-                longitude: p.lo,
-                company: p.c || 'Unknown',
-                city: p.ct || '',
-                state: p.st || '',
-                phoneEncoded: p.pe || '',
-                emailEncoded: p.ee || '',
-                phone: p.p || '',
-                email: p.e || '',
-                website: p.w || '',
-                model: p.m || '',
-                manufacturer: p.mf || '',
-                fleet: p.f || ''
-            };
+        async function getVisitorHash(){
+            const data=navigator.userAgent+screen.width+screen.height+new Date().toDateString();
+            const enc=new TextEncoder();
+            const buf=await crypto.subtle.digest('SHA-256',enc.encode(data));
+            return Array.from(new Uint8Array(buf)).slice(0,8).map(b=>b.toString(16).padStart(2,'0')).join('');
         }
         
-        function slugify(text) {
-            return (text || '').toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim();
+        // Find pilot
+        function findPilot(pilots,id){
+            const parts=id.split('-');
+            if(parts.length<3)return null;
+            const state=parts.pop();
+            const city=parts.pop();
+            const companySlug=parts.join('-');
+            return pilots.find(p=>slugify(p.company)===companySlug&&p.city.toLowerCase()===city.toLowerCase()&&p.state.toLowerCase()===state.toLowerCase());
         }
         
-        function formatPhone(phone) {
-            if (!phone) return '';
-            const digits = phone.replace(/\D/g, '');
-            if (digits.length === 10) {
-                return `(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}`;
-            }
-            return phone;
-        }
-        
-        function updateSchema(p) {
-            const phone = p.phoneEncoded ? decodeData(p.phoneEncoded) : p.phone;
-            const email = p.emailEncoded ? decodeData(p.emailEncoded) : p.email;
+        // Render profile
+        function renderProfile(pilot,viewCount){
+            const phone=pilot.phoneEncoded?decode(pilot.phoneEncoded):pilot.phone;
+            const email=pilot.emailEncoded?decode(pilot.emailEncoded):pilot.email;
+            const services=pilot.industry.split(',').map(s=>s.trim()).filter(Boolean);
             
-            const schema = {
-                "@context": "https://schema.org",
-                "@type": "LocalBusiness",
-                "name": p.company,
-                "description": `Professional drone services - ${p.industry || 'Various services'}`,
-                "url": `https://usdronemap.com/pilot.html?id=${slugify(`${p.company}-${p.city}-${p.state}`)}`,
-                "address": {
-                    "@type": "PostalAddress",
-                    "addressLocality": p.city,
-                    "addressRegion": p.state,
-                    "addressCountry": "US"
-                }
-            };
+            document.title=`${pilot.company} - ${pilot.city}, ${pilot.state} | US Drone Map`;
             
-            if (p.latitude && p.longitude) {
-                schema.geo = {
-                    "@type": "GeoCoordinates",
-                    "latitude": p.latitude,
-                    "longitude": p.longitude
-                };
-            }
-            
-            if (p.verified && phone) {
-                schema.telephone = phone;
-            }
-            
-            if (p.verified && email) {
-                schema.email = email;
-            }
-            
-            if (p.verified && p.website) {
-                schema.sameAs = p.website.startsWith('http') ? p.website : `https://${p.website}`;
-            }
-            
-            document.getElementById('schema-jsonld').textContent = JSON.stringify(schema);
-        }
-        
-        async function init() {
-            const params = new URLSearchParams(window.location.search);
-            const id = params.get('id');
-            
-            if (!id) {
-                showNotFound();
-                return;
-            }
-            
-            try {
-                const version = '20250105';
-                const res = await fetch(`pilots.json?v=${version}`);
-                const rawData = await res.json();
-                // Handle both array format and object format with pilots property
-                const pilotsArray = Array.isArray(rawData) ? rawData : (rawData.pilots || []);
-                const pilots = pilotsArray.map(transformPilot);
+            let html=`
+                <nav class="breadcrumb">
+                    <a href="index.html">Home</a>
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    <a href="directory.html">Directory</a>
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    <a href="directory.html?state=${pilot.state}">${pilot.state}</a>
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    <span>${sanitize(pilot.company)}</span>
+                </nav>
                 
-                const pilot = pilots.find(p => slugify(`${p.company}-${p.city}-${p.state}`) === id);
-                
-                if (!pilot) {
-                    showNotFound();
-                    return;
-                }
-                
-                // Update page meta
-                document.title = `${pilot.company} - Drone Pilot | US Drone Map`;
-                updateSchema(pilot);
-                
-                renderProfile(pilot);
-                
-                // Track this view and update display
-                const pilotSlug = slugify(`${pilot.company}-${pilot.city}-${pilot.state}`);
-                trackView(pilotSlug);
-                updateViewDisplay(pilotSlug);
-                
-            } catch (err) {
-                console.error('Error:', err);
-                showNotFound();
-            }
-        }
-        
-        function showNotFound() {
-            document.getElementById('content').innerHTML = `
-                <div class="not-found">
-                    <h1>Pilot Not Found</h1>
-                    <p>The pilot profile you're looking for doesn't exist or has been removed.</p>
-                    <a href="directory.html">Browse Directory</a>
-                </div>
-            `;
-        }
-        
-        function renderProfile(p) {
-            const phone = p.phoneEncoded ? decodeData(p.phoneEncoded) : p.phone;
-            const email = p.emailEncoded ? decodeData(p.emailEncoded) : p.email;
-            const hasContact = phone || email || p.website;
-            const slug = slugify(`${p.company}-${p.city}-${p.state}`);
-            
-            let contactHTML = '';
-            
-            if (p.verified && hasContact) {
-                // Show contact info for verified pilots
-                if (phone) {
-                    contactHTML += `
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                                </svg>
-                            </div>
-                            <div class="contact-info">
-                                <div class="contact-label">Phone</div>
-                                <div class="contact-value"><a href="tel:${phone}">${formatPhone(phone)}</a></div>
-                            </div>
-                        </div>
-                    `;
-                }
-                if (email) {
-                    contactHTML += `
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                                </svg>
-                            </div>
-                            <div class="contact-info">
-                                <div class="contact-label">Email</div>
-                                <div class="contact-value"><a href="mailto:${email}">${email}</a></div>
-                            </div>
-                        </div>
-                    `;
-                }
-                if (p.website) {
-                    const url = p.website.startsWith('http') ? p.website : `https://${p.website}`;
-                    contactHTML += `
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
-                                </svg>
-                            </div>
-                            <div class="contact-info">
-                                <div class="contact-label">Website</div>
-                                <div class="contact-value"><a href="${url}" target="_blank">${p.website}</a></div>
-                            </div>
-                        </div>
-                    `;
-                }
-            } else if (!p.verified) {
-                // Show "claim to reveal" for unverified
-                contactHTML = `
-                    <div class="reveal-contact-section">
-                        <div class="reveal-contact-title">🔒 Contact Info Hidden</div>
-                        <div class="reveal-contact-text">This listing hasn't been claimed yet. Claim it to display your contact information and get verified.</div>
-                        <a href="verify.html?claim=${slug}&company=${encodeURIComponent(p.company)}" class="reveal-contact-btn">Claim This Listing</a>
-                    </div>
-                `;
-            } else {
-                contactHTML = '<div class="no-contact">No contact information available</div>';
-            }
-            
-            let equipmentHTML = '';
-            if (p.model) {
-                equipmentHTML += `
-                    <div class="equipment-item">
-                        <div class="equipment-icon">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
-                            </svg>
-                        </div>
-                        <div class="contact-info">
-                            <div class="equipment-label">Drone Model(s)</div>
-                            <div class="equipment-value">${p.model.replace(/;/g, ', ')}</div>
-                        </div>
-                    </div>
-                `;
-            }
-            if (p.manufacturer) {
-                equipmentHTML += `
-                    <div class="equipment-item">
-                        <div class="equipment-icon">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-                            </svg>
-                        </div>
-                        <div class="contact-info">
-                            <div class="equipment-label">Manufacturer</div>
-                            <div class="equipment-value">${p.manufacturer.replace(/;/g, ', ')}</div>
-                        </div>
-                    </div>
-                `;
-            }
-            if (p.fleet) {
-                equipmentHTML += `
-                    <div class="equipment-item">
-                        <div class="equipment-icon">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"/>
-                            </svg>
-                        </div>
-                        <div class="contact-info">
-                            <div class="equipment-label">Fleet Size</div>
-                            <div class="equipment-value">${p.fleet} drone${p.fleet !== '1' ? 's' : ''}</div>
-                        </div>
-                    </div>
-                `;
-            }
-            
-            if (!equipmentHTML) {
-                equipmentHTML = '<div class="no-contact">No equipment information available</div>';
-            }
-            
-            document.getElementById('content').innerHTML = `
-                <div class="profile-card ${p.verified ? 'is-verified' : ''}">
+                <div class="profile-card ${pilot.verified?'verified':''}">
                     <div class="profile-header">
-                        <div class="profile-title">
-                            <h1 class="profile-name">${p.company}</h1>
-                            ${p.verified ? '<span class="verified-badge">VERIFIED</span>' : '<span class="unverified-badge">Unverified</span>'}
-                        </div>
-                        <div class="profile-location">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                            </svg>
-                            ${p.city}${p.city && p.state ? ', ' : ''}${p.state}
-                        </div>
-                        ${p.industry ? `<div class="profile-industry">${p.industry}</div>` : ''}
-                        
-                        <div class="profile-stats">
-                            <div class="stat-item">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                                </svg>
-                                <span id="view-count"><span class="stat-value">--</span> views this month</span>
+                        <div class="profile-top">
+                            <div>
+                                <h1 class="profile-name">
+                                    ${sanitize(pilot.company)}
+                                    ${pilot.verified?'<span class="verified-badge"><svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Verified</span>':''}
+                                </h1>
+                                <div class="profile-location">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                    ${sanitize(pilot.city)}, ${sanitize(pilot.state)}
+                                </div>
+                            </div>
+                            <div class="profile-stats">
+                                ${viewCount!==null?`<div class="stat"><div class="stat-value">${viewCount}</div><div class="stat-label">Views (30d)</div></div>`:''}
+                                <div class="stat"><div class="stat-value">${services.length}</div><div class="stat-label">Services</div></div>
                             </div>
                         </div>
                     </div>
                     
                     <div class="profile-body">
-                        <div class="contact-section">
-                            <div class="section-title">Contact Information</div>
-                            ${contactHTML}
+                        <div class="profile-main">
+                            <h2><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>Services Offered</h2>
+                            <div class="services-list">
+                                ${services.map(s=>`<span class="service-tag">${sanitize(s)}</span>`).join('')}
+                            </div>
+                            
+                            ${pilot.model||pilot.manufacturer||pilot.fleet?`
+                            <div class="equipment-section">
+                                <h2><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/></svg>Equipment</h2>
+                                ${pilot.manufacturer?`<div class="equipment-item"><div class="equipment-icon">🏭</div><div class="equipment-info"><div class="equipment-name">Manufacturer</div><div class="equipment-detail">${sanitize(pilot.manufacturer)}</div></div></div>`:''}
+                                ${pilot.model?`<div class="equipment-item"><div class="equipment-icon">🚁</div><div class="equipment-info"><div class="equipment-name">Model</div><div class="equipment-detail">${sanitize(pilot.model)}</div></div></div>`:''}
+                                ${pilot.fleet?`<div class="equipment-item"><div class="equipment-icon">📦</div><div class="equipment-info"><div class="equipment-name">Fleet</div><div class="equipment-detail">${sanitize(pilot.fleet)}</div></div></div>`:''}
+                            </div>`:''}
                         </div>
-                        <div class="equipment-section">
-                            <div class="section-title">Equipment</div>
-                            ${equipmentHTML}
+                        
+                        <div class="profile-sidebar">
+                            <div class="contact-card">
+                                <h3>Contact Information</h3>
+                                ${phone?`<div class="contact-item"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg><a href="tel:${sanitize(phone)}">${sanitize(phone)}</a></div>`:''}
+                                ${email?`<div class="contact-item"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg><a href="mailto:${sanitize(email)}">${sanitize(email)}</a></div>`:''}
+                                ${pilot.website?`<div class="contact-item"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg><a href="${pilot.website.startsWith('http')?pilot.website:'https://'+pilot.website}" target="_blank" rel="noopener">${sanitize(pilot.website.replace(/^https?:\/\//,''))}</a></div>`:''}
+                                ${!phone&&!email&&!pilot.website?'<p style="color:#666;font-size:.9rem">Contact information not available</p>':''}
+                            </div>
+                            
+                            <div class="map-card">
+                                <h3>Location</h3>
+                                <div id="pilotMap"></div>
+                            </div>
+                            
+                            ${!pilot.verified?`
+                            <div class="cta-card">
+                                <h3>Is this your listing?</h3>
+                                <p>Get verified to stand out and attract more customers.</p>
+                                <a href="verify.html" class="btn">Get Verified</a>
+                            </div>`:''}
                         </div>
                     </div>
-                    
-                    ${p.latitude && p.longitude ? `
-                        <div class="map-section">
-                            <div id="map"></div>
-                        </div>
-                    ` : ''}
-                </div>
-                
-                ${!p.verified ? `
-                    <div class="claim-section">
-                        <div class="claim-title">Is this your business?</div>
-                        <p class="claim-text">Claim this listing to add your contact information, update your profile, and get the verified badge that builds trust with customers.</p>
-                        <a href="verify.html?claim=${slug}&company=${encodeURIComponent(p.company)}" class="claim-btn">Claim This Listing</a>
-                    </div>
-                ` : ''}
-            `;
+                </div>`;
             
-            // Initialize map if coordinates exist
-            if (p.latitude && p.longitude) {
-                setTimeout(() => {
-                    const map = L.map('map').setView([p.latitude, p.longitude], 12);
-                    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-                        attribution: '© CARTO',
-                        maxZoom: 19
-                    }).addTo(map);
-                    
-                    L.marker([p.latitude, p.longitude], {
-                        icon: L.divIcon({
-                            className: 'marker',
-                            html: `<div style="
-                                width: ${p.verified ? 20 : 14}px;
-                                height: ${p.verified ? 20 : 14}px;
-                                background: ${p.verified ? '#f97316' : '#737373'};
-                                border-radius: 50%;
-                                border: 3px solid white;
-                                box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-                            "></div>`,
-                            iconSize: [p.verified ? 20 : 14, p.verified ? 20 : 14],
-                            iconAnchor: [p.verified ? 10 : 7, p.verified ? 10 : 7]
-                        })
-                    }).addTo(map);
-                }, 100);
-            }
-        }
-        
-        // ============================================
-        // VIEW COUNTER - Supabase Integration
-        // ============================================
-        
-        const SUPABASE_URL = 'https://xkwpjbdifnaytzuggdok.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhrd3BqYmRpZm5heXR6dWdnZG9rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4Mjg4MTYsImV4cCI6MjA4MzQwNDgxNn0.xwj09-LKxz0VwPkWq7YiiRTyOP7tOG5xwuTpKlBlN2o';
-        
-        // Simple hash for visitor deduplication (not tracking, just counts)
-        async function getVisitorHash() {
-            const data = navigator.userAgent + screen.width + screen.height + new Date().toDateString();
-            const encoder = new TextEncoder();
-            const hashBuffer = await crypto.subtle.digest('SHA-256', encoder.encode(data));
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.slice(0, 8).map(b => b.toString(16).padStart(2, '0')).join('');
-        }
-        
-        async function trackView(pilotId) {
-            try {
-                const visitorHash = await getVisitorHash();
-                
-                await fetch(`${SUPABASE_URL}/rest/v1/profile_views`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'apikey': SUPABASE_ANON_KEY,
-                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-                        'Prefer': 'return=minimal'
-                    },
-                    body: JSON.stringify({
-                        pilot_id: pilotId,
-                        visitor_hash: visitorHash
-                    })
-                });
-            } catch (err) {
-                console.log('View tracking error:', err);
-            }
-        }
-        
-        async function getViewCount(pilotId) {
-            try {
-                // Get views from last 30 days
-                const thirtyDaysAgo = new Date();
-                thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-                
-                const res = await fetch(
-                    `${SUPABASE_URL}/rest/v1/profile_views?pilot_id=eq.${encodeURIComponent(pilotId)}&viewed_at=gte.${thirtyDaysAgo.toISOString()}&select=id`,
-                    {
-                        headers: {
-                            'apikey': SUPABASE_ANON_KEY,
-                            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-                            'Prefer': 'count=exact'
-                        }
-                    }
-                );
-                
-                const count = res.headers.get('content-range');
-                if (count) {
-                    const total = count.split('/')[1];
-                    return parseInt(total) || 0;
-                }
-                return 0;
-            } catch (err) {
-                console.log('View count error:', err);
-                return null;
-            }
-        }
-        
-        async function updateViewDisplay(pilotId) {
-            const count = await getViewCount(pilotId);
-            const viewCountEl = document.getElementById('view-count');
+            document.getElementById('mainContent').innerHTML=html;
             
-            if (viewCountEl && count !== null) {
-                viewCountEl.innerHTML = `<span class="stat-value">${count.toLocaleString()}</span> views this month`;
-            }
+            // Initialize map
+            setTimeout(()=>{
+                const map=L.map('pilotMap',{scrollWheelZoom:false,dragging:!L.Browser.mobile}).setView([pilot.latitude,pilot.longitude],12);
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'© OSM © CARTO'}).addTo(map);
+                const color=pilot.verified?'#f97316':'#666';
+                L.marker([pilot.latitude,pilot.longitude],{
+                    icon:L.divIcon({className:'marker',html:`<svg width="28" height="36" viewBox="0 0 28 36"><path d="M14 0C6.268 0 0 6.268 0 14c0 10.5 14 22 14 22s14-11.5 14-22c0-7.732-6.268-14-14-14z" fill="${color}"/><circle cx="14" cy="14" r="6" fill="white"/></svg>`,iconSize:[28,36],iconAnchor:[14,36]})
+                }).addTo(map);
+            },100);
         }
         
-        init();
-    </script>
-</body>
-</html>
+        function renderError(){
+            document.getElementById('mainContent').innerHTML=`
+                <div class="error-state">
+                    <h2>Pilot Not Found</h2>
+                    <p>We couldn't find the pilot you're looking for. They may have been removed or the link may be incorrect.</p>
+                    <a href="directory.html" class="btn">Browse Directory</a>
+                </div>`;
+        }
+        
+        // Initialize
+        async function init(){
+            MN.init();
+            
+            const params=new URLSearchParams(window.location.search);
+            const pilotId=params.get('id');
+            
+            if(!pilotId){renderError();return}
+            
+            try{
+                const res=await fetch(`pilots.json?v=${CONFIG.PILOTS_VERSION}`);
+                const raw=await res.json();
+                const pilots=(Array.isArray(raw)?raw:(raw.pilots||[])).map(transform);
+                const pilot=findPilot(pilots,pilotId);
+                
+                if(!pilot){renderError();return}
+                
+                // Track view and get count in parallel
+                const viewPromise=getViewCount(`${slugify(pilot.company)}-${pilot.city}-${pilot.state}`);
+                trackView(`${slugify(pilot.company)}-${pilot.city}-${pilot.state}`);
+                const viewCount=await viewPromise;
+                
+                renderProfile(pilot,viewCount);
+            }catch(e){
+                console.error('Error:',e);

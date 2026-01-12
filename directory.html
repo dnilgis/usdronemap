@@ -1,51 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
+    <!-- Google tag (gtag.js) - with consent mode -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-WX7S46H7W1"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
+        gtag('consent', 'default', { 'analytics_storage': 'denied' });
         gtag('js', new Date());
         gtag('config', 'G-WX7S46H7W1');
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>Drone Pilot Directory - Find Drone Services in All 50 States | US Drone Map</title>
-    <meta name="description" content="Browse 4,500+ professional drone pilots across America. Filter by state, service type, and verification status. Agriculture, game recovery, surveying & more.">
+    <title>Drone Pilot Directory - Find Local Drone Services | US Drone Map</title>
+    <meta name="description" content="Browse 4,500+ professional drone pilots across all 50 states. Filter by service type, location, and verification status to find the perfect pilot.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://usdronemap.com/directory.html">
     
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://usdronemap.com/directory.html">
-    <meta property="og:title" content="Drone Pilot Directory - All 50 States | US Drone Map">
-    <meta property="og:description" content="Browse 4,500+ professional drone pilots across America. Filter by state, service type, and verification status.">
+    <meta property="og:title" content="Drone Pilot Directory - Find Local Drone Services">
+    <meta property="og:description" content="Browse 4,500+ professional drone pilots across all 50 states.">
     <meta property="og:image" content="https://usdronemap.com/og-image.png">
-    <meta property="og:site_name" content="US Drone Map">
     
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Drone Pilot Directory - All 50 States | US Drone Map">
-    <meta name="twitter:description" content="Browse 4,500+ professional drone pilots across America.">
-    <meta name="twitter:image" content="https://usdronemap.com/og-image.png">
-    
-    <!-- JSON-LD Schema -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "ItemList",
         "name": "US Drone Pilot Directory",
-        "description": "Professional drone service providers across America",
+        "description": "Directory of professional drone service providers across the United States",
         "url": "https://usdronemap.com/directory.html",
-        "numberOfItems": 4500,
-        "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Agriculture Drone Services"},
-            {"@type": "ListItem", "position": 2, "name": "Game Recovery Drone Services"},
-            {"@type": "ListItem", "position": 3, "name": "Inspection Drone Services"},
-            {"@type": "ListItem", "position": 4, "name": "Survey/Engineering Drone Services"}
-        ]
+        "numberOfItems": 4500
     }
     </script>
     
@@ -56,316 +42,495 @@
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', -apple-system, sans-serif; background: #f5f5f5; color: #1a1a1a; min-height: 100vh; }
-        header { background: white; border-bottom: 1px solid #e5e5e5; padding: 14px 24px; position: sticky; top: 0; z-index: 100; }
-        .header-inner { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #f5f5f5; color: #1a1a1a; line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+        
+        .skip-link { position: absolute; top: -40px; left: 0; background: #f97316; color: white; padding: 8px 16px; z-index: 10001; text-decoration: none; font-weight: 600; }
+        .skip-link:focus { top: 0; }
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+        
+        header { background: #fff; border-bottom: 1px solid #e5e5e5; padding: 14px 24px; position: sticky; top: 0; z-index: 1000; }
+        .header-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
         .logo { font-size: 1.5rem; font-weight: 800; color: #1a1a1a; text-decoration: none; }
         .logo span { color: #f97316; }
-        nav { display: flex; gap: 8px; }
-        nav a { color: #666; text-decoration: none; font-weight: 500; padding: 8px 16px; border-radius: 6px; font-size: 0.9rem; }
+        
+        nav { display: flex; gap: 8px; align-items: center; }
+        nav a { color: #666; text-decoration: none; font-weight: 500; font-size: 0.9rem; padding: 8px 16px; border-radius: 6px; transition: all 0.2s; }
         nav a:hover { color: #1a1a1a; background: #f5f5f5; }
         nav a.active { color: #f97316; background: #fff7ed; }
-        .nav-cta { background: #f97316 !important; color: white !important; }
+        .nav-cta { background: #f97316 !important; color: white !important; font-weight: 600; }
         .nav-cta:hover { background: #ea580c !important; }
-        main { max-width: 1400px; margin: 0 auto; padding: 32px 24px; }
-        h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: #1a1a1a; }
-        .subtitle { color: #666; font-size: 1.1rem; margin-bottom: 32px; }
-        .filters { background: white; border-radius: 10px; padding: 20px; margin-bottom: 24px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; border: 1px solid #e5e5e5; }
-        .filter-group { display: flex; flex-direction: column; gap: 4px; }
-        .filter-group label { font-size: 0.75rem; font-weight: 600; color: #666; text-transform: uppercase; }
-        .filter-group input, .filter-group select { padding: 10px 14px; border: 1px solid #e5e5e5; border-radius: 6px; font-family: inherit; font-size: 0.9rem; background: #fafafa; color: #1a1a1a; min-width: 180px; }
-        .filter-group input:focus, .filter-group select:focus { outline: none; border-color: #f97316; background: white; }
-        .toggle-group { display: flex; align-items: center; gap: 10px; margin-left: auto; }
-        .toggle-group span { font-size: 0.9rem; font-weight: 500; color: #1a1a1a; }
-        .toggle-switch { position: relative; width: 48px; height: 26px; }
+        
+        .nav-toggle { display: none; background: none; border: none; padding: 8px; cursor: pointer; color: #666; }
+        .nav-toggle svg { width: 24px; height: 24px; }
+        
+        .nav-mobile { display: none; position: fixed; top: 60px; left: 0; right: 0; bottom: 0; background: white; padding: 16px; z-index: 999; flex-direction: column; gap: 8px; overflow-y: auto; }
+        .nav-mobile.open { display: flex; }
+        .nav-mobile a { display: block; padding: 14px 16px; color: #1a1a1a; text-decoration: none; font-weight: 500; border-radius: 8px; }
+        .nav-mobile a:hover, .nav-mobile a.active { background: #fff7ed; color: #f97316; }
+        .nav-mobile .nav-cta { text-align: center; margin-top: 16px; }
+        
+        main { flex: 1; max-width: 1200px; margin: 0 auto; padding: 32px 24px; width: 100%; }
+        
+        .page-header { margin-bottom: 32px; }
+        .page-header h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; }
+        .page-header p { color: #666; font-size: 1rem; }
+        
+        .filters-bar { background: white; border: 1px solid #e5e5e5; border-radius: 12px; padding: 20px; margin-bottom: 24px; }
+        .filters-row { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-end; }
+        
+        .filter-group { flex: 1; min-width: 150px; }
+        .filter-group label { display: block; font-size: 0.75rem; font-weight: 600; color: #666; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+        .filter-group select, .filter-group input { width: 100%; padding: 10px 14px; border: 1px solid #e5e5e5; border-radius: 8px; background: #fafafa; color: #1a1a1a; font-family: inherit; font-size: 0.9rem; min-height: 44px; }
+        .filter-group select:focus, .filter-group input:focus { outline: none; border-color: #f97316; background: white; }
+        
+        .filter-actions { display: flex; gap: 12px; align-items: center; }
+        .btn { padding: 10px 20px; border-radius: 8px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; border: none; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+        .btn-primary { background: #f97316; color: white; }
+        .btn-primary:hover { background: #ea580c; }
+        .btn-secondary { background: white; color: #666; border: 1px solid #e5e5e5; }
+        .btn-secondary:hover { border-color: #f97316; color: #f97316; }
+        .btn-reset { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; display: none; }
+        .btn-reset.show { display: inline-flex; }
+        .btn-reset:hover { background: #fee2e2; }
+        .btn svg { width: 16px; height: 16px; }
+        
+        .toggle-group { display: flex; align-items: center; gap: 10px; }
+        .toggle-group span { font-size: 0.85rem; font-weight: 500; color: #1a1a1a; }
+        .toggle-switch { position: relative; width: 44px; height: 24px; }
         .toggle-switch input { opacity: 0; width: 0; height: 0; }
-        .toggle-slider { position: absolute; cursor: pointer; inset: 0; background: #d4d4d4; border-radius: 26px; transition: 0.3s; }
-        .toggle-slider:before { content: ''; position: absolute; height: 20px; width: 20px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: 0.3s; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+        .toggle-slider { position: absolute; cursor: pointer; inset: 0; background: #d4d4d4; border-radius: 24px; transition: 0.3s; }
+        .toggle-slider:before { content: ''; position: absolute; height: 18px; width: 18px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: 0.3s; }
         .toggle-switch input:checked + .toggle-slider { background: #f97316; }
-        .toggle-switch input:checked + .toggle-slider:before { transform: translateX(22px); }
-        .results-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-        .results-count { font-weight: 600; color: #1a1a1a; }
-        .results-count span { color: #f97316; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
-        .card { background: white; border-radius: 10px; padding: 20px; text-decoration: none; color: inherit; transition: all 0.2s; border: 1px solid #e5e5e5; overflow: hidden; min-width: 0; }
-        .card:hover { border-color: #f97316; box-shadow: 0 4px 12px rgba(249,115,22,0.1); }
-        .card-verified { border: 2px solid #f97316; background: #fffbf7; }
-        .card-verified:hover { box-shadow: 0 4px 16px rgba(249,115,22,0.2); }
-        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; gap: 8px; }
-        .card-name { font-weight: 700; font-size: 1rem; color: #1a1a1a; line-height: 1.3; flex: 1; min-width: 0; word-wrap: break-word; overflow-wrap: break-word; }
+        .toggle-switch input:checked + .toggle-slider:before { transform: translateX(20px); }
+        .toggle-switch input:focus-visible + .toggle-slider { box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.3); }
+        
+        .results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
+        .results-count { font-size: 0.9rem; color: #666; }
+        .results-count strong { color: #f97316; }
+        
+        .sort-select { padding: 8px 12px; border: 1px solid #e5e5e5; border-radius: 6px; background: white; font-family: inherit; font-size: 0.85rem; min-height: 36px; }
+        
+        .pilots-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+        
+        .pilot-card { background: white; border: 1px solid #e5e5e5; border-radius: 12px; padding: 20px; transition: all 0.2s; text-decoration: none; color: inherit; display: block; }
+        .pilot-card:hover { border-color: #f97316; box-shadow: 0 4px 12px rgba(249, 115, 22, 0.1); transform: translateY(-2px); }
+        .pilot-card.verified { border: 2px solid #f97316; background: #fffbf7; }
+        
+        .pilot-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+        .pilot-name { font-weight: 700; font-size: 1rem; color: #1a1a1a; line-height: 1.3; }
         .verified-badge { font-size: 0.65rem; padding: 3px 8px; background: #f97316; color: white; border-radius: 4px; font-weight: 600; white-space: nowrap; }
-        .card-location { color: #666; font-size: 0.85rem; margin-bottom: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .card-industry { display: inline-block; font-size: 0.75rem; padding: 4px 10px; background: #f5f5f5; color: #555; border-radius: 4px; margin-bottom: 12px; }
-        .card-contact { font-size: 0.8rem; color: #666; border-top: 1px solid #e5e5e5; padding-top: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .card-contact a { color: #f97316; text-decoration: none; }
-        .card-contact a:hover { text-decoration: underline; }
-        .card-contact-locked { font-size: 0.8rem; color: #999; border-top: 1px solid #e5e5e5; padding-top: 12px; font-style: italic; cursor: pointer; transition: color 0.2s; }
-        .card-contact-locked:hover { color: #f97316; }
-        .pagination { display: flex; justify-content: center; gap: 8px; margin-top: 32px; }
-        .pagination button { padding: 10px 16px; border: 1px solid #e5e5e5; border-radius: 6px; background: white; color: #1a1a1a; font-family: inherit; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; }
-        .pagination button:hover:not(:disabled) { border-color: #f97316; color: #f97316; }
-        .pagination button:disabled { opacity: 0.5; cursor: not-allowed; }
-        .pagination button.active { background: #f97316; color: white; border-color: #f97316; }
-        .pagination .page-info { display: flex; align-items: center; padding: 0 16px; color: #666; font-size: 0.9rem; }
-        footer { background: white; border-top: 1px solid #e5e5e5; padding: 20px 24px; margin-top: auto; }
-        .footer-inner { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: #666; }
-        .footer-links { display: flex; gap: 24px; }
-        .footer-links a { color: #666; text-decoration: none; }
-        .footer-links a:hover { color: #f97316; }
+        
+        .pilot-location { display: flex; align-items: center; gap: 6px; font-size: 0.85rem; color: #666; margin-bottom: 12px; }
+        .pilot-location svg { width: 14px; height: 14px; color: #999; }
+        
+        .pilot-services { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+        .service-tag { font-size: 0.7rem; padding: 4px 10px; background: #f5f5f5; color: #555; border-radius: 4px; }
+        
+        .pilot-contact { display: flex; gap: 12px; padding-top: 12px; border-top: 1px solid #e5e5e5; }
+        .pilot-contact a { font-size: 0.8rem; color: #f97316; text-decoration: none; display: flex; align-items: center; gap: 4px; }
+        .pilot-contact a:hover { text-decoration: underline; }
+        .pilot-contact svg { width: 14px; height: 14px; }
+        
+        .no-results { text-align: center; padding: 60px 20px; background: white; border-radius: 12px; border: 1px solid #e5e5e5; }
+        .no-results-icon { font-size: 3rem; margin-bottom: 16px; }
+        .no-results h3 { font-size: 1.25rem; margin-bottom: 8px; color: #1a1a1a; }
+        .no-results p { color: #666; margin-bottom: 20px; }
+        
+        .pagination { display: flex; justify-content: center; gap: 8px; margin-top: 32px; flex-wrap: wrap; }
+        .page-btn { padding: 10px 16px; border: 1px solid #e5e5e5; border-radius: 8px; background: white; color: #666; font-family: inherit; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; min-height: 44px; }
+        .page-btn:hover { border-color: #f97316; color: #f97316; }
+        .page-btn.active { background: #f97316; border-color: #f97316; color: white; }
+        .page-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        .faa-disclaimer { font-size: 0.75rem; color: #999; text-align: center; padding: 16px; background: #fafafa; border-top: 1px solid #e5e5e5; }
+        
+        footer { background: #fff; border-top: 1px solid #e5e5e5; padding: 16px 24px; }
+        .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: #666; }
+        footer a { color: #666; text-decoration: none; }
+        footer a:hover { color: #f97316; }
+        .footer-links { display: flex; gap: 20px; }
+        
+        .cookie-consent { position: fixed; bottom: 0; left: 0; right: 0; background: #1a1a1a; color: white; padding: 16px 24px; z-index: 9999; display: none; }
+        .cookie-consent.show { display: block; }
+        .cookie-consent-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+        .cookie-consent p { flex: 1; font-size: 0.9rem; margin: 0; }
+        .cookie-consent a { color: #f97316; }
+        .cookie-consent-buttons { display: flex; gap: 12px; }
+        .cookie-consent .btn-accept { background: #f97316; color: white; }
+        .cookie-consent .btn-decline { background: transparent; color: white; border: 1px solid #666; }
+        
+        .loading-skeleton { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+        .skeleton-card { background: white; border: 1px solid #e5e5e5; border-radius: 12px; padding: 20px; }
+        .skeleton { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: skeleton-loading 1.5s infinite; border-radius: 4px; }
+        @keyframes skeleton-loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        .skeleton-title { height: 20px; width: 70%; margin-bottom: 12px; }
+        .skeleton-text { height: 14px; width: 50%; margin-bottom: 8px; }
+        .skeleton-tags { height: 24px; width: 80%; }
+        
         @media (max-width: 768px) {
             header { padding: 12px 16px; }
             .logo { font-size: 1.25rem; }
-            main { padding: 1.5rem 1rem; }
-            h1 { font-size: 1.5rem; }
-            .subtitle { font-size: 0.9rem; }
-            .filters { flex-direction: column; align-items: stretch; padding: 1rem; gap: 1rem; }
-            .filter-group { min-width: 100%; }
-            .filter-group input, .filter-group select { min-width: 100%; padding: 12px; font-size: 16px; }
-            .toggle-group { margin-left: 0; justify-content: space-between; width: 100%; }
-            .grid { grid-template-columns: 1fr; gap: 1rem; }
-            .card { padding: 16px; }
             nav a:not(.nav-cta) { display: none; }
-            .nav-cta { padding: 10px 16px; font-size: 0.85rem; }
+            .nav-toggle { display: block; }
+            
+            main { padding: 20px 16px; }
+            .page-header h1 { font-size: 1.5rem; }
+            
+            .filters-row { flex-direction: column; }
+            .filter-group { width: 100%; min-width: auto; }
+            .filter-actions { width: 100%; justify-content: space-between; }
+            
+            .pilots-grid { grid-template-columns: 1fr; }
+            
             .footer-inner { flex-direction: column; gap: 12px; text-align: center; }
-            .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
-            .footer-links a { padding: 8px 12px; }
-            .pagination { flex-wrap: wrap; gap: 8px; }
-            .page-btn { min-width: 44px; min-height: 44px; }
-        }
-        @media (max-width: 480px) {
-            main { padding: 1rem; }
-            .showing-text { font-size: 0.85rem; }
+            .footer-links { flex-wrap: wrap; justify-content: center; }
+            
+            .cookie-consent-inner { flex-direction: column; text-align: center; }
+            .cookie-consent-buttons { width: 100%; justify-content: center; }
         }
     </style>
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
     <header>
         <div class="header-inner">
-            <a href="index.html" class="logo">US <span>Drone Map</span></a>
-            <nav>
+            <a href="index.html" class="logo">US<span>Drone</span>Map</a>
+            <nav id="navDesktop">
                 <a href="index.html">Map</a>
                 <a href="directory.html" class="active">Directory</a>
                 <a href="ag-spraying.html">Ag Spraying</a>
                 <a href="deer-recovery.html">Deer Recovery</a>
+                <a href="game-recovery.html">Game Recovery</a>
+                <a href="pet-recovery.html">Pet Recovery</a>
                 <a href="verify.html" class="nav-cta">Get Verified</a>
             </nav>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
         </div>
     </header>
     
-    <main>
-        <h1>Drone Pilot Directory</h1>
-        <p class="subtitle">Browse all drone service providers across America</p>
+    <nav class="nav-mobile" id="navMobile" aria-label="Mobile navigation">
+        <a href="index.html">Map</a>
+        <a href="directory.html" class="active">Directory</a>
+        <a href="ag-spraying.html">Ag Spraying</a>
+        <a href="deer-recovery.html">Deer Recovery</a>
+        <a href="game-recovery.html">Game Recovery</a>
+        <a href="pet-recovery.html">Pet Recovery</a>
+        <a href="verify.html" class="nav-cta">Get Verified</a>
+    </nav>
+
+    <main id="main-content">
+        <div class="page-header">
+            <h1>Drone Pilot Directory</h1>
+            <p>Browse professional drone service providers across all 50 states</p>
+        </div>
         
-        <div class="filters">
-            <div class="filter-group">
-                <label>Search</label>
-                <input type="text" id="searchInput" placeholder="Company, city, state...">
-            </div>
-            <div class="filter-group">
-                <label>State</label>
-                <select id="stateFilter">
-                    <option value="">All States</option>
-                </select>
-            </div>
-            <div class="filter-group">
-                <label>Service</label>
-                <select id="serviceFilter">
-                    <option value="">All Services</option>
-                    <option value="Agriculture">Agriculture</option>
-                    <option value="Game Recovery">Game Recovery</option>
-                    <option value="Inspection">Inspection</option>
-                    <option value="Survey/Engineering">Survey/Engineering</option>
-                    <option value="Government">Government</option>
-                    <option value="University">University</option>
-                    <option value="Defense">Defense</option>
-                    <option value="Other">Other</option>
-                </select>
-            </div>
-            <div class="toggle-group">
-                <span>Verified Only</span>
-                <label class="toggle-switch">
-                    <input type="checkbox" id="verifiedToggle">
-                    <span class="toggle-slider"></span>
-                </label>
+        <div class="filters-bar">
+            <div class="filters-row">
+                <div class="filter-group">
+                    <label for="searchFilter">Search</label>
+                    <input type="text" id="searchFilter" placeholder="Company, city, or state...">
+                </div>
+                <div class="filter-group">
+                    <label for="stateFilter">State</label>
+                    <select id="stateFilter">
+                        <option value="">All States</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="serviceFilter">Service</label>
+                    <select id="serviceFilter">
+                        <option value="">All Services</option>
+                        <option value="Agriculture">Agriculture</option>
+                        <option value="Survey/Engineering">Survey/Engineering</option>
+                        <option value="Inspection">Inspection</option>
+                        <option value="Photo/Video">Photo/Video</option>
+                        <option value="Game Recovery">Game Recovery</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="toggle-group">
+                    <span>Verified</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="verifiedFilter">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="filter-actions">
+                    <button class="btn btn-reset" id="resetBtn" aria-label="Reset filters">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                        Reset
+                    </button>
+                </div>
             </div>
         </div>
         
-        <div class="results-info">
-            <div class="results-count">Showing <span id="showingCount">0</span> of <span id="totalCount">0</span> pilots</div>
+        <div class="results-header">
+            <div class="results-count" id="resultsCount">Loading pilots...</div>
+            <select class="sort-select" id="sortSelect" aria-label="Sort pilots">
+                <option value="name">Sort: Name A-Z</option>
+                <option value="name-desc">Sort: Name Z-A</option>
+                <option value="state">Sort: State A-Z</option>
+                <option value="verified">Sort: Verified First</option>
+            </select>
         </div>
         
-        <div class="grid" id="resultsGrid"></div>
+        <div id="pilotsContainer" class="pilots-grid">
+            <div class="loading-skeleton">
+                <div class="skeleton-card"><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-tags"></div></div>
+                <div class="skeleton-card"><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-tags"></div></div>
+                <div class="skeleton-card"><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-tags"></div></div>
+            </div>
+        </div>
         
         <div class="pagination" id="pagination"></div>
     </main>
     
+    <div class="faa-disclaimer">All drone operations must comply with FAA regulations. Verify pilot credentials and Part 107 certification independently.</div>
+    
     <footer>
         <div class="footer-inner">
-            <div>© 2026 US Drone Map</div>
+            <div>© 2026 US Drone Map. All rights reserved.</div>
             <div class="footer-links">
-                <a href="index.html">Map</a>
-                <a href="directory.html">Directory</a>
                 <a href="privacy.html">Privacy</a>
                 <a href="terms.html">Terms</a>
-                <a href="mailto:contact@usdronemap.com">Contact</a>
+                <a href="cookie-policy.html">Cookies</a>
+                <a href="/cdn-cgi/l/email-protection#177478796376746357626473657879727a76673974787a">Contact</a>
             </div>
         </div>
     </footer>
     
-    <script>
-        let allPilots = [];
-        let filteredPilots = [];
-        let currentPage = 1;
-        const perPage = 24;
+    <div class="cookie-consent" id="cookieConsent">
+        <div class="cookie-consent-inner">
+            <p>We use cookies to improve your experience. <a href="cookie-policy.html">Learn more</a></p>
+            <div class="cookie-consent-buttons">
+                <button class="btn btn-decline" id="cookieDecline">Decline</button>
+                <button class="btn btn-accept" id="cookieAccept">Accept</button>
+            </div>
+        </div>
+    </div>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        const CONFIG = { PILOTS_VERSION: '20260111', COOKIE_KEY: 'usdm_cookie_consent', COOKIE_VERSION: '1', PER_PAGE: 24 };
         
-        function decodeData(encoded) {
-            if (!encoded) return '';
-            try { return atob(encoded); } catch(e) { return encoded; }
+        const STATES = [
+            { abbr: 'AL', name: 'Alabama' }, { abbr: 'AK', name: 'Alaska' }, { abbr: 'AZ', name: 'Arizona' }, { abbr: 'AR', name: 'Arkansas' },
+            { abbr: 'CA', name: 'California' }, { abbr: 'CO', name: 'Colorado' }, { abbr: 'CT', name: 'Connecticut' }, { abbr: 'DE', name: 'Delaware' },
+            { abbr: 'FL', name: 'Florida' }, { abbr: 'GA', name: 'Georgia' }, { abbr: 'HI', name: 'Hawaii' }, { abbr: 'ID', name: 'Idaho' },
+            { abbr: 'IL', name: 'Illinois' }, { abbr: 'IN', name: 'Indiana' }, { abbr: 'IA', name: 'Iowa' }, { abbr: 'KS', name: 'Kansas' },
+            { abbr: 'KY', name: 'Kentucky' }, { abbr: 'LA', name: 'Louisiana' }, { abbr: 'ME', name: 'Maine' }, { abbr: 'MD', name: 'Maryland' },
+            { abbr: 'MA', name: 'Massachusetts' }, { abbr: 'MI', name: 'Michigan' }, { abbr: 'MN', name: 'Minnesota' }, { abbr: 'MS', name: 'Mississippi' },
+            { abbr: 'MO', name: 'Missouri' }, { abbr: 'MT', name: 'Montana' }, { abbr: 'NE', name: 'Nebraska' }, { abbr: 'NV', name: 'Nevada' },
+            { abbr: 'NH', name: 'New Hampshire' }, { abbr: 'NJ', name: 'New Jersey' }, { abbr: 'NM', name: 'New Mexico' }, { abbr: 'NY', name: 'New York' },
+            { abbr: 'NC', name: 'North Carolina' }, { abbr: 'ND', name: 'North Dakota' }, { abbr: 'OH', name: 'Ohio' }, { abbr: 'OK', name: 'Oklahoma' },
+            { abbr: 'OR', name: 'Oregon' }, { abbr: 'PA', name: 'Pennsylvania' }, { abbr: 'RI', name: 'Rhode Island' }, { abbr: 'SC', name: 'South Carolina' },
+            { abbr: 'SD', name: 'South Dakota' }, { abbr: 'TN', name: 'Tennessee' }, { abbr: 'TX', name: 'Texas' }, { abbr: 'UT', name: 'Utah' },
+            { abbr: 'VT', name: 'Vermont' }, { abbr: 'VA', name: 'Virginia' }, { abbr: 'WA', name: 'Washington' }, { abbr: 'WV', name: 'West Virginia' },
+            { abbr: 'WI', name: 'Wisconsin' }, { abbr: 'WY', name: 'Wyoming' }
+        ];
+        
+        // Cookie Consent
+        const CookieConsent = {
+            hasConsent() { const c = localStorage.getItem(CONFIG.COOKIE_KEY); if (!c) return null; try { const d = JSON.parse(c); return d.version === CONFIG.COOKIE_VERSION ? d.accepted : null; } catch { return null; } },
+            setConsent(accepted) { localStorage.setItem(CONFIG.COOKIE_KEY, JSON.stringify({ accepted, version: CONFIG.COOKIE_VERSION, timestamp: new Date().toISOString() })); if (accepted && typeof gtag === 'function') gtag('consent', 'update', { 'analytics_storage': 'granted' }); this.hideBanner(); },
+            showBanner() { document.getElementById('cookieConsent').classList.add('show'); },
+            hideBanner() { document.getElementById('cookieConsent').classList.remove('show'); },
+            init() { if (this.hasConsent() === null) this.showBanner(); else if (this.hasConsent() && typeof gtag === 'function') gtag('consent', 'update', { 'analytics_storage': 'granted' }); }
+        };
+        
+        // Mobile Nav
+        const MobileNav = {
+            isOpen: false,
+            init() {
+                const toggle = document.getElementById('navToggle'), menu = document.getElementById('navMobile');
+                toggle.addEventListener('click', () => {
+                    this.isOpen = !this.isOpen;
+                    menu.classList.toggle('open', this.isOpen);
+                    toggle.setAttribute('aria-expanded', this.isOpen);
+                    toggle.innerHTML = this.isOpen ? '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>' : '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>';
+                    document.body.style.overflow = this.isOpen ? 'hidden' : '';
+                });
+            }
+        };
+        
+        let allPilots = [], filteredPilots = [], currentPage = 1;
+        
+        function sanitizeHtml(str) { if (!str) return ''; const d = document.createElement('div'); d.textContent = str; return d.innerHTML; }
+        function decodeData(e) { if (!e) return ''; try { return atob(e); } catch { return e; } }
+        function transformPilot(p) { return { verified: p.v === true, industry: p.i || '', latitude: p.la, longitude: p.lo, company: p.c || 'Unknown', city: p.ct || '', state: p.st || '', phoneEncoded: p.pe || '', emailEncoded: p.ee || '', phone: p.p || '', email: p.e || '', website: p.w || '' }; }
+        function slugify(t) { return (t || '').toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').trim(); }
+        
+        function populateStateFilter() {
+            const select = document.getElementById('stateFilter');
+            STATES.forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = s.abbr;
+                opt.textContent = s.name;
+                select.appendChild(opt);
+            });
         }
         
-        function transformPilot(p) {
-            return {
-                verified: p.v === true,
-                industry: p.i || '',
-                latitude: p.la,
-                longitude: p.lo,
-                company: p.c || 'Unknown',
-                city: p.ct || '',
-                state: p.st || '',
-                phoneEncoded: p.pe || '',
-                emailEncoded: p.ee || '',
-                phone: p.p || '',
-                email: p.e || '',
-                website: p.w || '',
-                model: p.m || '',
-                manufacturer: p.mf || '',
-                fleet: p.f || ''
-            };
-        }
-        
-        function slugify(text) {
-            return (text || '').toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim();
-        }
-        
-        function formatPhone(phone) {
-            if (!phone) return '';
-            const digits = phone.replace(/\D/g, '');
-            if (digits.length === 10) return `(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}`;
-            return phone;
-        }
-        
-        function filterPilots() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
+        function applyFilters() {
+            const search = document.getElementById('searchFilter').value.trim().toLowerCase();
             const state = document.getElementById('stateFilter').value;
             const service = document.getElementById('serviceFilter').value;
-            const verifiedOnly = document.getElementById('verifiedToggle').checked;
+            const verified = document.getElementById('verifiedFilter').checked;
             
             filteredPilots = allPilots.filter(p => {
-                if (verifiedOnly && !p.verified) return false;
+                if (verified && !p.verified) return false;
                 if (state && p.state !== state) return false;
-                if (service && !p.industry.includes(service)) return false;
-                if (query) {
-                    const str = `${p.company} ${p.city} ${p.state}`.toLowerCase();
-                    if (!str.includes(query)) return false;
+                if (service && !p.industry.toLowerCase().includes(service.toLowerCase())) return false;
+                if (search) {
+                    const match = p.company.toLowerCase().includes(search) || p.city.toLowerCase().includes(search) || p.state.toLowerCase().includes(search);
+                    if (!match) return false;
                 }
                 return true;
             });
             
+            sortPilots();
             currentPage = 1;
-            renderResults();
+            updateResetButton();
+            renderPilots();
         }
         
-        function renderResults() {
-            const grid = document.getElementById('resultsGrid');
-            const start = (currentPage - 1) * perPage;
-            const end = start + perPage;
-            const display = filteredPilots.slice(start, end);
-            
-            grid.innerHTML = display.map(p => {
-                const slug = slugify(`${p.company}-${p.city}-${p.state}`);
-                let contactInfo = '';
-                if (p.verified) {
-                    const phone = p.phoneEncoded ? decodeData(p.phoneEncoded) : p.phone;
-                    const email = p.emailEncoded ? decodeData(p.emailEncoded) : p.email;
-                    if (phone) contactInfo = `<a href="tel:${phone}" onclick="event.stopPropagation()">${formatPhone(phone)}</a>`;
-                    else if (email) contactInfo = `<a href="mailto:${email}" onclick="event.stopPropagation()">${email}</a>`;
-                    else if (p.website) contactInfo = `<a href="https://${p.website}" target="_blank" onclick="event.stopPropagation()">${p.website}</a>`;
+        function sortPilots() {
+            const sort = document.getElementById('sortSelect').value;
+            filteredPilots.sort((a, b) => {
+                switch (sort) {
+                    case 'name': return a.company.localeCompare(b.company);
+                    case 'name-desc': return b.company.localeCompare(a.company);
+                    case 'state': return a.state.localeCompare(b.state) || a.company.localeCompare(b.company);
+                    case 'verified': return (b.verified - a.verified) || a.company.localeCompare(b.company);
+                    default: return 0;
                 }
-                const contactSection = p.verified && contactInfo 
-                    ? `<div class="card-contact">${contactInfo}</div>`
-                    : `<div class="card-contact-locked" onclick="event.stopPropagation(); window.location='verify.html'">🔒 Claim to show contact</div>`;
+            });
+        }
+        
+        function updateResetButton() {
+            const hasFilters = document.getElementById('searchFilter').value || document.getElementById('stateFilter').value || document.getElementById('serviceFilter').value || document.getElementById('verifiedFilter').checked;
+            document.getElementById('resetBtn').classList.toggle('show', hasFilters);
+        }
+        
+        function resetFilters() {
+            document.getElementById('searchFilter').value = '';
+            document.getElementById('stateFilter').value = '';
+            document.getElementById('serviceFilter').value = '';
+            document.getElementById('verifiedFilter').checked = false;
+            applyFilters();
+            // Update URL
+            history.replaceState(null, '', 'directory.html');
+        }
+        
+        function renderPilots() {
+            const container = document.getElementById('pilotsContainer');
+            const countEl = document.getElementById('resultsCount');
+            
+            countEl.innerHTML = `Showing <strong>${filteredPilots.length.toLocaleString()}</strong> pilots`;
+            
+            if (filteredPilots.length === 0) {
+                container.innerHTML = `
+                    <div class="no-results" style="grid-column: 1 / -1;">
+                        <div class="no-results-icon">🔍</div>
+                        <h3>No pilots found</h3>
+                        <p>Try adjusting your search criteria or filters.</p>
+                        <button class="btn btn-primary" onclick="resetFilters()">Clear Filters</button>
+                    </div>`;
+                document.getElementById('pagination').innerHTML = '';
+                return;
+            }
+            
+            const start = (currentPage - 1) * CONFIG.PER_PAGE;
+            const pagePilots = filteredPilots.slice(start, start + CONFIG.PER_PAGE);
+            
+            container.innerHTML = pagePilots.map(p => {
+                const phone = p.phoneEncoded ? decodeData(p.phoneEncoded) : p.phone;
+                const email = p.emailEncoded ? decodeData(p.emailEncoded) : p.email;
+                const url = `pilot.html?id=${encodeURIComponent(slugify(p.company))}-${encodeURIComponent(p.city)}-${encodeURIComponent(p.state)}`;
+                const services = p.industry.split(',').slice(0, 3).map(s => s.trim()).filter(Boolean);
                 
                 return `
-                    <div class="card${p.verified ? ' card-verified' : ''}" onclick="window.location='pilot.html?id=${slug}'" style="cursor:pointer;">
-                        <div class="card-header">
-                            <div class="card-name">${p.company || 'Unknown'}</div>
-                            ${p.verified ? '<span class="verified-badge">VERIFIED</span>' : ''}
+                    <a href="${url}" class="pilot-card ${p.verified ? 'verified' : ''}">
+                        <div class="pilot-header">
+                            <div class="pilot-name">${sanitizeHtml(p.company)}</div>
+                            ${p.verified ? '<span class="verified-badge">✓ VERIFIED</span>' : ''}
                         </div>
-                        <div class="card-location">${p.city}${p.city && p.state ? ', ' : ''}${p.state}</div>
-                        ${p.industry ? `<div class="card-industry">${p.industry}</div>` : ''}
-                        ${contactSection}
-                    </div>
-                `;
+                        <div class="pilot-location">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
+                            ${sanitizeHtml(p.city)}, ${sanitizeHtml(p.state)}
+                        </div>
+                        ${services.length ? `<div class="pilot-services">${services.map(s => `<span class="service-tag">${sanitizeHtml(s)}</span>`).join('')}</div>` : ''}
+                        ${phone || email ? `<div class="pilot-contact">
+                            ${phone ? `<span><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>${sanitizeHtml(phone)}</span>` : ''}
+                            ${email ? `<span><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>Email</span>` : ''}
+                        </div>` : ''}
+                    </a>`;
             }).join('');
             
-            document.getElementById('showingCount').textContent = display.length;
-            document.getElementById('totalCount').textContent = filteredPilots.length.toLocaleString();
             renderPagination();
         }
         
         function renderPagination() {
-            const totalPages = Math.ceil(filteredPilots.length / perPage);
-            const pagination = document.getElementById('pagination');
-            if (totalPages <= 1) { pagination.innerHTML = ''; return; }
+            const totalPages = Math.ceil(filteredPilots.length / CONFIG.PER_PAGE);
+            if (totalPages <= 1) { document.getElementById('pagination').innerHTML = ''; return; }
+            
             let html = '';
-            html += `<button onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>Previous</button>`;
-            html += `<span class="page-info">Page ${currentPage} of ${totalPages}</span>`;
-            html += `<button onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>Next</button>`;
-            pagination.innerHTML = html;
+            html += `<button class="page-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="goToPage(${currentPage - 1})">← Prev</button>`;
+            
+            const maxVisible = 5;
+            let start = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+            let end = Math.min(totalPages, start + maxVisible - 1);
+            if (end - start < maxVisible - 1) start = Math.max(1, end - maxVisible + 1);
+            
+            if (start > 1) { html += `<button class="page-btn" onclick="goToPage(1)">1</button>`; if (start > 2) html += `<span style="padding:10px">...</span>`; }
+            for (let i = start; i <= end; i++) { html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`; }
+            if (end < totalPages) { if (end < totalPages - 1) html += `<span style="padding:10px">...</span>`; html += `<button class="page-btn" onclick="goToPage(${totalPages})">${totalPages}</button>`; }
+            
+            html += `<button class="page-btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="goToPage(${currentPage + 1})">Next →</button>`;
+            document.getElementById('pagination').innerHTML = html;
         }
         
         function goToPage(page) {
-            const totalPages = Math.ceil(filteredPilots.length / perPage);
-            if (page < 1 || page > totalPages) return;
             currentPage = page;
-            renderResults();
+            renderPilots();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
         
-        async function init() {
+        function parseUrlParams() {
             const params = new URLSearchParams(window.location.search);
-            try {
-                const version = '20250105';
-                const res = await fetch(`pilots.json?v=${version}`);
-                const rawData = await res.json();
-                allPilots = rawData.map(transformPilot);
-                
-                const states = [...new Set(allPilots.map(p => p.state).filter(Boolean))].sort();
-                const stateSelect = document.getElementById('stateFilter');
-                states.forEach(s => {
-                    const opt = document.createElement('option');
-                    opt.value = s;
-                    opt.textContent = s;
-                    stateSelect.appendChild(opt);
-                });
-                
-                if (params.get('search')) document.getElementById('searchInput').value = params.get('search');
-                if (params.get('state')) document.getElementById('stateFilter').value = params.get('state');
-                if (params.get('service')) document.getElementById('serviceFilter').value = params.get('service');
-                
-                filterPilots();
-                
-                document.getElementById('searchInput').addEventListener('input', filterPilots);
-                document.getElementById('stateFilter').addEventListener('change', filterPilots);
-                document.getElementById('serviceFilter').addEventListener('change', filterPilots);
-                document.getElementById('verifiedToggle').addEventListener('change', filterPilots);
-            } catch (err) {
-                console.error('Error loading pilots:', err);
-                document.getElementById('resultsGrid').innerHTML = '<p style="color:#ef4444;padding:20px;">Error loading data</p>';
-            }
+            if (params.get('search')) document.getElementById('searchFilter').value = params.get('search');
+            if (params.get('state')) document.getElementById('stateFilter').value = params.get('state');
+            if (params.get('service')) document.getElementById('serviceFilter').value = params.get('service');
+            if (params.get('verified') === 'true') document.getElementById('verifiedFilter').checked = true;
         }
         
-        init();
-    </script>
-</body>
-</html>
+        function setupEventListeners() {
+            let debounce;
+            document.getElementById('searchFilter').addEventListener('input', () => { clearTimeout(debounce); debounce = setTimeout(applyFilters, 300); });
+            document.getElementById('stateFilter').addEventListener('change', applyFilters);
+            document.getElementById('serviceFilter').addEventListener('change', applyFilters);
+            document.getElementById('verifiedFilter').addEventListener('change', applyFilters);
+            document.getElementById('sortSelect').addEventListener('change', () => { sortPilots(); renderPilots(); });
+            document.getElementById('resetBtn').addEventListener('click', resetFilters);
+            
+            document.getElementById('cookieAccept').addEventListener('click', () => CookieConsent.setConsent(true));
+            document.getElementById('cookieDecline').addEventListener('click', () => CookieConsent.setConsent(false));
+        }
+        
+        async function init() {
+            CookieConsent.init();
+            MobileNav.init();
+            populateStateFilter();
+            parseUrlParams();
+            setupEventListeners();
+            
+            try {
+                const res = await fetch(`pilots.json?v=${CONFIG.PILOTS_VERSION}`);
+                const raw = await res.json();
+                allPilots = (Array.isArray(raw) ? raw : (raw.pilots || [])).map(transformPilot);
+                filteredPilots = [...allPilots];
+                applyFilters();
+            } catch (err) {
+                console.error('Error:', err);
+                document.getElementById('pilotsContainer').innerHTML = '<div class="no-results" style="grid-column:1/-1"><h3>Error loading pilots</h3><p>Please try ref

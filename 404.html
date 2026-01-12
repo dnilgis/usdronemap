@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
+    <!-- Google tag (gtag.js) - with consent mode -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-WX7S46H7W1"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
+        // Default to denied until consent given
+        gtag('consent', 'default', {
+            'analytics_storage': 'denied'
+        });
         gtag('js', new Date());
         gtag('config', 'G-WX7S46H7W1');
     </script>
@@ -14,6 +18,7 @@
     <title>Page Not Found | US Drone Map</title>
     <meta name="robots" content="noindex">
     
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23f97316'/></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -54,6 +59,12 @@
             75% { transform: translateY(-10px) rotate(-5deg); }
         }
         
+        @media (prefers-reduced-motion: reduce) {
+            .drone-icon {
+                animation: none;
+            }
+        }
+        
         h1 {
             font-size: 6rem;
             font-weight: 700;
@@ -91,6 +102,7 @@
             font-weight: 600;
             text-decoration: none;
             transition: all 0.2s;
+            min-height: 44px;
         }
         
         .btn-primary {
@@ -132,6 +144,7 @@
             color: white;
             font-size: 1rem;
             font-family: 'Inter', sans-serif;
+            min-height: 44px;
         }
         
         .search-box input::placeholder {
@@ -178,6 +191,7 @@
             color: #94a3b8;
             text-decoration: none;
             transition: color 0.2s;
+            padding: 0.5rem;
         }
         
         .popular-links a:hover {
@@ -205,8 +219,11 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="drone-icon">🚁</div>
+    <!-- Skip link for accessibility -->
+    <a href="#main-content" class="sr-only" style="position:absolute;left:-9999px;">Skip to main content</a>
+    
+    <div class="container" id="main-content">
+        <div class="drone-icon" role="img" aria-label="Drone icon">🚁</div>
         <h1>404</h1>
         <h2>Flight Plan Not Found</h2>
         <p>Looks like this drone flew off course. The page you're looking for doesn't exist or has been moved to a new location.</p>
@@ -215,37 +232,45 @@
             <a href="index.html" class="btn btn-primary">
                 🗺️ Back to Map
             </a>
-            <a href="/directory.html" class="btn btn-secondary">
+            <a href="directory.html" class="btn btn-secondary">
                 📋 View Directory
             </a>
         </div>
         
         <div class="search-box">
-            <span class="search-icon">🔍</span>
-            <input type="text" id="searchInput" placeholder="Search for a drone pilot..." onkeypress="handleSearch(event)">
+            <span class="search-icon" aria-hidden="true">🔍</span>
+            <label for="searchInput" class="sr-only">Search for a drone pilot</label>
+            <input type="text" id="searchInput" placeholder="Search for a drone pilot..." aria-label="Search for a drone pilot">
         </div>
         
-        <div class="popular-links">
+        <nav class="popular-links" aria-label="Popular services">
             <h3>Popular Services</h3>
             <ul>
-                <li><a href="/directory.html?service=agriculture">Agriculture</a></li>
-                <li><a href="/directory.html?service=realestate">Real Estate</a></li>
-                <li><a href="/directory.html?service=inspection">Inspections</a></li>
-                <li><a href="/directory.html?service=mapping">Mapping</a></li>
-                <li><a href="/directory.html?service=deer">Deer Recovery</a></li>
+                <li><a href="directory.html?service=Agriculture">Agriculture</a></li>
+                <li><a href="directory.html?service=Game%20Recovery">Game Recovery</a></li>
+                <li><a href="directory.html?service=Inspection">Inspections</a></li>
+                <li><a href="directory.html?service=Survey%2FEngineering">Mapping</a></li>
+                <li><a href="deer-recovery.html">Deer Recovery</a></li>
             </ul>
-        </div>
+        </nav>
     </div>
     
     <script>
+        // Accessibility helper
+        const style = document.createElement('style');
+        style.textContent = '.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}';
+        document.head.appendChild(style);
+        
         function handleSearch(event) {
             if (event.key === 'Enter') {
                 const query = document.getElementById('searchInput').value.trim();
                 if (query) {
-                    window.location.href = '/?search=' + encodeURIComponent(query);
+                    window.location.href = 'directory.html?search=' + encodeURIComponent(query);
                 }
             }
         }
+        
+        document.getElementById('searchInput').addEventListener('keypress', handleSearch);
     </script>
 </body>
 </html>
