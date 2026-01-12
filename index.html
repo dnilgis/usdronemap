@@ -83,9 +83,9 @@
         </div>
     </main>
     <div class="faa-disclaimer">All drone operations must comply with FAA regulations. Verify pilot credentials independently.</div>
-    <footer><div>© 2026 US Drone Map. All rights reserved.</div><div class="footer-links"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="cookie-policy.html">Cookies</a><a href="/cdn-cgi/l/email-protection#91f2feffe5f0f2e5d1e4e2f5e3fefff4fcf0e1bff2fefc">Contact</a></div></footer>
+    <footer><div>© 2026 US Drone Map. All rights reserved.</div><div class="footer-links"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="cookie-policy.html">Cookies</a><a href="mailto:contact@usdronemap.com">Contact</a></div></footer>
     <div class="cookie-consent" id="cookieConsent"><div class="cookie-consent-inner"><p>We use cookies to improve your experience. <a href="cookie-policy.html">Learn more</a></p><div class="cookie-consent-buttons"><button class="btn btn-decline" id="cookieDecline">Decline</button><button class="btn btn-accept" id="cookieAccept">Accept</button></div></div></div>
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    <script>
         const CONFIG={PILOTS_VERSION:'20260111',COOKIE_KEY:'usdm_cookie_consent',COOKIE_VERSION:'1'};
         const CC={hasConsent(){const c=localStorage.getItem(CONFIG.COOKIE_KEY);if(!c)return null;try{const d=JSON.parse(c);return d.version===CONFIG.COOKIE_VERSION?d.accepted:null}catch{return null}},setConsent(a){localStorage.setItem(CONFIG.COOKIE_KEY,JSON.stringify({accepted:a,version:CONFIG.COOKIE_VERSION,timestamp:new Date().toISOString()}));if(a&&typeof gtag==='function')gtag('consent','update',{'analytics_storage':'granted'});this.hide()},show(){document.getElementById('cookieConsent').classList.add('show')},hide(){document.getElementById('cookieConsent').classList.remove('show')},init(){if(this.hasConsent()===null)this.show();else if(this.hasConsent()&&typeof gtag==='function')gtag('consent','update',{'analytics_storage':'granted'})}};
         const MN={isOpen:false,init(){const t=document.getElementById('navToggle'),m=document.getElementById('navMobile');t.addEventListener('click',()=>{this.isOpen=!this.isOpen;m.classList.toggle('open',this.isOpen);document.body.style.overflow=this.isOpen?'hidden':''})}};
