@@ -24,7 +24,7 @@
         .skip-link{position:absolute;top:-40px;left:0;background:#f97316;color:#fff;padding:8px 16px;z-index:10001;text-decoration:none}.skip-link:focus{top:0}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
         header{background:#fff;border-bottom:1px solid #e5e5e5;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;z-index:1000;flex-shrink:0}
         
-        /* Enhanced Logo Styling */
+        /* Fixed Logo (No Icon) */
         .logo{font-size:1.5rem;font-weight:800;color:#1a1a1a;text-decoration:none;display:flex;align-items:center}
         .logo span{color:#f97316}
         
@@ -34,96 +34,62 @@
         .main-content{flex:1;display:flex;position:relative;overflow:hidden;min-height:0}
         #map{flex:1;min-height:0}
         .marker-cluster-small,.marker-cluster-medium,.marker-cluster-large{background-color:rgba(249,115,22,.6)}.marker-cluster-small div,.marker-cluster-medium div,.marker-cluster-large div{background-color:rgba(249,115,22,.9);color:#fff;font-weight:600}
-        .locate-btn{position:absolute;top:16px;right:16px;z-index:1000;padding:12px 18px;background:#f97316;border:none;border-radius:8px;color:#fff;font-family:inherit;font-size:.9rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 2px 8px rgba(0,0,0,.15);min-height:44px}.locate-btn:hover{background:#ea580c}.locate-btn svg{width:18px;height:18px}
+        .locate-btn{position:absolute;top:16px;right:16px;z-index:1000;padding:12px 18px;background:#f97316;border:none;border-radius:8px;color:#fff;font-family:inherit;font-size:.9rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 2px 8px rgba(0,0,0,.15);min-height:44px;transition:background .2s}.locate-btn:hover{background:#ea580c}.locate-btn svg{width:18px;height:18px}.locate-btn:disabled{background:#ccc;cursor:wait}
         .control-panel{width:340px;background:#fff;border-right:1px solid #e5e5e5;display:flex;flex-direction:column;flex-shrink:0;min-height:0;overflow:hidden}
         .panel-section{padding:16px;flex-shrink:0}
         .search-header{display:flex;align-items:center;gap:8px;margin-bottom:10px}.search-header .icon{width:32px;height:32px;background:#fff7ed;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#f97316}.search-header .text{font-size:.95rem;font-weight:600}.search-header .subtext{font-size:.75rem;color:#666}
         .search-box{position:relative}.search-box input{width:100%;padding:12px 16px;border:1px solid #e5e5e5;border-radius:8px;font-size:.9rem;font-family:inherit;min-height:44px}.search-box input:focus{outline:none;border-color:#f97316;box-shadow:0 0 0 3px rgba(249,115,22,.1)}
         .filter-section{padding:12px 16px;border-top:1px solid #e5e5e5}
         .filter-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.filter-label{display:flex;align-items:center;gap:8px;font-size:.9rem;font-weight:500;color:#666}.filter-label svg{width:16px;height:16px;color:#f97316}
-        .toggle{position:relative;width:44px;height:24px;background:#e5e5e5;border-radius:12px;cursor:pointer;transition:background .2s}.toggle.active{background:#f97316}.toggle::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;background:#fff;border-radius:50%;transition:transform .2s}.toggle.active::after{transform:translateX(20px)}
+        
+        /* Toggle Fix */
+        .toggle{position:relative;width:44px;height:24px;background:#e5e5e5;border-radius:12px;cursor:pointer;transition:background .2s}
+        .toggle.active{background:#f97316}
+        .toggle::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;background:#fff;border-radius:50%;transition:transform .2s}
+        .toggle.active::after{transform:translateX(20px)}
+        
         .filter-chips{display:flex;flex-wrap:wrap;gap:8px}.chip{padding:8px 14px;background:#f5f5f5;border:1px solid #e5e5e5;border-radius:20px;font-size:.8rem;font-weight:500;color:#666;cursor:pointer;transition:all .2s;font-family:inherit;min-height:36px}.chip:hover{border-color:#f97316;color:#f97316}.chip.active{background:#fff7ed;border-color:#f97316;color:#f97316}
         .results-section{flex:1;overflow-y:auto;border-top:1px solid #e5e5e5;min-height:0}.results-header{padding:12px 16px;background:#f9fafb;border-bottom:1px solid #e5e5e5;display:flex;justify-content:space-between;align-items:center}.results-header h2{font-size:.85rem;font-weight:600;color:#666}.results-count{font-size:.8rem;color:#f97316;font-weight:600}
         .results-list{padding:8px}.result-item{display:block;padding:12px;border-radius:8px;margin-bottom:4px;cursor:pointer;transition:background .2s;text-decoration:none;color:inherit;min-height:44px}.result-item:hover{background:#fff7ed}.result-name{font-weight:600;font-size:.9rem;margin-bottom:2px;display:flex;align-items:center;gap:6px}.result-location{font-size:.8rem;color:#666}.verified-badge{background:#dcfce7;color:#16a34a;font-size:.65rem;padding:2px 6px;border-radius:4px;font-weight:600}
         
         .stats-bar{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);background:#fff;padding:12px 24px;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.15);display:flex;gap:32px;z-index:1000}.stat-item{text-align:center}.stat-num{font-size:1.25rem;font-weight:700;color:#1a1a1a}.stat-label{font-size:.7rem;color:#666;text-transform:uppercase;letter-spacing:.5px}
-        .popup-content{padding:4px}.popup-name{font-weight:700;font-size:1rem;margin-bottom:4px;display:flex;align-items:center;gap:6px}.popup-verified{background:#dcfce7;color:#16a34a;font-size:.6rem;padding:2px 6px;border-radius:4px}.popup-location{color:#666;font-size:.85rem;margin-bottom:8px}.popup-btn{display:inline-block;padding:8px 16px;background:#f97316;color:#fff;text-decoration:none;border-radius:6px;font-size:.8rem;font-weight:600;min-height:36px}
         
-        /* New Disclaimer Style */
-        .faa-disclaimer{
-            position: absolute;
-            bottom: 25px;
-            right: 10px;
-            background: rgba(255,255,255,0.85);
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.65rem;
-            color: #666;
-            z-index: 1000;
-            pointer-events: none;
-            max-width: 200px;
-            text-align: right;
-            line-height: 1.2;
-        }
+        /* Better Popup Styling */
+        .leaflet-popup-content-wrapper{border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.15);padding:0}
+        .leaflet-popup-content{margin:0;width:240px!important}
+        .popup-content{padding:16px}
+        .popup-name{font-weight:700;font-size:1.05rem;margin-bottom:4px;display:block;line-height:1.2}
+        .popup-verified{display:inline-block;background:#dcfce7;color:#16a34a;font-size:.6rem;padding:2px 6px;border-radius:4px;margin-top:4px;font-weight:700}
+        .popup-location{color:#666;font-size:.9rem;margin:8px 0 12px;display:flex;align-items:center;gap:4px}
+        .popup-btn{display:block;width:100%;padding:10px;background:#f97316;color:#fff;text-decoration:none;border-radius:8px;font-size:.9rem;font-weight:600;text-align:center;transition:background .2s}
+        .popup-btn:hover{background:#ea580c}
+        
+        .faa-disclaimer{position:absolute;bottom:25px;right:10px;background:rgba(255,255,255,0.85);padding:4px 8px;border-radius:4px;font-size:0.65rem;color:#666;z-index:1000;pointer-events:none;max-width:200px;text-align:right;line-height:1.2}
 
         footer{background:#fff;border-top:1px solid #e5e5e5;padding:12px 24px;display:flex;justify-content:space-between;align-items:center;font-size:.8rem;color:#666;flex-shrink:0}footer a{color:#666;text-decoration:none}footer a:hover{color:#f97316}.footer-links{display:flex;gap:16px}
         .cookie-consent{display:none;position:fixed;bottom:0;left:0;right:0;background:#1a1a1a;color:#fff;padding:16px 24px;z-index:10000}.cookie-consent.show{display:block}.cookie-consent-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}.cookie-consent p{font-size:.9rem;margin:0}.cookie-consent a{color:#f97316}.cookie-consent-buttons{display:flex;gap:8px}.cookie-consent .btn{padding:8px 16px;border-radius:6px;font-size:.85rem;font-weight:500;cursor:pointer;border:none;font-family:inherit;min-height:36px}.btn-accept{background:#f97316;color:#fff}.btn-decline{background:#333;color:#fff}
         
-        /* MOBILE OPTIMIZATIONS */
         @media(max-width:900px){
-            /* Turn sidebar into bottom drawer */
-            .control-panel {
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                width: 100%;
-                height: 50vh;
-                z-index: 2000;
-                border-right: none;
-                border-top: 1px solid #e5e5e5;
-                border-radius: 16px 16px 0 0;
-                box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
-                transition: transform 0.3s ease;
-                transform: translateY(calc(100% - 60px)); /* Only show header */
-                display: flex;
-            }
-            .control-panel:hover, .control-panel:focus-within {
-                transform: translateY(0);
-            }
-            /* Add handle */
-            .control-panel::before {
-                content: "";
-                display: block;
-                width: 40px;
-                height: 4px;
-                background: #e5e5e5;
-                margin: 12px auto 0;
-                border-radius: 2px;
-                flex-shrink: 0;
-            }
-            
+            .control-panel {position:absolute;bottom:0;left:0;width:100%;height:50vh;z-index:2000;border-right:none;border-top:1px solid #e5e5e5;border-radius:16px 16px 0 0;box-shadow:0 -4px 20px rgba(0,0,0,0.15);transition:transform 0.3s ease;transform:translateY(calc(100% - 60px));display:flex}
+            .control-panel:hover,.control-panel:focus-within{transform:translateY(0)}
+            .control-panel::before{content:"";display:block;width:40px;height:4px;background:#e5e5e5;margin:12px auto 0;border-radius:2px;flex-shrink:0}
             .stats-bar{bottom:80px;padding:8px 16px;gap:16px;width:90%}
             .stat-num{font-size:1rem}
         }
-        @media(max-width:768px){header{padding:12px 16px}.logo{font-size:1.25rem}nav a:not(.nav-cta){display:none}.nav-toggle{display:block}.locate-btn{top:auto;bottom:140px;right:16px;padding:10px 14px;font-size:.8rem}.locate-btn span{display:none}footer{flex-direction:column;gap:8px;text-align:center;padding:12px}.footer-links{justify-content:center}.cookie-consent-inner{flex-direction:column;text-align:center}}
+        @media(max-width:768px){
+            header{padding:12px 16px}.logo{font-size:1.25rem}nav a:not(.nav-cta){display:none}.nav-toggle{display:block}
+            .locate-btn{top:auto;bottom:140px;right:16px;padding:10px 14px;font-size:.8rem}.locate-btn span{display:none}
+            /* Smaller Footer */
+            footer{flex-direction:column;gap:6px;text-align:center;padding:8px 12px;font-size:.7rem}
+            .footer-links{justify-content:center;gap:12px}
+            .cookie-consent-inner{flex-direction:column;text-align:center}
+        }
     </style>
 </head>
 <body>
     <a href="#map" class="skip-link">Skip to map</a>
     <header>
-        <a href="index.html" class="logo">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px; color:#f97316;">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" style="opacity:0.1"></rect>
-                <path d="M4.5 10l-2.5-2 2.5-2"></path>
-                <path d="M19.5 10l2.5-2-2.5-2"></path>
-                <circle cx="12" cy="12" r="3"></circle>
-                <path d="M12 9v-3"></path>
-                <path d="M12 15v3"></path>
-                <path d="M9 12h-3"></path>
-                <path d="M15 12h3"></path>
-            </svg>
-            US<span>Drone</span>Map
-        </a>
+        <a href="index.html" class="logo">US<span>Drone</span>Map</a>
         <nav>
             <a href="index.html" class="active">Map</a>
             <a href="directory.html">Directory</a>
@@ -153,14 +119,20 @@
                 <div class="search-box"><input type="text" id="searchInput" placeholder="Search pilots..." aria-label="Search pilots"></div>
             </div>
             <div class="filter-section">
-                <div class="filter-row"><label class="filter-label"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Verified Only</label><label class="toggle" id="verifiedToggle" role="switch" aria-checked="false" tabindex="0"><input type="checkbox" class="sr-only"></label></div>
+                <div class="filter-row">
+                    <label class="filter-label"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Verified Only</label>
+                    <label class="toggle" id="verifiedToggle" role="switch" aria-checked="false" tabindex="0"><input type="checkbox" class="sr-only"></label>
+                </div>
                 <div class="filter-chips"><button class="chip" data-service="Agriculture">Agriculture</button><button class="chip" data-service="Survey/Engineering">Survey</button><button class="chip" data-service="Inspection">Inspection</button><button class="chip" data-service="Photo/Video">Photo/Video</button><button class="chip" data-service="Game Recovery">Game Recovery</button></div>
             </div>
             <div class="results-section"><div class="results-header"><h2>Nearby Pilots</h2><span class="results-count" id="resultsCount">Loading...</span></div><div class="results-list" id="resultsList"></div></div>
         </aside>
         <div style="flex:1;position:relative;min-height:0;display:flex;flex-direction:column">
             <div id="map"></div>
-            <button class="locate-btn" id="locateBtn"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Find Near Me</span></button>
+            <button class="locate-btn" id="locateBtn">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                <span>Find Near Me</span>
+            </button>
             <div class="stats-bar"><div class="stat-item"><div class="stat-num" id="statPilots">--</div><div class="stat-label">Pilots</div></div><div class="stat-item"><div class="stat-num" id="statStates">50+</div><div class="stat-label">States</div></div><div class="stat-item"><div class="stat-num" id="statVerified">--</div><div class="stat-label">Verified</div></div></div>
             <div class="faa-disclaimer">All drone operations must comply with FAA regulations. Verify pilot credentials independently.</div>
         </div>
@@ -207,9 +179,17 @@
         }
         
         function createPopup(p){
-            const phone=p.phoneEncoded?decode(p.phoneEncoded):p.phone;
+            // Updated Popup Layout
             const url=`pilot.html?id=${encodeURIComponent(slugify(p.company))}-${encodeURIComponent(p.city)}-${encodeURIComponent(p.state)}`;
-            return `<div class="popup-content"><div class="popup-name">${sanitize(p.company)}${p.verified?'<span class="popup-verified">✓ VERIFIED</span>':''}</div><div class="popup-location">${sanitize(p.city)}, ${sanitize(p.state)}</div>${p.industry?`<div style="font-size:.75rem;padding:4px 10px;background:#f5f5f5;border-radius:4px;display:inline-block;margin-bottom:8px">${sanitize(p.industry.split(',')[0])}</div>`:''}<a href="${url}" class="popup-btn">View Profile</a></div>`;
+            return `<div class="popup-content">
+                <div class="popup-name">${sanitize(p.company)}</div>
+                ${p.verified?'<span class="popup-verified">✓ VERIFIED PRO</span>':''}
+                <div class="popup-location">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    ${sanitize(p.city)}, ${sanitize(p.state)}
+                </div>
+                <a href="${url}" class="popup-btn">View Profile</a>
+            </div>`;
         }
         
         function applyFilters(){
@@ -243,21 +223,38 @@
         function updateStats(){document.getElementById('statPilots').textContent=allPilots.length.toLocaleString();document.getElementById('statVerified').textContent=allPilots.filter(p=>p.verified).length.toLocaleString();document.getElementById('statStates').textContent='50+'}
         
         function locateUser(){
-            const btn=document.getElementById('locateBtn');btn.style.opacity='.7';
-            if(!navigator.geolocation){alert('Geolocation not supported');btn.style.opacity='1';return}
+            const btn=document.getElementById('locateBtn');
+            const originalContent = btn.innerHTML;
+            btn.innerHTML = '<svg class="animate-spin" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Locating...';
+            btn.disabled = true;
+
+            if(!navigator.geolocation){alert('Geolocation not supported');btn.innerHTML=originalContent;btn.disabled=false;return}
+            
             navigator.geolocation.getCurrentPosition(pos=>{
                 userLocation={lat:pos.coords.latitude,lng:pos.coords.longitude};
                 map.setView([userLocation.lat,userLocation.lng],10);
                 L.marker([userLocation.lat,userLocation.lng],{icon:L.divIcon({className:'user',html:'<div style="width:20px;height:20px;background:#3b82f6;border:3px solid white;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,.3)"></div>',iconSize:[20,20],iconAnchor:[10,10]})}).addTo(map).bindPopup('Your Location');
-                applyFilters();btn.style.opacity='1';
-            },()=>{alert('Unable to get location');btn.style.opacity='1'},{enableHighAccuracy:true,timeout:10000});
+                applyFilters();
+                btn.innerHTML=originalContent;btn.disabled=false;
+            },()=>{
+                alert('Unable to get location');
+                btn.innerHTML=originalContent;btn.disabled=false;
+            },{enableHighAccuracy:true,timeout:10000});
         }
         
         function setup(){
             let debounce;
             document.getElementById('searchInput').addEventListener('input',e=>{clearTimeout(debounce);debounce=setTimeout(()=>{searchQuery=e.target.value.trim();applyFilters()},200)});
-            document.getElementById('verifiedToggle').addEventListener('change',e=>{verifiedOnly=e.target.checked;applyFilters()});
-            document.getElementById('verifiedToggle').addEventListener('click',function(){this.classList.toggle('active');const cb=this.querySelector('input');cb.checked=!cb.checked;verifiedOnly=cb.checked;applyFilters()});
+            
+            // Fixed Toggle Logic
+            const verifiedToggle = document.getElementById('verifiedToggle');
+            const verifiedInput = verifiedToggle.querySelector('input');
+            verifiedInput.addEventListener('change', (e) => {
+                verifiedToggle.classList.toggle('active', e.target.checked);
+                verifiedOnly = e.target.checked;
+                applyFilters();
+            });
+
             document.querySelectorAll('.chip[data-service]').forEach(chip=>{
                 chip.addEventListener('click',()=>{
                     const svc=chip.dataset.service;
