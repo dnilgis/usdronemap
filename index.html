@@ -90,6 +90,8 @@
         .popup-location{color:#666;font-size:.9rem;margin:8px 0 12px;display:flex;align-items:center;gap:4px}
         .popup-btn{display:block;width:100%;padding:10px;background:#f97316;color:#fff;text-decoration:none;border-radius:8px;font-size:.9rem;font-weight:600;text-align:center;transition:background .2s}
         .popup-btn:hover{background:#ea580c}
+        .popup-btn-profile{display:block;width:100%;padding:10px;background:#1a1a1a;color:#fff;text-decoration:none;border-radius:8px;font-size:.9rem;font-weight:600;text-align:center;transition:background .2s;margin-top:8px}
+        .popup-btn-profile:hover{background:#f97316;color:#fff}
         
         .faa-disclaimer{position:absolute;bottom:25px;right:10px;background:rgba(255,255,255,0.85);padding:4px 8px;border-radius:4px;font-size:0.65rem;color:#666;z-index:1000;pointer-events:none;max-width:200px;text-align:right;line-height:1.2}
 
@@ -214,6 +216,7 @@
     </nav>
     
     <main class="main-content" id="main">
+        <h1 class="sr-only">Find an FAA-Licensed Drone Pilot Near You — US Drone Map Directory</h1>
         <aside class="control-panel" id="controlPanel">
             <!-- FIXED: Added tap handle for mobile -->
             <div class="panel-handle" id="panelHandle">
@@ -361,6 +364,7 @@
             const fleet = p.fleet && p.fleet !== 'unknown' ? p.fleet : '';
             const hasContact = phone || email || p.website;
             const escapeAttr = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+            const profileSlug = slugify(`${p.company}-${p.city}-${p.state}`);
 
             let body = '';
             body += `<div class="popup-name">${sanitize(niceCompany)}</div>`;
@@ -389,6 +393,8 @@
             } else {
                 body += '<div class="popup-claim-block"><div><strong>Run this business?</strong> Get listed with full contact, services, and the ⭐ Verified badge.</div><a href="/verify.html" class="popup-claim-cta">Get Verified — $149/yr →</a></div>';
             }
+
+            body += `<a href="/pilots/${escapeAttr(profileSlug)}.html" class="popup-btn-profile">View Full Profile →</a>`;
 
             return `<div class="popup-content">${body}</div>`;
         }

@@ -232,6 +232,8 @@
         .claim-prompt-block p{font-size:.82rem;color:#888;margin-bottom:10px}
         .claim-cta{display:inline-block;padding:8px 14px;background:#fff;border:1px solid #f97316;color:#f97316;border-radius:6px;text-decoration:none;font-weight:600;font-size:.82rem}
         .claim-cta:hover{background:#fff7ed}
+        .profile-link{display:block;margin-top:14px;padding:10px 14px;text-align:center;background:#1a1a1a;color:#fff!important;border-radius:7px;font-weight:600;font-size:.85rem;text-decoration:none;transition:background .15s}
+        .profile-link:hover{background:#f97316}
 </style>
 </head>
 <body>
@@ -292,6 +294,7 @@
                         <option value="Inspection">Inspection</option>
                         <option value="Photo/Video">Photo/Video</option>
                         <option value="Game Recovery">Game Recovery</option>
+                        <option value="Pet Recovery">Pet Recovery</option>
                         <option value="Other">Other</option>
                     </select>
                 </div>
@@ -490,6 +493,7 @@
                 const fleet = p.fleet && p.fleet !== 'unknown' ? p.fleet : '';
                 const equipment = [p.manufacturer, p.model].filter(Boolean).join(' ').trim();
                 const hasContact = phone || email || p.website;
+                const profileSlug = slugify(`${p.company}-${p.city}-${p.state}`);
 
                 return `
                     <div class="pilot-card ${p.verified ? 'verified' : ''}" id="${cardId}" data-expanded="false">
@@ -529,6 +533,7 @@
                                     <a href="/verify.html" class="claim-cta">Get Verified — $149/yr →</a>
                                 </div>
                             `)}
+                            <a href="/pilots/${profileSlug}.html" class="profile-link">View Full Profile →</a>
                         </div>
                     </div>`;
             }).join('');
