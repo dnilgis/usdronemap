@@ -311,7 +311,7 @@
         <div class="results-header">
             <div class="results-count" id="resultsCount">Loading pilots...</div>
             <select class="sort-select" id="sortSelect" aria-label="Sort pilots">
-                <option value="verified" selected>Sort: Verified First</option>
+                <option value="verified" selected>Sort: Default</option>
                 <option value="name">Sort: Name A-Z</option>
                 <option value="name-desc">Sort: Name Z-A</option>
                 <option value="state">Sort: State A-Z</option>
@@ -438,11 +438,13 @@
         function sortPilots() {
             const sort = document.getElementById('sortSelect').value;
             filteredPilots.sort((a, b) => {
+                // Verified ALWAYS floats to top, regardless of sort choice
+                if (a.verified !== b.verified) return b.verified - a.verified;
                 switch (sort) {
                     case 'name': return a.company.localeCompare(b.company);
                     case 'name-desc': return b.company.localeCompare(a.company);
                     case 'state': return a.state.localeCompare(b.state) || a.company.localeCompare(b.company);
-                    case 'verified': return (b.verified - a.verified) || a.company.localeCompare(b.company);
+                    case 'verified': return a.company.localeCompare(b.company);
                     default: return 0;
                 }
             });
@@ -519,12 +521,12 @@
                                     ${email ? `<button type="button" class="btn-reveal" onclick="revealContact(this, '${p.emailEncoded || btoa(email)}', 'email')">✉ Show Email</button>` : ''}
                                     ${p.website ? `<a href="https://${sanitize(p.website)}" target="_blank" rel="noopener" class="btn-website">🌐 Visit Site</a>` : ''}
                                 </div>
-                                <div class="claim-prompt">Are you this pilot? <a href="/verify.html">Claim this listing →</a></div>
+                                <div class="claim-prompt">Run this business? <a href="/verify.html">Get Verified for $149/yr →</a></div>
                             ` : `
                                 <div class="claim-prompt-block">
-                                    <strong>No direct contact info on file.</strong>
-                                    <p>This pilot is registered with the FAA but hasn't claimed their listing yet.</p>
-                                    <a href="/verify.html" class="claim-cta">Are you this pilot? Claim this listing →</a>
+                                    <strong>Run this business?</strong>
+                                    <p>Get Verified to display your services, equipment, phone, email, and website — and earn the ⭐ Verified badge with top placement.</p>
+                                    <a href="/verify.html" class="claim-cta">Get Verified — $149/yr →</a>
                                 </div>
                             `)}
                         </div>
