@@ -67,4 +67,7 @@
         const MN={isOpen:false,init(){const t=document.getElementById('navToggle'),m=document.getElementById('navMobile');t.addEventListener('click',()=>{this.isOpen=!this.isOpen;m.classList.toggle('open',this.isOpen);t.innerHTML=this.isOpen?'<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>':'<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>';document.body.style.overflow=this.isOpen?'hidden':''})}};
         document.querySelectorAll('.faq-question').forEach(b=>b.addEventListener('click',function(){const i=this.closest('.faq-item'),w=i.classList.contains('open');document.querySelectorAll('.faq-item').forEach(x=>x.classList.remove('open'));if(!w)i.classList.add('open')}));
         document.getElementById('statesGrid').innerHTML=STATES.map(s=>`<a href="directory.html?state=${s.abbr}&service=Game%20Recovery" class="state-link">${s.name}<span class="count">View pilots →</span></a>`).join('');
-        document.addEventListener('DOMContentLoaded',()=>{CC.init();MN.init();document.getElementById('cookieAccept').addEventListener('cli
+        document.addEventListener('DOMContentLoaded',()=>{CC.init();MN.init();document.getElementById('cookieAccept').addEventListener('click',()=>CC.setConsent(true));document.getElementById('cookieDecline').addEventListener('click',()=>CC.setConsent(false))});
+    </script>
+</body>
+</html>

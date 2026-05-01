@@ -83,13 +83,12 @@
         .filter-group select:focus, .filter-group input:focus { outline: none; border-color: #f97316; background: white; }
         
         .filter-actions { display: flex; gap: 12px; align-items: center; }
-        .btn { padding: 10px 20px; border-radius: 8px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; border: none; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+        .btn { padding: 10px 20px; border-radius: 8px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; border: none; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-family: inherit; }
         .btn-primary { background: #f97316; color: white; }
         .btn-primary:hover { background: #ea580c; }
         .btn-secondary { background: white; color: #666; border: 1px solid #e5e5e5; }
         .btn-secondary:hover { border-color: #f97316; color: #f97316; }
         
-        /* New Button Style for Contact Reveal */
         .btn-reveal {
             background: #f97316;
             color: white;
@@ -136,14 +135,14 @@
         .pilot-services { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
         .service-tag { font-size: 0.7rem; padding: 4px 10px; background: #f5f5f5; color: #555; border-radius: 4px; }
         
-        .pilot-contact { display: flex; gap: 12px; padding-top: 12px; border-top: 1px solid #e5e5e5; }
-        .pilot-contact a { font-size: 0.8rem; color: #f97316; text-decoration: none; display: flex; align-items: center; gap: 4px; }
+        .pilot-contact { display: flex; gap: 12px; padding-top: 12px; border-top: 1px solid #e5e5e5; align-items: center; }
+        .pilot-contact a { font-size: 0.8rem; color: #f97316; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
         .pilot-contact a:hover { text-decoration: underline; }
         .pilot-contact svg { width: 14px; height: 14px; }
         
         .no-results { text-align: center; padding: 60px 20px; background: white; border-radius: 12px; border: 1px solid #e5e5e5; }
         .no-results-icon { font-size: 3rem; margin-bottom: 16px; }
-        .no-results h3 { font-size: 1.25rem; margin-bottom: 8px; color: #1a1a; }
+        .no-results h3 { font-size: 1.25rem; margin-bottom: 8px; color: #1a1a1a; }
         .no-results p { color: #666; margin-bottom: 20px; }
         
         .pagination { display: flex; justify-content: center; gap: 8px; margin-top: 32px; flex-wrap: wrap; }
@@ -269,7 +268,8 @@
                     </label>
                 </div>
                 <div class="filter-actions">
-                    </div>
+                    <button type="button" class="btn btn-secondary" onclick="resetFilters()">Reset</button>
+                </div>
             </div>
         </div>
         
@@ -363,7 +363,7 @@
         
         let allPilots = [], filteredPilots = [], currentPage = 1;
         
-        function sanitizeHtml(str) { if (!str) return ''; const d = document.createElement('div'); d.textContent = str; return d.innerHTML; }
+        function sanitize(str) { if (!str) return ''; const d = document.createElement('div'); d.textContent = str; return d.innerHTML; }
         function decodeData(e) { if (!e) return ''; try { return atob(e); } catch { return e; } }
         function transformPilot(p) { return { verified: p.v === true, industry: p.i || '', latitude: p.la, longitude: p.lo, company: p.c || 'Unknown', city: p.ct || '', state: p.st || '', phoneEncoded: p.pe || '', emailEncoded: p.ee || '', phone: p.p || '', email: p.e || '', website: p.w || '' }; }
         function slugify(t) { return (t || '').toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').trim(); }
@@ -419,7 +419,6 @@
             document.getElementById('serviceFilter').value = '';
             document.getElementById('verifiedFilter').checked = false;
             applyFilters();
-            // Update URL
             history.replaceState(null, '', 'directory.html');
         }
         
@@ -450,24 +449,23 @@
                 const url = `pilot.html?id=${encodeURIComponent(slugify(p.company))}-${encodeURIComponent(p.city)}-${encodeURIComponent(p.state)}`;
                 const services = p.industry.split(',').slice(0, 3).map(s => s.trim()).filter(Boolean);
                 
-                // Privacy Logic: Show contact info ONLY if verified
                 const showContact = p.verified && (phone || email);
                 
                 return `
                     <a href="${url}" class="pilot-card ${p.verified ? 'verified' : ''}">
                         <div class="pilot-header">
-                            <div class="pilot-name">${sanitizeHtml(p.company)}</div>
+                            <div class="pilot-name">${sanitize(p.company)}</div>
                             ${p.verified ? '<span class="verified-badge">✓ VERIFIED</span>' : ''}
                         </div>
                         <div class="pilot-location">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
-                            ${sanitizeHtml(p.city)}, ${sanitizeHtml(p.state)}
+                            ${sanitize(p.city)}, ${sanitize(p.state)}
                         </div>
-                        ${services.length ? `<div class="pilot-services">${services.map(s => `<span class="service-tag">${sanitizeHtml(s)}</span>`).join('')}</div>` : ''}
+                        ${services.length ? `<div class="pilot-services">${services.map(s => `<span class="service-tag">${sanitize(s)}</span>`).join('')}</div>` : ''}
                         
                         ${showContact ? `<div class="pilot-contact">
-                            ${phone ? `<button class="btn-reveal" onclick="event.preventDefault(); this.outerHTML='<span>📞 ' + '${sanitizeHtml(phone)}' + '</span>'">Show Number</button>` : ''}
-                            ${email ? `<span><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>Email</span>` : ''}
+                            ${phone ? `<button class="btn-reveal" onclick="event.preventDefault(); event.stopPropagation(); this.outerHTML='<span>📞 ' + '${sanitize(phone)}' + '</span>'">Show Number</button>` : ''}
+                            ${email ? `<a href="mailto:${sanitize(email)}" onclick="event.stopPropagation()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>Email</a>` : ''}
                         </div>` : ''}
                     </a>`;
             }).join('');
@@ -537,15 +535,14 @@
             } catch (err) {
                 console.error('Error:', err);
                 document.getElementById('pilotsContainer').innerHTML = '<div class="no-results" style="grid-column:1/-1"><h3>Error loading pilots</h3><p>Please try refreshing the page.</p></div>';
+            }
         }
-    }
 
-    // Initialize when DOM is ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-    } else {
-        init();
-    }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
     </script>
 </body>
 </html>

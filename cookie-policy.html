@@ -33,7 +33,7 @@
         th{background:#f9fafb;font-weight:600}
         a{color:#f97316}
         .cookie-table{overflow-x:auto}
-        .manage-btn{display:inline-block;padding:12px 24px;background:#f97316;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;margin-top:16px;transition:all .2s}.manage-btn:hover{background:#ea580c;color:#fff}
+        .manage-btn{display:inline-block;padding:12px 24px;background:#f97316;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;margin-top:16px;transition:all .2s;border:none;cursor:pointer;font-family:inherit;font-size:1rem}.manage-btn:hover{background:#ea580c;color:#fff}
         footer{background:#fff;border-top:1px solid #e5e5e5;padding:20px 24px;margin-top:60px}.footer-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;font-size:.85rem;color:#666}footer a{color:#666;text-decoration:none}footer a:hover{color:#f97316}.footer-links{display:flex;gap:20px}
         @media(max-width:768px){header{padding:12px 16px}.logo{font-size:1.25rem}nav a:not(.nav-cta){display:none}.nav-toggle{display:block}main{padding:32px 16px}h1{font-size:2rem}h2{font-size:1.25rem}.footer-inner{flex-direction:column;gap:12px;text-align:center}.footer-links{flex-wrap:wrap;justify-content:center}}
     </style>
@@ -88,8 +88,8 @@
         <h2>How to Manage Cookies</h2>
         
         <h3>Through Our Website</h3>
-        <p>You can manage your cookie preferences at any time by clicking the button below:</p>
-        <button class="manage-btn" onclick="manageCookies()">Manage Cookie Preferences</button>
+        <p>You can reset your cookie preferences at any time by clicking the button below. This will clear your saved consent and show the cookie banner again the next time you visit a page on the site.</p>
+        <button class="manage-btn" onclick="manageCookies()">Reset Cookie Preferences</button>
         
         <h3>Through Your Browser</h3>
         <p>Most web browsers allow you to control cookies through their settings. Here's how to manage cookies in popular browsers:</p>
@@ -127,4 +127,13 @@
         const MN={isOpen:false,init(){const t=document.getElementById('navToggle'),m=document.getElementById('navMobile');if(t&&m){t.addEventListener('click',()=>{this.isOpen=!this.isOpen;m.classList.toggle('open',this.isOpen);t.innerHTML=this.isOpen?'<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>':'<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>';document.body.style.overflow=this.isOpen?'hidden':''})}}};
         
         function manageCookies() {
-            localStorage
+            localStorage.removeItem('usdm_cookie_consent');
+            alert('Your cookie preferences have been cleared. Reload any page on the site to see the cookie banner again.');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            MN.init();
+        });
+    </script>
+</body>
+</html>

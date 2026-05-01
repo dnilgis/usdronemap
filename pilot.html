@@ -21,7 +21,7 @@
         .nav-toggle{display:none;background:none;border:none;padding:8px;cursor:pointer;color:#666}.nav-toggle svg{width:24px;height:24px}
         .nav-mobile{display:none;position:fixed;top:60px;left:0;right:0;bottom:0;background:#fff;padding:16px;z-index:999;flex-direction:column;gap:8px}.nav-mobile.open{display:flex}.nav-mobile a{display:block;padding:14px 16px;color:#1a1a1a;text-decoration:none;font-weight:500;border-radius:8px}.nav-mobile a:hover{background:#fff7ed;color:#f97316}
         main{max-width:900px;margin:0 auto;padding:32px 24px}
-        .breadcrumb{display:flex;gap:8px;align-items:center;font-size:.85rem;color:#666;margin-bottom:24px}.breadcrumb a{color:#666;text-decoration:none}.breadcrumb a:hover{color:#f97316}.breadcrumb svg{width:14px;height:14px}
+        .breadcrumb{display:flex;gap:8px;align-items:center;font-size:.85rem;color:#666;margin-bottom:24px;flex-wrap:wrap}.breadcrumb a{color:#666;text-decoration:none}.breadcrumb a:hover{color:#f97316}.breadcrumb svg{width:14px;height:14px}
         .profile-card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.08)}
         .profile-card.verified{border:2px solid #f97316}
         .profile-header{padding:32px;border-bottom:1px solid #e5e5e5}
@@ -142,13 +142,15 @@
             return Array.from(new Uint8Array(buf)).slice(0,8).map(b=>b.toString(16).padStart(2,'0')).join('');
         }
         
+        // FIXED: Slug-rebuild approach handles hyphenated cities correctly
+        // (e.g. "Winston-Salem", "Wilkes-Barre", and company names with hyphens like "Smith-Jones LLC")
         function findPilot(pilots,id){
-            const parts=id.split('-');
-            if(parts.length<3)return null;
-            const state=parts.pop();
-            const city=parts.pop();
-            const companySlug=parts.join('-');
-            return pilots.find(p=>slugify(p.company)===companySlug&&p.city.toLowerCase()===city.toLowerCase()&&p.state.toLowerCase()===state.toLowerCase());
+            if(!id)return null;
+            const target=id.toLowerCase();
+            return pilots.find(p=>{
+                const expected=(slugify(p.company)+'-'+p.city+'-'+p.state).toLowerCase();
+                return expected===target;
+            })||null;
         }
         
         function renderProfile(pilot,viewCount){
@@ -238,7 +240,6 @@
             
             document.getElementById('mainContent').innerHTML=html;
             
-            // Initialize map
             setTimeout(()=>{
                 const map=L.map('pilotMap',{scrollWheelZoom:false,dragging:!L.Browser.mobile}).setView([pilot.latitude,pilot.longitude],12);
                 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'© OSM © CARTO'}).addTo(map);
@@ -258,7 +259,6 @@
                 </div>`;
         }
         
-        // Initialize
         async function init(){
             MN.init();
             
@@ -275,9 +275,9 @@
                 
                 if(!pilot){renderError();return}
                 
-                // Track view and get count in parallel
-                const viewPromise=getViewCount(`${slugify(pilot.company)}-${pilot.city}-${pilot.state}`);
-                trackView(`${slugify(pilot.company)}-${pilot.city}-${pilot.state}`);
+                const lookupId=`${slugify(pilot.company)}-${pilot.city}-${pilot.state}`;
+                const viewPromise=getViewCount(lookupId);
+                trackView(lookupId);
                 const viewCount=await viewPromise;
                 
                 renderProfile(pilot,viewCount);
@@ -287,7 +287,6 @@
             }
         }
 
-        // Initialize when DOM is ready
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', init);
         } else {

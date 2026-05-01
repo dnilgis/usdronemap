@@ -128,4 +128,8 @@
     <footer><div class="footer-inner"><div>© 2026 US Drone Map. All rights reserved.</div><div class="footer-links"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="cookie-policy.html">Cookies</a><a href="mailto:contact@usdronemap.com">Contact</a></div></div></footer>
     
     <script>
-        const MN={isOpen:false,init(){const t=document.getElementById('navToggle'),m=document.getElementById('navMobile');if(t&&m){t.addEventListener('click',()=>{this.isOpen=!this.isOpen;m.classList.toggle('open',this.isOpen);t.innerHTML=this.isOpen?'<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>':'<svg fill="none" stroke="curr
+        const MN={isOpen:false,init(){const t=document.getElementById('navToggle'),m=document.getElementById('navMobile');if(t&&m){t.addEventListener('click',()=>{this.isOpen=!this.isOpen;m.classList.toggle('open',this.isOpen);t.innerHTML=this.isOpen?'<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>':'<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>';document.body.style.overflow=this.isOpen?'hidden':''})}}};
+        document.addEventListener('DOMContentLoaded',()=>MN.init());
+    </script>
+</body>
+</html>
